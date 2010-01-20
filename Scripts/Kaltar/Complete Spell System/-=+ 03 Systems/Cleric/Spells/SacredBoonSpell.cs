@@ -78,25 +78,20 @@ namespace Server.ACC.CSS.Systems.Cleric
 			FinishSequence();
 		}
 
-		private class InternalTarget : Target
-		{
+		private class InternalTarget : Target {
 			private ClericSacredBoonSpell m_Owner;
 
-			public InternalTarget( ClericSacredBoonSpell owner ) : base( 12, false, TargetFlags.Beneficial )
-			{
+			public InternalTarget( ClericSacredBoonSpell owner ) : base( 12, false, TargetFlags.Beneficial ) {
 				m_Owner = owner;
 			}
 
-			protected override void OnTarget( Mobile from, object o )
-			{
-				if ( o is Mobile )
-				{
+			protected override void OnTarget( Mobile from, object o ) {
+				if ( o is Mobile ) {
 					m_Owner.Target( (Mobile)o );
 				}
 			}
 
-			protected override void OnTargetFinish( Mobile from )
-			{
+			protected override void OnTargetFinish( Mobile from ) {
 				m_Owner.FinishSequence();
 			}
 		}
@@ -107,8 +102,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 			private DateTime NextTick;
 			private DateTime Expire;
 
-			public InternalTimer( Mobile m, Mobile from ) : base( TimeSpan.FromSeconds( 0.1 ), TimeSpan.FromSeconds( 0.1 ) )
-			{
+			public InternalTimer( Mobile m, Mobile from ) : base( TimeSpan.FromSeconds( 1 ), TimeSpan.FromSeconds( 1 ) ) {
 				dest = m;
 				source = from;
 				Priority = TimerPriority.FiftyMS;
