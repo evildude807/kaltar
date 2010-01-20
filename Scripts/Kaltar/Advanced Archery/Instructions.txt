@@ -1,0 +1,6 @@
+Drop the scripts folder in your RunUO directory. 
+It will ask if you want to replace all files. 
+Select yes. 
+
+Further instructions can be found in:
+Scripts/Customs/Lucid's Systems/Documentation

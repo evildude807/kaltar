@@ -1,0 +1,120 @@
+using System;
+using Server;
+using Server.Gumps;
+using Server.Mobiles;
+
+namespace Kaltar.Talentos {
+	
+	public class EscolheTalentosGump : Gump {
+
+		private int[] TalentosDisp;
+		
+		public EscolheTalentosGump(Jogador jogador, int[] TalentosDisponiveis )
+			: base( 0, 0 )
+		{
+			
+			TalentosDisp = TalentosDisponiveis;
+			
+			this.Closable=true;
+			this.Disposable=true;
+			this.Dragable=true;
+			this.Resizable=false;
+			this.AddPage(0);
+			this.AddBackground(0, 0, 543, 500, 3500);
+			this.AddBackground(28, 8, 485, 26, 3000);
+			this.AddLabel(197, 11, 354, @"ESCOLHA SEUS TALENTOS");
+			
+			
+			// cabealho
+			
+			this.AddBackground(74, 102, 200, 24, 9300);
+			this.AddLabel(81, 103, 1071, @"Nome do Talento");
+			this.AddBackground(14, 102, 60, 24, 9300);
+			this.AddBackground(274, 102, 250, 24, 9300);
+			this.AddLabel(280, 104, 1071, @"Pr Requisitos");
+			this.AddLabel(16, 103, 1071, @"Escolher");
+			this.AddBackground(435, 52, 40, 24, 9300);
+			
+			this.AddLabel(307, 54, 1071, @"Pontos Restantes :");
+			this.AddLabel(442, 54, 0, "@XXX"); //jogador.NumeroTalentos.ToString()
+
+			// Quantas pginas sero?
+			int numeroPaginas = (int)(((TalentosDisponiveis.Length - 1) / 13) + 1);
+
+			// Controle de paginas
+			this.AddBackground(19, 450, 504, 29, 9200);
+			this.AddLabel(294, 455, 0, @"Pginas :");
+			for (int i = 0; i < numeroPaginas; i++)
+				this.AddButton( (364 + i * 27), 455, 2225 + i, 2225 + i, 999, GumpButtonType.Page, i+1);
+			
+							
+			// iterativo
+			int pagina = 0;
+			
+			for (int i = 1; i <= numeroPaginas; i++){
+				
+				this.AddPage(i);
+				this.AddLabel(41, 455, 1071, @"Pgina Atual : " + i );
+				pagina = 0;
+				
+				for (int j = (13 * i - 13); j < (13 * i - 1); j++){
+					
+					for (int l = 0; l < TalentosDisponiveis.Length; l++){
+						
+						if (TalentosDisponiveis[l] == j){ //&& !jogador.getSistemaTalento().possuiTalento(j)) {
+							
+							this.AddBackground(14, (146 + 24 * pagina), 60, 24, 9300);
+							this.AddBackground(74, (146 + 24 * pagina), 200, 24, 9300);
+							this.AddBackground(274, (146 + 24 * pagina), 250, 24, 9300);
+														
+							this.AddButton(18, (150 + 24 * pagina), 2462, 2461, j+1, GumpButtonType.Reply, 0);
+								
+							if (Talento.talentos[j].possuiPreRequisitos(jogador)) {
+		
+								this.AddLabel(83, (148 + 24 * pagina), 0, Talento.talentos[j].Nome );
+								this.AddLabel(280, (148 + 24 * pagina), 62, Talento.talentos[j].PreRequisitos );
+
+							}
+							else {
+		
+								this.AddLabel(83, (148 + 24 * pagina), 0, Talento.talentos[j].Nome );
+								this.AddLabel(280, (148 + 24 * pagina), 138, Talento.talentos[j].PreRequisitos );
+
+							}
+							pagina++;
+							
+						}
+						if (TalentosDisponiveis[l] == j){ //&& jogador.getSistemaTalento().possuiTalento()){
+							
+							this.AddBackground(14, (146 + 24 * pagina), 60, 24, 9350);
+							this.AddBackground(74, (146 + 24 * pagina), 200, 24, 9350);
+							this.AddBackground(274, (146 + 24 * pagina), 250, 24, 9350);
+							
+							this.AddLabel(83, (148 + 24 * pagina), 0, Talento.talentos[j].Nome );
+							this.AddLabel(280, (148 + 24 * pagina), 0, @"Voc j possui esse Talento" );
+													
+							pagina++;
+						}
+					}
+				}
+			}
+		}
+		
+		public override void OnResponse( Server.Network.NetState sender, RelayInfo info ) {
+			
+			Jogador jogador = (Jogador)sender.Mobile;
+			int talento = info.ButtonID - 1;
+							
+			if (info.ButtonID > 0) {
+				
+				if (jogador.getSistemaTalento().aprender(Talento.talentos[talento])) {
+					//jogador.NumeroTalentos--;
+					jogador.SendMessage (62,"Voc aprendeu {0}",Talento.talentos[talento].Nome );
+				}
+				else {
+					jogador.SendMessage (138,"Voc no pode aprender esse talento!");
+				}
+			}
+		} 
+	}
+}

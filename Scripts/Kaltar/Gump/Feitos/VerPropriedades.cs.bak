@@ -1,0 +1,57 @@
+using System;
+using Server;
+using Server.Gumps;
+
+namespace Server.Kaltar.Gumps
+{
+	public class VerPropriedades : Gump {
+
+		private Jogador jogador;
+		private static int itensPorPagina = 30;
+					
+		public VerPropriedades(Jogador jogador, int inicio) : base( 0, 0 ) {
+			
+			this.Closable=true;
+			this.Disposable=true;
+			this.Dragable=true;
+			this.Resizable=false;
+
+			this.jogador = jogador;
+
+			this.AddPage(0);
+			this.AddBackground(31, 27, 394, 400, 9380);
+			this.AddLabel(110, 60, 5, @"Propriedades");
+			this.AddLabel(244, 75, 5, @"Jogador:");
+			this.AddImage(56, 65, 52);
+			this.AddButton(329, 102, 2460, 2461, (int)Buttons.bAdicionarProp, GumpButtonType.Reply, 0);
+
+			//nome do jogaro
+			this.AddLabel(304, 75, 0, @jogador.Name);
+			
+			this.AddLabel(92, 144, 5, @"Chave");
+			this.AddLabel(239, 145, 5, @"Valor");
+			
+			listarPropriedades(inicio)	;
+		}
+		
+		private void listarPropriedades(int inicio) {
+			
+			HashTable propriedades = jogador.getSistemaPropriedade().Propriedades;
+			
+			for(int i = inicio; i < inicio + itensPorPagina && i < propriedades.Keys.Length; i++ ) {
+
+				this.AddLabel(92, 168, 43, @"prop1");
+				this.AddLabel(240, 168, 43, @"valor1");
+				this.AddButton(63, 168, 2117, 2118, (int)Buttons.bEditarProp, GumpButtonType.Reply, 0);
+			}
+
+		}
+
+		public enum Buttons
+		{
+			bEditarProp,
+			bAdicionarProp,
+		}
+
+	}
+}

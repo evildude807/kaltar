@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<accounts count="3">
+	<account>
+		<username>titohugo</username>
+		<newCryptPassword>9C-0C-24-02-B3-78-77-B9-60-45-2A-7C-A4-E6-D8-AE-DC-33-83-0E</newCryptPassword>
+		<accessLevel>Owner</accessLevel>
+		<created>2010-01-06T16:59:30.5440189-02:00</created>
+		<lastLogin>2010-01-11T14:06:11.7056031-02:00</lastLogin>
+		<totalGameTime>PT3H30M5.6236263S</totalGameTime>
+		<chars>
+			<char index="0">1</char>
+		</chars>
+		<addressList count="1">
+			<ip>127.0.0.1</ip>
+		</addressList>
+	</account>
+	<account>
+		<username>akila</username>
+		<newCryptPassword>88-C8-B2-8A-A0-2D-A0-33-32-7B-77-CB-57-E1-B8-6E-38-57-8C-98</newCryptPassword>
+		<accessLevel>Administrator</accessLevel>
+		<created>2010-01-11T14:06:33.0756031-02:00</created>
+		<lastLogin>2010-01-17T15:25:59.5661494-02:00</lastLogin>
+		<totalGameTime>PT5H53M10.606S</totalGameTime>
+		<chars>
+			<char index="0">3</char>
+		</chars>
+		<addressList count="1">
+			<ip>127.0.0.1</ip>
+		</addressList>
+	</account>
+	<account>
+		<username>teste</username>
+		<newCryptPassword>DE-49-97-6A-2B-77-28-3D-2D-FC-01-00-C0-2B-A2-66-18-4D-FC-1A</newCryptPassword>
+		<created>2010-01-16T21:45:25.3993245-02:00</created>
+		<lastLogin>2010-01-16T22:10:26.0303245-02:00</lastLogin>
+		<totalGameTime>PT50M54.486S</totalGameTime>
+		<chars>
+			<char index="0">6</char>
+		</chars>
+		<addressList count="1">
+			<ip>10.1.1.12</ip>
+		</addressList>
+	</account>
+</accounts>
