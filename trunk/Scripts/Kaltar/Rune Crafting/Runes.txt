@@ -1,0 +1,51 @@
+Syllable		Effect		Meaning
+
+
+Aglo	Durability Bonus		Armor
+Ahm	Spell channeling		Honesty
+An	Hit dispel			Negate or Dispel
+Arma	Use best  weapon skill	Weapon or Arms ( Paladin )
+Bal	Hit leech Stam		Evil
+Beh	Regen stam		Justice		
+Bet	Hit magic arrow		Small
+Cah	Mage armor / weapon	Sacrifice
+Char	Hit lower defence		Part
+Corp	Inc. spell damage		Death
+Del	Resist cold		Cold
+Des	Hit lower attack		Lower or Down
+Dium	Resist physical bonus	Noble ( Paladin )
+Ex	Bonus stam		Freedom
+Flam	Resist fire			Flame
+Flamus	Hit Fire Area		Fire ( Paladin )
+Frio	Hit cold area		Cold ( Pre UO )
+Furis	Hit energy area		Fury ( Paladin )
+Gra	Hit leech hits		Drain/Leech or Siphon
+Grav	Hit physical area		Field
+Hur	Resist energy		Wind
+In 	Luck			Make, Create or Cause
+Jux	Hit harm			Danger, Trap or Harm
+Kal	Hit fireball			Invoke
+Lor	Night Sight		Light
+Lum	Lower stat requirments	Humility
+Malas	Hit poison area		Evil ( Paladin )
+Mani	Bonus hits			Life or Healing
+Mu	Regen hits		Compassion
+Nox	Resist posion bonus		Poison
+Om	Regen mana		Spirituality
+Ort	Bonus mana		Magic
+Pas	Lower mana cost		After/Beyond
+Por	Bonus dex			Move or Movement
+Quas	Hit leech mana		Illusion
+Ra	Defend chance		Valor
+Rel	Self repair			Change
+Sanct	Reflect physical		Protect or Protection
+Sar	Inc. weapon damage		Pain
+Summ	Cast recovery		Honor
+Tym	Inc. weapon speed		Time
+Um 	Cast speed		Shadow
+Uus	Attack chance		Rise or Up
+Vas	Bonus str			Great
+Wis	bonus int			Know/Knowledge
+Xen	hit lightning		Creature
+Ylem	Lower reg cost		Matter
+Zu	Enhance potions		Sleep

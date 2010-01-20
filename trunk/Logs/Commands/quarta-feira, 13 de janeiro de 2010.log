@@ -1,0 +1,96 @@
+##############################
+Log started on 13/01/2010 00:17:17
+
+##############################
+Log started on 13/01/2010 21:35:47
+
+##############################
+Log started on 13/01/2010 21:42:31
+
+##############################
+Log started on 13/01/2010 21:47:05
+
+##############################
+Log started on 13/01/2010 21:56:30
+
+##############################
+Log started on 13/01/2010 22:02:09
+
+13/01/2010 22:03:40: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add spider'
+13/01/2010 22:03:47: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (822, 931, -90) in Malas: "GiantSpider"
+13/01/2010 22:03:48: 127.0.0.1: Serials: 0x4; 
+13/01/2010 22:04:38: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'admin '
+13/01/2010 22:04:43: 127.0.0.1: Administrator 0x3 "Akila" ('akila') resurrecting 0x3 "Akila" ('akila')
+13/01/2010 22:05:09: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'kill '
+13/01/2010 22:05:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') killing 0x4 "a giant spider" (no account)
+13/01/2010 22:06:00: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add regina'
+13/01/2010 22:06:03: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (821, 921, -90) in Malas: "ReginaGigante"
+13/01/2010 22:06:03: 127.0.0.1: Serials: 0x6; 
+13/01/2010 22:06:40: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'admin '
+13/01/2010 22:06:43: 127.0.0.1: Administrator 0x3 "Akila" ('akila') resurrecting 0x3 "Akila" ('akila')
+13/01/2010 22:07:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:07:07: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000041 (DeathRobe)
+13/01/2010 22:07:08: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:07:09: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x4000003F (Corpse)
+13/01/2010 22:07:13: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:07:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000036 (Corpse)
+13/01/2010 22:07:16: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:07:19: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000033 (Corpse)
+13/01/2010 22:07:29: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'kill '
+13/01/2010 22:07:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') killing 0x6 "una regina Ragno Gigante" (no account)
+13/01/2010 22:10:27: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'allcrafts '
+13/01/2010 22:10:38: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'allcrafts '
+13/01/2010 22:10:48: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add allcraf'
+13/01/2010 22:11:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (806, 924, -90) in Malas: "BookOfSpellCrafts"
+13/01/2010 22:11:10: 127.0.0.1: Serials: 0x40000043; 
+13/01/2010 22:11:37: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'allcrafts '
+##############################
+Log started on 13/01/2010 22:16:28
+
+13/01/2010 22:19:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add stoneelement'
+13/01/2010 22:19:12: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (800, 926, -90) in Malas: "StoneElemental"
+13/01/2010 22:19:12: 127.0.0.1: Serials: 0x4; 
+13/01/2010 22:19:24: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'kill '
+13/01/2010 22:19:26: 127.0.0.1: Administrator 0x3 "Akila" ('akila') killing 0x4 "a stone elemental" (no account)
+13/01/2010 22:21:08: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add runecrafte'
+13/01/2010 22:21:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (801, 928, -90) in Malas: "RuneCrafter"
+13/01/2010 22:21:10: 127.0.0.1: Serials: 0x6; 
+13/01/2010 22:22:01: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+13/01/2010 22:22:17: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:22:18: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x6 "Michael" (no account)
+13/01/2010 22:23:18: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'setallskills 100'
+13/01/2010 22:23:22: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'setallskills 1000'
+13/01/2010 22:23:24: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'EverySkill.Base' of 0x3 "Akila" ('akila') to '1000'
+13/01/2010 22:23:28: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'setallskills 100'
+13/01/2010 22:23:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'EverySkill.Base' of 0x3 "Akila" ('akila') to '100'
+13/01/2010 22:24:02: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add mandrake root'
+13/01/2010 22:24:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (804, 933, -90) in Malas: "MandrakeRoot"
+13/01/2010 22:24:05: 127.0.0.1: Serials: 0x4000008B; 
+13/01/2010 22:24:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+13/01/2010 22:24:29: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'Amount' of 0x4000008B (MandrakeRoot) to '300'
+13/01/2010 22:24:39: 127.0.0.1: Crafting 0x4000008C (AgloRune) with craft system DefRuneCrafting
+13/01/2010 22:26:13: 127.0.0.1: Crafting 0x4000008F (AhmRune) with craft system DefRuneCrafting
+13/01/2010 22:27:45: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add hunter'
+13/01/2010 22:27:46: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (803, 932, -90) in Malas: "hunter"
+13/01/2010 22:27:46: 127.0.0.1: Serials: 0x7; 
+13/01/2010 22:28:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add wild'
+13/01/2010 22:28:37: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (798, 929, -90) in Malas: "WildBoar"
+13/01/2010 22:28:37: 127.0.0.1: Serials: 0x8; 
+13/01/2010 22:29:02: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:29:03: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x400000A2 (Corpse)
+13/01/2010 22:29:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:29:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'admin '
+13/01/2010 22:29:13: 127.0.0.1: Administrator 0x3 "Akila" ('akila') resurrecting 0x3 "Akila" ('akila')
+13/01/2010 22:29:35: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'kill '
+13/01/2010 22:29:36: 127.0.0.1: Administrator 0x3 "Akila" ('akila') killing 0x8 "a wild boar" (no account)
+13/01/2010 22:29:43: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:29:45: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x7 "Rylan" (no account)
+13/01/2010 22:40:57: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add hunter'
+13/01/2010 22:40:58: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (789, 937, -90) in Malas: "hunter"
+13/01/2010 22:40:58: 127.0.0.1: Serials: 0x9; 
+13/01/2010 22:41:13: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+13/01/2010 22:41:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x9 "Akil" (no account)
+13/01/2010 22:42:52: 127.0.0.1: Crafting 0x400000B0 (AgloRune) with craft system DefRuneCrafting
+##############################
+Log started on 13/01/2010 23:35:26
+

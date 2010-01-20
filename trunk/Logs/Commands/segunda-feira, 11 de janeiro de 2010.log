@@ -1,0 +1,97 @@
+##############################
+Log started on 11/01/2010 12:06:19
+
+##############################
+Log started on 11/01/2010 14:04:05
+
+11/01/2010 14:06:20: 127.0.0.1: Owner 0x1 "jose" ('titohugo') used command 'admin '
+11/01/2010 14:06:33: 127.0.0.1: Owner 0x1 "jose" ('titohugo') adding new account: akila
+11/01/2010 14:06:38: 127.0.0.1: Owner 0x1 "jose" ('titohugo') changing access level of account akila to Administrator
+11/01/2010 14:06:48: 127.0.0.1: Owner 0x1 "jose" ('titohugo') used command 'add '
+11/01/2010 14:06:55: 127.0.0.1: Owner 0x1 "jose" ('titohugo') used command 'add class'
+11/01/2010 14:07:47: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+11/01/2010 14:07:50: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+11/01/2010 14:07:53: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+11/01/2010 14:08:11: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add '
+11/01/2010 14:08:29: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add talento'
+11/01/2010 14:08:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (750, 811, -90) in Malas: "talento"
+11/01/2010 14:08:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add '
+11/01/2010 14:08:38: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add swo'
+11/01/2010 14:11:07: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add sword'
+11/01/2010 14:11:12: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (780, 827, -90) in Malas: "HolySword"
+11/01/2010 14:11:12: 127.0.0.1: Serials: 0x40000026; 
+11/01/2010 14:11:34: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add ha'
+11/01/2010 14:12:02: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (781, 827, -90) in Malas: "Hatchet"
+11/01/2010 14:12:02: 127.0.0.1: Serials: 0x40000027; 
+11/01/2010 14:12:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+11/01/2010 14:12:48: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'RawStr' of 0x3 "Akila" ('akila') to '30'
+11/01/2010 14:14:35: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add rat'
+11/01/2010 14:14:37: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (815, 835, -90) in Malas: "rat"
+11/01/2010 14:14:37: 127.0.0.1: Serials: 0x4; 
+11/01/2010 14:21:54: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add headless'
+11/01/2010 14:21:57: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (817, 837, -90) in Malas: "HeadlessOne"
+11/01/2010 14:21:57: 127.0.0.1: Serials: 0x5; 
+11/01/2010 14:46:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add dialog'
+11/01/2010 14:46:11: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (812, 897, -90) in Malas: "dialog"
+11/01/2010 14:46:15: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add npcdialog'
+11/01/2010 14:46:21: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (813, 896, -90) in Malas: "DialogNPC"
+11/01/2010 14:46:21: 127.0.0.1: Serials: 0x6; 
+11/01/2010 14:47:50: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add dialognpc'
+11/01/2010 14:47:50: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (811, 900, -90) in Malas: "dialognpc"
+11/01/2010 14:47:50: 127.0.0.1: Serials: 0x7; 
+11/01/2010 14:48:27: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add dialognpc'
+11/01/2010 14:48:28: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (814, 898, -90) in Malas: "dialognpc"
+11/01/2010 14:48:28: 127.0.0.1: Serials: 0x8; 
+11/01/2010 14:49:03: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 14:49:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x8 "Colemar" (no account)
+11/01/2010 14:49:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 14:49:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x7 "Burloc" (no account)
+11/01/2010 14:49:08: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 14:49:09: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x6 "Dreifus" (no account)
+##############################
+Log started on 11/01/2010 19:08:20
+
+11/01/2010 19:11:19: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'acc '
+11/01/2010 19:19:23: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'acc '
+11/01/2010 19:19:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add '
+11/01/2010 19:19:40: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add spell'
+11/01/2010 19:19:41: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (804, 910, -90) in Malas: "spell"
+11/01/2010 19:19:47: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add spellbook'
+11/01/2010 19:19:48: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 909, -90) in Malas: "spellbook"
+11/01/2010 19:19:48: 127.0.0.1: Serials: 0x40000020; 
+11/01/2010 19:20:11: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add druid'
+11/01/2010 19:20:22: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 908, -90) in Malas: "DruidSpellbook"
+11/01/2010 19:20:22: 127.0.0.1: Serials: 0x40000021; 
+11/01/2010 19:22:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add clericspellbook'
+11/01/2010 19:22:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 910, -90) in Malas: "clericspellbook"
+11/01/2010 19:22:06: 127.0.0.1: Serials: 0x40000022; 
+11/01/2010 19:23:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add bardspellbook'
+11/01/2010 19:23:34: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (806, 910, -90) in Malas: "bardspellbook"
+11/01/2010 19:23:34: 127.0.0.1: Serials: 0x40000023; 
+11/01/2010 19:25:12: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add paladinspellbook'
+11/01/2010 19:25:28: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (806, 911, -90) in Malas: "AncientSpellbook"
+11/01/2010 19:25:28: 127.0.0.1: Serials: 0x40000024; 
+11/01/2010 19:25:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (807, 911, -90) in Malas: "AvatarSpellbook"
+11/01/2010 19:25:33: 127.0.0.1: Serials: 0x40000025; 
+11/01/2010 19:25:39: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (808, 911, -90) in Malas: "ChivalrySpellbook"
+11/01/2010 19:25:39: 127.0.0.1: Serials: 0x40000028; 
+11/01/2010 19:25:45: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (809, 911, -90) in Malas: "MageSpellbook"
+11/01/2010 19:25:45: 127.0.0.1: Serials: 0x40000029; 
+11/01/2010 19:25:53: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (809, 911, -90) in Malas: "NecromancerSpellbook"
+11/01/2010 19:25:53: 127.0.0.1: Serials: 0x4000002A; 
+11/01/2010 19:25:57: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 911, -90) in Malas: "RangerSpellbook"
+11/01/2010 19:25:57: 127.0.0.1: Serials: 0x4000002B; 
+11/01/2010 19:26:11: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add bardspellbook'
+11/01/2010 19:26:15: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add bardspellbook'
+11/01/2010 19:26:15: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 910, -90) in Malas: "bardspellbook"
+11/01/2010 19:26:15: 127.0.0.1: Serials: 0x4000002C; 
+11/01/2010 19:26:22: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 19:26:23: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x4000002C (BardSpellbook)
+11/01/2010 19:26:29: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add spellbook'
+11/01/2010 19:26:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (805, 910, -90) in Malas: "spellbook"
+11/01/2010 19:26:30: 127.0.0.1: Serials: 0x4000002D; 
+11/01/2010 19:26:34: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 19:26:35: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x4000002D (Spellbook)
+11/01/2010 19:26:59: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+11/01/2010 19:27:00: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000020 (Spellbook)
+11/01/2010 19:31:59: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'acc '

@@ -1,0 +1,48 @@
+##############################
+Log started on 14/01/2010 11:14:36
+
+14/01/2010 11:16:08: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add spawncontr'
+14/01/2010 11:16:20: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (789, 942, -90) in Malas: "InvasionController"
+14/01/2010 11:16:20: 127.0.0.1: Serials: 0x40000020; 
+14/01/2010 11:16:47: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+14/01/2010 11:17:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'InvasionLocationTarget' of 0x40000020 (InvasionController) to '(765, 968, -90)'
+14/01/2010 11:18:15: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+##############################
+Log started on 14/01/2010 11:25:41
+
+14/01/2010 11:32:06: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add seedcom'
+14/01/2010 11:32:08: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (792, 941, -90) in Malas: "SeedCompanion"
+14/01/2010 11:32:08: 127.0.0.1: Serials: 0x40000026; 
+##############################
+Log started on 14/01/2010 11:47:47
+
+14/01/2010 11:48:11: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add red'
+14/01/2010 11:48:26: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add headco'
+14/01/2010 11:48:28: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (795, 942, -90) in Malas: "HeadCold"
+14/01/2010 11:48:28: 127.0.0.1: Serials: 0x40000034; 
+14/01/2010 11:48:39: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+14/01/2010 11:48:39: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000034 (HeadCold)
+14/01/2010 11:48:51: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add purple'
+14/01/2010 11:48:53: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (795, 942, -90) in Malas: "PurplePlague"
+14/01/2010 11:48:53: 127.0.0.1: Serials: 0x40000035; 
+14/01/2010 11:49:02: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+14/01/2010 11:49:21: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'Severity' of 0x40000035 (PurplePlague) to '30'
+14/01/2010 11:49:38: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+14/01/2010 11:49:39: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000035 (PurplePlague)
+##############################
+Log started on 14/01/2010 12:39:00
+
+14/01/2010 12:41:37: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add xmlspaner'
+14/01/2010 12:41:43: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (797, 939, -90) in Malas: "XmlSpawner"
+14/01/2010 12:41:43: 127.0.0.1: Serials: 0x40000036; 
+14/01/2010 12:42:20: 127.0.0.1: Administrator 0x3 "Akila" ('akila') added to XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Wanderer
+14/01/2010 12:42:48: 127.0.0.1: Administrator 0x3 "Akila" ('akila') changed XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Wanderer to orc
+14/01/2010 12:43:00: 127.0.0.1: Administrator 0x3 "Akila" ('akila') changed XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : orc to Orc
+14/01/2010 12:43:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') removed from XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Orc
+14/01/2010 12:43:34: 127.0.0.1: Administrator 0x3 "Akila" ('akila') added to XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Orc
+14/01/2010 12:44:25: 127.0.0.1: Administrator 0x3 "Akila" ('akila') changed XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Orc to Orcorc sdas
+14/01/2010 12:44:35: 127.0.0.1: Administrator 0x3 "Akila" ('akila') changed XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : Orcorc sdas to Orc
+14/01/2010 12:45:09: 127.0.0.1: Administrator 0x3 "Akila" ('akila') added to XmlSpawner 0x40000036 'Teste 1' [797, 939] (Malas) : RawLambLeg
+14/01/2010 12:46:01: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'HomeRange' of 0x40000036 (XmlSpawner) to '20'
+14/01/2010 13:09:53: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'remove '
+14/01/2010 13:09:54: 127.0.0.1: Administrator 0x3 "Akila" ('akila') deleting 0x40000036 (XmlSpawner)

@@ -1,0 +1,49 @@
+##############################
+Log started on 17/01/2010 15:09:42
+
+17/01/2010 15:10:51: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'admin '
+17/01/2010 15:10:53: 127.0.0.1: Administrator 0x3 "Akila" ('akila') resurrecting 0x3 "Akila" ('akila')
+17/01/2010 15:11:12: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'admin '
+17/01/2010 15:11:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') resurrecting 0x3 "Akila" ('akila')
+17/01/2010 15:12:30: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+17/01/2010 15:12:32: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+17/01/2010 15:12:33: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+17/01/2010 15:12:34: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'tele '
+17/01/2010 15:13:04: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:13:04: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Self Set map 3'
+17/01/2010 15:13:04: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Go 1556 471 5'
+17/01/2010 15:13:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:13:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Self Set map 3'
+17/01/2010 15:13:05: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Go 1556 471 5'
+17/01/2010 15:13:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:13:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Self Set map 3'
+17/01/2010 15:13:14: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Go 1506 425 10'
+17/01/2010 15:13:27: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:13:27: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Self Set map 3'
+17/01/2010 15:13:27: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Go 1562 655 0'
+17/01/2010 15:13:43: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Set Map Malas'
+17/01/2010 15:13:44: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'Map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:13:50: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'where '
+17/01/2010 15:17:25: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+17/01/2010 15:17:29: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'setClasse' of 0x3 "Akila" ('akila') to 'Escudeiro'
+17/01/2010 15:18:32: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+17/01/2010 15:18:35: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'setClasse' of 0x3 "Akila" ('akila') to 'Aldeao'
+17/01/2010 15:18:44: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+17/01/2010 15:18:47: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'setClasse' of 0x3 "Akila" ('akila') to 'Seminarista'
+17/01/2010 15:21:13: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'where '
+17/01/2010 15:21:31: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'where '
+##############################
+Log started on 17/01/2010 15:25:46
+
+17/01/2010 15:26:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'map' of 0x3 "Akila" ('akila') to 'Malas'
+17/01/2010 15:26:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Self Set map 3'
+17/01/2010 15:26:10: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'Go 1605 672 0'
+17/01/2010 15:26:16: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'add pedracria'
+17/01/2010 15:26:19: 127.0.0.1: Administrator 0x3 "Akila" ('akila') building at (1600, 668, 0) in Malas: "PedraCriacao"
+17/01/2010 15:26:19: 127.0.0.1: Serials: 0x40000035; 
+17/01/2010 15:27:59: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'props '
+17/01/2010 15:28:04: 127.0.0.1: Administrator 0x3 "Akila" ('akila') set property 'setClasse' of 0x3 "Akila" ('akila') to 'Escudeiro'
+17/01/2010 15:30:42: 127.0.0.1: Administrator 0x3 "Akila" ('akila') used command 'atalento '
+##############################
+Log started on 17/01/2010 16:12:03
+
