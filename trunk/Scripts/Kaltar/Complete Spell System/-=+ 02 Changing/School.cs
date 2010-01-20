@@ -20,5 +20,7 @@ namespace Server.ACC.CSS
 		Rogue    = 0x00000400,
 		Undead   = 0x00000800,
         Ancient  = 0x00001000,
+        
+        Seminarista = 0x00002000
 	}
 }
