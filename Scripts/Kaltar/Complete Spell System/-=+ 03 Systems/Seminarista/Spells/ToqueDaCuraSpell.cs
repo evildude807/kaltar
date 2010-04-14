@@ -20,10 +20,12 @@ namespace Server.ACC.CSS.Systems.Cleric
         public override SpellCircle Circle {
             get { return SpellCircle.First; }
         }
-
+		
+		
 		public override int RequiredTithing{ get{ return 5; } }
-		public override double RequiredSkill{ get{ return 0.0; } }
-		public override double CastDelay{ get{ return 4.0; } }
+		public override double RequiredSkill{ get{ return 10.0; } }
+		public override double CastDelay{ get{ return 2.0; } }
+		public override int RequiredMana   { get{ return 10; } }
 		
 		public ToqueDaCuraSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
 		}

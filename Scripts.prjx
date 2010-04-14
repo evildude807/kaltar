@@ -1,5 +1,5 @@
 <Project name="SharpDevelop" standardNamespace="SharpDevelop" description="" newfilesearch="None" enableviewstate="True" version="1.1" projecttype="C#">
-  <Contents>
+  <Contents>   
     <File name=".\Scripts\Accounting\AccessRestrictions.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Accounting\Account.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Accounting\AccountAttackLimiter.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -1789,6 +1789,7 @@
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\CSpellScroll.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\CSS.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\IconPlacementGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\KaltarSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\ScrollBag.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\ScrollGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 01 Core\SpellIconGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -1886,6 +1887,12 @@
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Ancient\Spells\ThunderSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Ancient\Spells\TremorSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Ancient\Spells\WeatherSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\AprendizInitializer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\AprendizSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\AprendizSpellbook.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\AprendizSpellbookGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\Spells\FlechaMagicaSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Aprendiz\Spells\MaosFlamejantesSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Avatar\AvatarBag.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Avatar\AvatarInitializer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Avatar\AvatarSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -2064,6 +2071,17 @@
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Rogue\Spells\Intimidation.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Rogue\Spells\Shadow.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Rogue\Spells\SlyFox.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\SeminaristaInitializer.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\SeminaristaSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\SeminaristaSpellbook.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\SeminaristaSpellbookGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Items\GloboDeLuz.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Mobiles\GloboDeLuz.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Spells\GloboDeLuzSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Spells\RefeicaoSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Spells\ToqueDaCuraSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Spells\ToqueDaResistenciaSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Complete Spell System\-=+ 03 Systems\Seminarista\Spells\ToqueDeRegeneracaoSpell.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\DialogNPC\DialogNPC Script\ConversationGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\DialogNPC\DialogNPC Script\Dialog.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\DialogNPC\DialogNPC Script\DialogChoice.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
@@ -2185,6 +2203,7 @@
     <File name=".\Scripts\Kaltar\Jogador\Talento\Talento.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Jogador\Talento\Gump\AprenderTalento.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Jogador\Talento\Gump\TalentosGump.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
+    <File name=".\Scripts\Kaltar\Jogador\Talento\Talentos\AcharArmadilha.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Jogador\Talento\Talentos\Alerta.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Jogador\Talento\Talentos\ArmaComumAmasso.cs" subtype="Code" buildaction="Compile" dependson="" data="" />
     <File name=".\Scripts\Kaltar\Jogador\Talento\Talentos\ArmaComumDistancia.cs" subtype="Code" buildaction="Compile" dependson="" data="" />

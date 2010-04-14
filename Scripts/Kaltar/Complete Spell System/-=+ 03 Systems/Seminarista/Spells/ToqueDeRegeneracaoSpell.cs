@@ -10,8 +10,8 @@ namespace Server.ACC.CSS.Systems.Cleric
 	public class ToqueDeRegeneracaoSpell : SeminaristaSpell {
 		
 		private static SpellInfo m_Info = new SpellInfo(
-		                                                "Toque de Regeneração", 
-		                                                "Toque de Regeneração",
+		                                                "Regeneração", 
+		                                                "Toque da Regeneração",
 		                                                //SpellCircle.Third,
 		                                                212,
 		                                                9041
@@ -20,10 +20,11 @@ namespace Server.ACC.CSS.Systems.Cleric
         public override SpellCircle Circle {
             get { return SpellCircle.First; }
         }
-
+		
 		public override int RequiredTithing{ get{ return 15; } }
 		public override double RequiredSkill{ get{ return 20.0; } }
 		public override double CastDelay{ get{ return 3.0; } }
+		public override int RequiredMana   { get{ return    20; } }
 		
 		private static Hashtable tabelaEfeito = new Hashtable();
 		
@@ -58,19 +59,19 @@ namespace Server.ACC.CSS.Systems.Cleric
 		}
 
 		public void Target( Mobile m ) {
+			
 			if ( !Caster.CanSee( m ) ){
 				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
 			}
-
-			if ( sobreEfeitoCura( m ) ){
+			else if ( sobreEfeitoCura( m ) ){
 				Caster.LocalOverheadMessage( MessageType.Regular, 0x481, false, "O alvo já esta sobre o efeito de magia de cura." );
 			}
-
-			else if ( CheckBSequence( m, false ) )
-			{
+			else if ( CheckBSequence( m, false ) ) {
 				SpellHelper.Turn( Caster, m );
-
-				Timer t = new InternalTimer( m, Caster );
+				
+				int duracao = (int) (Caster.Skills[SkillName.SpiritSpeak].Value);
+				
+				Timer t = new InternalTimer( m, Caster, duracao );
 				t.Start();
 				
 				adicionarEfeito(m, t);
@@ -80,7 +81,10 @@ namespace Server.ACC.CSS.Systems.Cleric
 				m.FixedParticles( 0x3779, 1, 46, 9502, 5, 3, EffectLayer.Waist );
 				m.SendMessage( "Os seus ferimentos estão sendo curados por um poder de regeneração." );
 			}
-
+			else {
+				Caster.LocalOverheadMessage( MessageType.Regular, 0x481, false, "Não foi possível conjurar a magia." );
+			}
+			
 			FinishSequence();
 		}
 
@@ -102,47 +106,43 @@ namespace Server.ACC.CSS.Systems.Cleric
 			}
 		}
 		
-		private class InternalTimer : Timer
-		{
+		private class InternalTimer : Timer {
 			private Mobile dest;
 			private Mobile source;
 			private DateTime NextTick;
 			private DateTime Expire;
-
-			public InternalTimer( Mobile m, Mobile from ) : base( TimeSpan.FromSeconds( 1 ), TimeSpan.FromSeconds( 1 ) ) {
+			private int contador = 0;
+			private int duracao;
+			private BuffInfo bf;
+			
+			public InternalTimer( Mobile m, Mobile from, int duracao ) : base( TimeSpan.FromSeconds( 2 ), TimeSpan.FromSeconds( 5 ), duracao ) {
 				dest = m;
 				source = from;
-				Priority = TimerPriority.FiftyMS;
+				this.duracao = duracao;
 				
-				Expire = DateTime.Now + TimeSpan.FromSeconds( 30.0 );
+				bf = new BuffInfo( BuffIcon.Bless, 1075843, new TextDefinition("Toque da Regeneração"));
+				BuffInfo.AddBuff( dest,  bf);
 			}
 
-			protected override void OnTick()
-			{
-				if ( !dest.CheckAlive() ) {
-					Stop();
+			protected override void OnTick() {
+				contador++;
+				
+				//source.SendMessage( "contador {0} e duracao {1}", contador, duracao );
+				
+				if ( !dest.CheckAlive() || contador >= duracao) {
 					removerEfeito( dest );
+					BuffInfo.RemoveBuff( dest,  bf);
+					Stop();
 				}
-
-				if ( DateTime.Now < NextTick ) {
-					return;
-				}
-
-				if ( DateTime.Now >= NextTick )	{
-					double heal = Utility.RandomMinMax( 6, 9 ) + source.Skills[SkillName.Magery].Value / 50.0;
-					heal *= ClericDivineFocusSpell.GetScalar( source );
-
-					dest.Heal( (int)heal );
-
+				else {
+					double toHeal = 1;
+	
+					//dest.Heal( (int)heal );
+					SpellHelper.Heal( (int)toHeal, dest, source, true);
+					
 					dest.PlaySound( 0x202 );
 					dest.FixedParticles( 0x376A, 1, 62, 9923, 3, 3, EffectLayer.Waist );
-					dest.FixedParticles( 0x3779, 1, 46, 9502, 5, 3, EffectLayer.Waist );
-					NextTick = DateTime.Now + TimeSpan.FromSeconds( 4 );
-				}
-
-				if ( DateTime.Now >= Expire ) {
-					Stop();
-					removerEfeito(dest);
+					//dest.FixedParticles( 0x3779, 1, 46, 9502, 5, 3, EffectLayer.Waist );
 				}
 			}
 		}

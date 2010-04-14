@@ -694,8 +694,7 @@ namespace Server.Spells
 				m_Caster.Spell = null;
 		}
 
-		public virtual int ComputeKarmaAward()
-		{
+		public virtual int ComputeKarmaAward() {
 			return 0;
 		}
 
