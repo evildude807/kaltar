@@ -21,6 +21,7 @@ namespace Server.ACC.CSS
 		Undead   = 0x00000800,
         Ancient  = 0x00001000,
         
-        Seminarista = 0x00002000
+        Seminarista = 0x00002000,
+        Aprendiz = 0x00002001
 	}
 }
