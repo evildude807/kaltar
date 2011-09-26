@@ -14,14 +14,14 @@ namespace Server.Kaltar.Gumps
 		private int minimoAtributo = 10;
 		
 		private int forca;
-		private int destresa;
+		private int destreza;
 		private int inteligencia;
 		
-		public EscolhaAtributosGump(Jogador jogador, int forca, int destresa, int inteligencia) : base( 20, 20 ) {
+		public EscolhaAtributosGump(Jogador jogador, int forca, int destreza, int inteligencia) : base( 20, 20 ) {
 			
 			this.jogador = jogador;
 			this.forca = forca;
-			this.destresa = destresa;
+			this.destreza = destreza;
 			this.inteligencia = inteligencia;
 			
 			this.Closable=false;
@@ -34,10 +34,10 @@ namespace Server.Kaltar.Gumps
 			this.AddLabel(173, 102, 0, @"Atributos");
 			this.AddImage(109, 99, 52);
 			this.AddLabel(118, 184, 0, @"Força:");
-			this.AddLabel(117, 226, 0, @"Destresa:");
+			this.AddLabel(117, 226, 0, @"Destreza:");
 			this.AddLabel(117, 269, 0, @"Inteligencia:");
 			this.AddLabel(216, 185, 31, forca.ToString());
-			this.AddLabel(216, 226, 31, destresa.ToString());
+			this.AddLabel(216, 226, 31, destreza.ToString());
 			this.AddLabel(216, 269, 31, inteligencia.ToString());
 			this.AddLabel(202, 158, 0, @"Valor");
 			this.AddButton(250, 181, 2435, 2436, (int)Buttons.bsubirFor, GumpButtonType.Reply, 0);
@@ -48,7 +48,7 @@ namespace Server.Kaltar.Gumps
 			this.AddButton(251, 282, 2437, 2438, (int)Buttons.bdescerInt, GumpButtonType.Reply, 0);
 			this.AddImage(285, 97, 51);
 			
-			int totalParaGastar = (totalPontos - (forca + destresa + inteligencia));
+			int totalParaGastar = (totalPontos - (forca + destreza + inteligencia));
 			
 			this.AddLabel(307, 110, 0, totalParaGastar.ToString());
 			
@@ -74,7 +74,7 @@ namespace Server.Kaltar.Gumps
 		}
 		
 		private enum Atributo {
-			forca, destresa, inteligencia
+			forca, destreza, inteligencia
 		}
 		private enum Acao {
 			subir, descer
@@ -102,8 +102,8 @@ namespace Server.Kaltar.Gumps
 			if(atributo == Atributo.forca) {
 				forca += 5;
 			}
-			else if(atributo == Atributo.destresa) {
-				destresa += 5;
+			else if(atributo == Atributo.destreza) {
+				destreza += 5;
 			}
 			else {
 				inteligencia += 5;
@@ -114,8 +114,8 @@ namespace Server.Kaltar.Gumps
 			if(atributo == Atributo.forca) {
 				forca -= 5;
 			}
-			else if(atributo == Atributo.destresa) {
-				destresa -= 5;
+			else if(atributo == Atributo.destreza) {
+				destreza -= 5;
 			}
 			else {
 				inteligencia -= 5;
@@ -126,7 +126,7 @@ namespace Server.Kaltar.Gumps
 			
 			//valida o total de pontos
 			if(acao.Equals(Acao.subir)) {
-				int totalParaGastar = (totalPontos - (forca + destresa + inteligencia));
+				int totalParaGastar = (totalPontos - (forca + destreza + inteligencia));
 				if(totalParaGastar == 0) {
 					return false;
 				}
@@ -149,17 +149,17 @@ namespace Server.Kaltar.Gumps
 				}
 			}
 			
-			//destresa
-			else if(atributo == Atributo.destresa) {
+			//destreza
+			else if(atributo == Atributo.destreza) {
 				
 				if(acao == Acao.subir) {
-					if(destresa >= maxAtributo) {
+					if(destreza >= maxAtributo) {
 						return false;
 					}
 					return true;
 				}
 				else {
-					if(destresa <= minimoAtributo) {
+					if(destreza <= minimoAtributo) {
 						return false;
 					}
 					return true;					
@@ -193,10 +193,10 @@ namespace Server.Kaltar.Gumps
 				descerAtributo(Atributo.forca);
 			}
 			else if(info.ButtonID == (int)Buttons.bsubirDes) {
-				subirAtributo(Atributo.destresa);
+				subirAtributo(Atributo.destreza);
 			}
 			else if(info.ButtonID == (int)Buttons.bdescerDes) {
-				descerAtributo(Atributo.destresa);
+				descerAtributo(Atributo.destreza);
 			}
 			else if(info.ButtonID == (int)Buttons.bsubirInt) {
 				subirAtributo(Atributo.inteligencia);
@@ -206,13 +206,13 @@ namespace Server.Kaltar.Gumps
 			}
 			else if(info.ButtonID == (int)Buttons.bOk) {
 				
-				int totalParaGastar = (totalPontos - (forca + destresa + inteligencia));
+				int totalParaGastar = (totalPontos - (forca + destreza + inteligencia));
 				if(totalParaGastar == 0) {
 					jogador.Str = forca;
-					jogador.Dex = destresa;
+					jogador.Dex = destreza;
 					jogador.Int = inteligencia;
 
-					jogador.SendGump(new EscolhaPericiasGump(jogador, new int[SkillInfo.Table.Length] ,0));
+					jogador.SendGump(new InclinacaoInicialGump(jogador));
 				}
 				else {
 					jogador.SendMessage("Nao foram distribuidos todos os pontos.");
@@ -220,7 +220,7 @@ namespace Server.Kaltar.Gumps
 			}
 				
 			if(info.ButtonID != (int) Buttons.bOk) {
-				jogador.SendGump(new EscolhaAtributosGump(jogador, forca, destresa, inteligencia));
+				jogador.SendGump(new EscolhaAtributosGump(jogador, forca, destreza, inteligencia));
 			}
 		}
 	}

@@ -37,13 +37,12 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 						
 						Caster.DoHarmful( mobile );
 						
-						/*
+						
 						damage = damageReal * GetDamageScalar( mobile );
 						SpellHelper.Damage( this, mobile, damage);
 						
 						Caster.MovingParticles( mobile, 0x36FE, 5, 10, false, true, 3006, 4006, 0 );
 						mobile.PlaySound( 0x1E5 );
-						*/
 					}
 	            }
 			}

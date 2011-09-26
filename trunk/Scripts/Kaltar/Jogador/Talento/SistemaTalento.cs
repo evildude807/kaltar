@@ -6,7 +6,8 @@
 using System;
 using Server;
 using Server.Mobiles;
-using System.Collections;
+using System.Collections.Generic;
+using Server.ACC.CM;
 
 namespace Kaltar.Talentos
 {
@@ -16,61 +17,25 @@ namespace Kaltar.Talentos
 	public class SistemaTalento	{
 		
 		#region atributos
+
 		//jogador dono dos talentos
 		private Jogador jogador = null;
-		//armazena todos os talentos do jogadore
-		private Hashtable talentos = new Hashtable();
-		//pontos gastos de talentos
-		private int pontosGastos = 0;
+
 		#endregion
 			
 		public SistemaTalento(Jogador jogador){
 			this.jogador = jogador;
-		}		
-		
-		#region propriedades
-		public Hashtable Talentos {
-			get{return talentos;}
 		}
-		
-		public int PontosGastos {
-			get{return pontosGastos;}
-		}
-		#endregion
-		
-		#region serialização
-		public void Serialize( GenericWriter writer ){
-			writer.Write((int)0);			//verso		
-			
-			//Console.WriteLine( "num talentos: {0}", talentos.Count);
-			
-			writer.Write((int)pontosGastos);
-			
-			//serializa os objetivos
-			writer.Write(talentos.Count);	// nmero de objetivos
-			foreach ( IDTalento idTalento in talentos.Values ){
-				writer.Write((int)idTalento);
-			}
-		}
-		
-		public void Deserialize( GenericReader reader ){
-			int versao = reader.ReadInt();
-			
-			pontosGastos = reader.ReadInt();
-			
-			int numTalentos = reader.ReadInt();
-			
-			//Console.WriteLine( "num talentos: {0}", numTalentos);
-			
-			//recuperas os objectivos
-			talentos = new Hashtable();			
-			for(int i = 0; i<numTalentos; i++) {
-				IDTalento idTalento = (IDTalento)reader.ReadInt();
-				talentos.Add(idTalento, idTalento);
-			}
-		}
-		#endregion
-		
+
+        /**
+         * Recupera o modulo de talento
+         */
+        private TalentoModule getTalentoModule()
+        {
+            TalentoModule tm = (TalentoModule)CentralMemory.GetModule(jogador.Serial, typeof(TalentoModule));
+            return tm;
+        }
+
 		/**
 		 * Pontos disponíveis para aprender talentos.
 		 */
@@ -80,10 +45,14 @@ namespace Kaltar.Talentos
 			int horasJogadas = jogador.GameTime.Hours;
 			
 			int minino = meses < (horasJogadas/30) ? meses : (horasJogadas/30);
-			
-		 	return minino - pontosGastos + 1;
+
+            return minino - getTalentoModule().PontosGastos + 1;
 		}
 		
+        public Dictionary<IDTalento, IDTalento> getTalentos() {
+            return getTalentoModule().Talentos;
+        }
+
 		/*
 		 * Adiciona o talento ao jogador.
 		 * É verificado se o jogador possui os pré-requisitos
@@ -117,7 +86,7 @@ namespace Kaltar.Talentos
 			adicionarTalento(talento);
 			
 			if(!mudancaClasse) {
-				pontosGastos++;
+                getTalentoModule().PontosGastos++;
 			}
 
 			return true;		 	
@@ -134,18 +103,14 @@ namespace Kaltar.Talentos
 		
 		private void adicionarTalento (Talento talento) {
 			jogador.SendMessage("Você acaba de aprender o talento {0}", talento.Nome);
-			talentos.Add(talento.ID, talento.ID);
+			getTalentoModule().Talentos.Add(talento.ID, talento.ID);
 		}
 		
 		 /**
 		  * Verifica se o jogador já possui o talento
 		  */ 
 		public bool possuiTalento (IDTalento idTalento) {
-			
-			if(talentos[idTalento] != null) {
-				return true;
-			}
-			return false;
+            return getTalentoModule().Talentos.ContainsKey(idTalento);
 		}
 	}
 }

@@ -22,13 +22,13 @@ namespace Kaltar.Util
 		}
 		
 		//skill cap das skills de trabalho
-		public static double skillCapTrabalho = 250.0;
+		public static double skillCapTrabalho = 150.0;
 		
 		/**
 		 * Maximo de pontos de skill que o jogador por ter em suas skills de classe 
 		 */
 		public static double skillCap(Jogador jogador) {
-			return jogador.getClasse().skillCap();
+			return jogador.getSistemaClasse().getClasse().skillCap();
 		}
 		
 		public static double quantoPodeSubir(Jogador jogador, Skill skill) {
@@ -83,7 +83,19 @@ namespace Kaltar.Util
 			
 			return totalSkillTrabalho;
 		 }
-		 
+
+        public static void zerarSkills(Jogador jogador)
+        {
+            Skills skills = jogador.Skills;
+            Skill skill = null;
+            for (int i = 0; i < skills.Length; i++)
+            {
+                skill = skills[i];
+                skill.Base = 0.0;
+            }
+
+        }
+
 		 public static double totalSkill(Jogador jogador) {
 			//Console.WriteLine("TotalSkillUO: {0} totalSkillTrabalho: {1}",(jogador.Skills.Total/10.0),totalSkillTrabalho(jogador));
 			return (jogador.Skills.Total/10.0) - totalSkillTrabalho(jogador);

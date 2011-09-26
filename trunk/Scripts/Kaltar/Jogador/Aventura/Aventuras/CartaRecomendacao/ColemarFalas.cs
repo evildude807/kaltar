@@ -5,6 +5,7 @@ using Kaltar.aventura;
 using Kaltar.propriedade;
 using Server.Items;
 using Arya.DialogEditor;
+using Kaltar.Classes;
 
 namespace Kaltar.aventura {
 
@@ -20,11 +21,11 @@ namespace Kaltar.aventura {
 			Jogador jogador = (Jogador)m;
 			
 			//jogaro já tem classe
-			if(!jogador.classe.Equals(classe.Aldeao)) {
+			if(!jogador.getSistemaClasse().getClasse().idClasse().Equals(classe.Aldeao)) {
 				npc.SayTo(jogador, "O seu caminho já foi escolhido. Não tenho nada para você no momento.");
 			}
-			else if(jogador.getSistemaAventura().completouAventura(IDAventura.cartaRecomendacao) && 
-			   jogador.classe.Equals(classe.Aldeao) &&
+			else if(jogador.getSistemaAventura().completouAventura(IDAventura.cartaRecomendacao) &&
+               jogador.getSistemaClasse().getClasse().idClasse().Equals(classe.Aldeao) &&
 			   m.Backpack.FindItemByType(typeof( CartaRecomendacaoItem ), true) == null) {
 	
 				npc.SayTo(jogador, "Tome mais cuidado com suas coisas. Aqui esta outra carta de recomendação.");
