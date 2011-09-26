@@ -1,6 +1,7 @@
 using System;
 using Server;
 using Server.Mobiles;
+using Kaltar.Classes;
 
 namespace Kaltar.Talentos {
 	
@@ -19,7 +20,7 @@ namespace Kaltar.Talentos {
 		}
 		
 		public override bool possuiPreRequisitos (Jogador jogador){
-			return jogador.classe == classe.Gatuno;
+			return jogador.getSistemaClasse().getClasse().idClasse() == classe.Gatuno;
 		}
 	}
 }

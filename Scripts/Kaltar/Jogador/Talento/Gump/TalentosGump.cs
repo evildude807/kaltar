@@ -3,7 +3,7 @@ using Server;
 using Server.Gumps;
 using Server.Mobiles;
 using Server.Commands;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace Kaltar.Talentos {
 
@@ -32,8 +32,8 @@ namespace Kaltar.Talentos {
 		}
 
 		private void listarTalentos(Jogador jogador) {
-			
-			Hashtable talentos = jogador.getSistemaTalento().Talentos;
+
+            Dictionary<IDTalento, IDTalento> talentos = jogador.getSistemaTalento().getTalentos();
 			int y = 135;	//posio do primeito talento
 			
 			if(talentos.Count == 0) {

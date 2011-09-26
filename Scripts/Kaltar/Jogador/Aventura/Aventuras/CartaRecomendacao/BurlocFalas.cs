@@ -3,6 +3,7 @@ using Server;
 using Server.Mobiles;
 using Kaltar.aventura;
 using Kaltar.propriedade;
+using Kaltar.Classes;
 using Server.Items;
 using Arya.DialogEditor;
 
@@ -30,7 +31,7 @@ namespace Kaltar.aventura {
 				
 				cartaRec.Delete();
 				
-				if(jogador.classe.Equals(classe.Aldeao)) {
+				if(jogador.getSistemaClasse().getClasse().idClasse().Equals(classe.Aldeao)) {
 					jogador.setClasse = classe.Escudeiro;
 					
 					//boas vindas a academia

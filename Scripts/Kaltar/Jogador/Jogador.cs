@@ -14,37 +14,38 @@ using Kaltar.aventura;
 
 using Server.ACC.CM;
 
-namespace Server.Mobiles {
-	
-	//Diz qual  a classe do jogador
-	public enum classe {
-		Aldeao,
-		Escudeiro,
-		Seminarista,
-		Aprendiz,
-		Gatuno
-	}	
+namespace Server.Mobiles {	
 	
 	public class Jogador : PlayerMobile {
 		
 		#region atributos
-		//marca qual a classe do jogador
-		private classe e_classe;		
+
+        //sistema de classes
+        private SistemaClasse sistemaClasse = null;
 		//sistema de talentos
 		private SistemaTalento sistemaTalento = null;
 		//sistema de propriedade
 		private SistemaPropriedade sistemaPropriedade = null;		
 		//sistema de aventura
-		private SistemaAventura sistemaAventura = null;				
+		private SistemaAventura sistemaAventura = null;		
+		
 		#endregion
 
 		#region construtores
 		public Jogador() {
-			setClasse = classe.Aldeao;
+            sistemaClasse = new SistemaClasse(this);
 			sistemaTalento = new SistemaTalento(this);
 			sistemaPropriedade = new SistemaPropriedade(this);
 			sistemaAventura = new SistemaAventura(this);
-				
+
+            //modulo de talento
+            CentralMemory.AddModule(new TalentoModule(this.Serial));
+            
+            //modulo de classe
+            CentralMemory.AddModule(new ClasseModule(this.Serial));
+
+            setClasse = classe.Aldeao;
+
 			//maximo de status
 			StatCap = 225;			
 			
@@ -63,19 +64,14 @@ namespace Server.Mobiles {
 		#endregion
 
 		#region propriedades
-		public classe classe {
-			set {e_classe = value;}
-			get {return e_classe;}
-		}		
-
-		//para adicionar a classe do personagem
+        
+        //para adicionar a classe do personagem
 		[CommandProperty( AccessLevel.GameMaster )]
 		public classe setClasse {
 			set {
-				e_classe = value;
-				getClasse().adicionarClasse(this);
+                getSistemaClasse().adicionarClasse(value);
 			}
-			get {return e_classe;}
+            get { return getSistemaClasse().getClasse().idClasse(); }
 		}		
 	
 		public SistemaTalento getSistemaTalento() {
@@ -88,58 +84,40 @@ namespace Server.Mobiles {
 
 		public SistemaAventura getSistemaAventura() {
 			return sistemaAventura;
-		}		
-		
-		/**
-		 * Retorna a classe do personagem,  baseado no int classe para retornar a Classe mesmo.
-		 */
-		public Classe getClasse() {
-		 	
-			if (classe == classe.Aldeao) {
-				return Aldeao.getInstacia();
-			}
-			else if (classe == classe.Escudeiro) {
-				return Escudeiro.getInstacia();
-			}
-			else if (classe == classe.Aprendiz) {
-				return Aprendiz.getInstacia();
-			}
-			else if (classe == classe.Seminarista) {
-				return Seminarista.getInstacia();
-			}			
-			else if (classe == classe.Gatuno) {
-				return Gatuno.getInstacia();
-			}			
-			else {
-				Console.WriteLine("ERROR: personagem {0} sem classe definida",Name);
-				setClasse = classe.Aldeao;
-				return Aldeao.getInstacia();
-			}
-		}		
+		}
+        
+        public SistemaClasse getSistemaClasse() {
+            if (sistemaClasse == null)
+            {
+                Console.WriteLine("Sistema classe null");
+            }
+            return sistemaClasse;
+        }
+	
 		#endregion
 		
 		#region serialização
 		public override void Deserialize( GenericReader reader ) {
+            Console.WriteLine("Deserialize jogador");
 
-			base.Deserialize( reader );		       
+            //modulo de talento
+            CentralMemory.AddModule(new TalentoModule(this.Serial));
+
+            //modulo de classe
+            CentralMemory.AddModule(new ClasseModule(this.Serial));
+
+            sistemaTalento = new SistemaTalento(this);
+            sistemaClasse = new SistemaClasse(this);
+            sistemaPropriedade = new SistemaPropriedade(this);
+            sistemaAventura = new SistemaAventura(this);
+
+            // a inicializacao dos sistemas devem ficar antes deste método. Pois ele invoca métodos como max hits quqe utiliza os sistemas.
+			base.Deserialize( reader );
+
+            Console.WriteLine("Deserialize jogador 2");
 
 			int versao = reader.ReadInt();
-			
-			switch(versao) {
-				case 0: {
-					e_classe = (classe) reader.ReadInt();
-					break;
-				}
-			}
-			
-			sistemaTalento = new SistemaTalento(this);
-			sistemaTalento.Deserialize(reader);
-			
-			sistemaPropriedade = new SistemaPropriedade(this);
-			sistemaPropriedade.Deserialize(reader);			
-			
-			sistemaAventura = new SistemaAventura(this);
-			sistemaAventura.Deserialize(reader);
+
 		}
 		
 		public override void Serialize( GenericWriter writer ) {
@@ -147,38 +125,35 @@ namespace Server.Mobiles {
 	        base.Serialize( writer );		       
 
 	        writer.Write((int)0);				//verso
-			writer.Write((int) e_classe );		//classe
-		
-			sistemaTalento.Serialize(writer);
-			sistemaPropriedade.Serialize(writer);
-			sistemaAventura.Serialize(writer);
 		}
+
 		#endregion
 		
 		#region eventos
+
 		public override int HitsMax{
-		 	get{return getClasse().MaxHP;}
+		 	get{return (int)((Str/2 * getSistemaClasse().getClasse().MaxHP) + 50);}
 		}
 		 
 		public override int StamMax{
-			get{return getClasse().MaxST;}
+            get { return (int)(Dex * getSistemaClasse().getClasse().MaxST); }
 		}
 
 		public override int ManaMax{
-			get{return getClasse().MaxMA;}
+            get { return (int)(Int * getSistemaClasse().getClasse().MaxMA); }
 		}
 		
 		public override bool AllowSkillUse( SkillName skill ) {
 		 	bool podeUsarSkill = base.AllowSkillUse(skill);
-		 	return getClasse().podeUsarSkill(skill);
+		 	return getSistemaClasse().getClasse().podeUsarSkill(skill);
 		}
 
 		public bool podeEquiparArmadura(BaseArmor armor) {
 			
 			bool pode = true;
 			
-			pode = (ArmaduraUtil.isRoupa(armor) || 
-			        getClasse().podeEquiparArmadura(armor) || 
+			pode = (ArmaduraUtil.isRoupa(armor) ||
+                    getSistemaClasse().getClasse().podeEquiparArmadura(armor) || 
 			        ArmaduraUtil.temTalentoParaEquipar(this, armor));
 			
 			if(!pode) {
@@ -193,8 +168,8 @@ namespace Server.Mobiles {
 			bool pode = false;
 			
 			//testa as armas comuns para todos
-			pode = (ArmaUtil.isItemComun(arma) || 
-			        getClasse().podeEquiparArma(arma) ||
+			pode = (ArmaUtil.isItemComun(arma) ||
+                    getSistemaClasse().getClasse().podeEquiparArma(arma) ||
 			        ArmaUtil.temTalentoParaEquipar(this, arma));
 
 			if(!pode) {
@@ -203,6 +178,7 @@ namespace Server.Mobiles {
 			
 			return pode;
 		}		
+
 		#endregion
 		
 		#region sobrecarga
@@ -242,6 +218,7 @@ namespace Server.Mobiles {
 		
 		#region Sistema avançado de arquearia
 		//Utilizado pelo sistema de avançado de arquearia
+		/*
 		private PlayerModule m_PlayerModule;
 		
 		[CommandProperty( AccessLevel.GameMaster )]
@@ -267,6 +244,7 @@ namespace Server.Mobiles {
 		   }
 			}
 		   }
+		   */
 		   #endregion
 		  
 	}

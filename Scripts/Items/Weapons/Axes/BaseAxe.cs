@@ -18,7 +18,7 @@ namespace Server.Items
 		public override int DefHitSound{ get{ return 0x232; } }
 		public override int DefMissSound{ get{ return 0x23A; } }
 
-		public override SkillName DefSkill{ get{ return SkillName.Swords; } }
+		public override SkillName DefSkill{ get{ return SkillName.TasteID; } }
 		public override WeaponType DefType{ get{ return WeaponType.Axe; } }
 		public override WeaponAnimation DefAnimation{ get{ return WeaponAnimation.Slash2H; } }
 

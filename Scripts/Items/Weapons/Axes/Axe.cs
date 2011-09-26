@@ -26,6 +26,7 @@ namespace Server.Items
 		[Constructable]
 		public Axe() : base( 0xF49 )
 		{
+            Name = "Machado";
 			Weight = 4.0;
 		}
 

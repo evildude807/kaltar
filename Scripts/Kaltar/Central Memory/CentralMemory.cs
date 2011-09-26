@@ -489,11 +489,14 @@ namespace Server.ACC.CM
         {
             Flush();
 
+            Console.WriteLine("Numero de module list: " + m_DictionaryOfModuleLists.Values.Count);
+
             List<Module> fullList = new List<Module>();
             foreach (ModuleList ml in m_DictionaryOfModuleLists.Values)
             {
                 foreach (Module m in ml.Values)
                 {
+                    Console.WriteLine("Adicionando modulo: " + m.Name());
                     fullList.Add(m);
                 }
             }
@@ -509,6 +512,7 @@ namespace Server.ACC.CM
                 idx.Write((int)m.Owner);
                 idx.Write((long)start);
 
+                Console.WriteLine("serializando: " + m.Name());
                 m.Serialize(writer);
 
                 idx.Write((int)(writer.Position - start));

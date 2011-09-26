@@ -10,6 +10,16 @@ using System;
 
 namespace Kaltar.Classes
 {
+
+    //Diz qual  a classe do jogador
+    public enum classe {
+        Aldeao,
+        Escudeiro,
+        Seminarista,
+        Aprendiz,
+        Gatuno
+    }
+
 	/// <summary>
 	/// Classe pai de todas as classes do jogo.
 	/// Contem mtodos que deve sem implementados por todos as subclasses.
@@ -29,9 +39,10 @@ namespace Kaltar.Classes
 			return false;
 		}
 		public abstract void adicionarClasse(Jogador jogador);
-		public virtual int MaxHP {get {return 1;} }
-		public virtual int MaxST {get {return 1;} }
-		public virtual int MaxMA {get {return 1;} }
+        public abstract classe idClasse();
+        public virtual double MaxHP { get { return 1; } }
+        public virtual double MaxST { get { return 1; } }
+        public virtual double MaxMA { get { return 1; } }
 		public virtual bool podeUsarItem(Item item){return true;}
 		public virtual bool podeUsarSkill(SkillName skill){return true;}		
 		public virtual int skillCap(){return 300;}
@@ -51,5 +62,18 @@ namespace Kaltar.Classes
 			get {return nome;}
 			set {nome = value;}
 		}
+
+        /**
+         * Atribui o valorMaximo para o Cap de todas as skills.
+         */
+        protected void skillsMaximoCap(Skills skills, double valorMaximo) {
+            
+            Skill skill;
+            for (int i = 0; i < skills.Length; i++)
+            {
+                skill = skills[i];
+                skill.Cap = valorMaximo;
+            }
+        }
 	}
 }
