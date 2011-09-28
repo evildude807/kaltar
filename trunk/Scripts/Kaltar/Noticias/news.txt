@@ -1,10 +1,2 @@
-Gumps Ajustados
-Os gumps de XP e Talentos foram ajustados também. Para verificar digite [xp ou [talento
-------------------------------------------------------
-Jogador Ajustado
-------------------------------------------------------
-Foi ajustado o problema de gravação do Jogador.
-------------------------------------------------------
 
-------------------------------------------------------
-There is no old news.
+Novidade...

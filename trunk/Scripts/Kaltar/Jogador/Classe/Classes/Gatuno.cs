@@ -7,6 +7,8 @@ using Server;
 using Server.Mobiles; 
 using Server.Items;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 using Kaltar.Talentos;
 
@@ -50,7 +52,7 @@ namespace Kaltar.Classes
 			jogador.FollowersMax = 1;			
 						
 			//seta o ttulo com aldeao
-			jogador.Title = "Gatuno";
+			jogador.Title = "Ladino";
 			
 			adicionarSkillCap(jogador.Skills);
 			
@@ -60,14 +62,40 @@ namespace Kaltar.Classes
 		private void adicionarTalentos(Jogador jogador) {
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();
 
+            /*
 			sistemaTalento.aprender(IDTalento.armaComumPontiaguda, true);
 			sistemaTalento.aprender(IDTalento.armaComumDistancia, true);			
 			
 			sistemaTalento.aprender(IDTalento.armaduraLeve, true);
 			
 			sistemaTalento.aprender(IDTalento.acharArmadilha, true);
-		}		
-		
+             */
+		}
+
+        public override List<SkillName> skillsDaClasse()
+        {
+            List<SkillName> skills = new List<SkillName>();
+
+            //skills de combate
+            skills.Add(SkillName.Swords);
+            skills.Add(SkillName.Macing);
+            skills.Add(SkillName.Fencing);
+            skills.Add(SkillName.TasteID);
+            skills.Add(SkillName.Archery);
+            skills.Add(SkillName.Wrestling);
+
+            //skill ladina
+            skills.Add(SkillName.Hiding);
+            skills.Add(SkillName.Stealth);
+            skills.Add(SkillName.Stealing);
+            skills.Add(SkillName.Snooping);
+            skills.Add(SkillName.Poisoning);
+            skills.Add(SkillName.Lockpicking);
+            skills.Add(SkillName.RemoveTrap);
+
+            return skills;
+        }
+
 		private void adicionarSkillCap(Skills skills) {
 
             skillsMaximoCap(skills, 0.0);

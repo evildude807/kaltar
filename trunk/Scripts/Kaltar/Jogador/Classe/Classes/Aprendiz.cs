@@ -52,7 +52,7 @@ namespace Kaltar.Classes
 			jogador.FollowersMax = 1;			
 			
 			//seta o ttulo com aldeao
-			jogador.Title = "Aprendiz de Magia";
+			jogador.Title = "Aprendiz";
 			
 			adicionarSkillCap(jogador.Skills);
 			
@@ -62,10 +62,12 @@ namespace Kaltar.Classes
 		private void adicionarTalentos(Jogador jogador) {
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();
 			
+            /*
 			sistemaTalento.aprender(IDTalento.magiaArcana, true);
+             */
 		}
 
-        public override virtual List<SkillName> skillsDaClasse()
+        public override List<SkillName> skillsDaClasse()
         {
             List<SkillName> skills = new List<SkillName>();
 
@@ -74,7 +76,14 @@ namespace Kaltar.Classes
             skills.Add(SkillName.Fencing);
             skills.Add(SkillName.TasteID);
             skills.Add(SkillName.Archery);
-            skills.Add(SkillName.Tactics);
+            skills.Add(SkillName.Wrestling);
+
+            //aprendiz
+            skills.Add(SkillName.Magery);
+            skills.Add(SkillName.Necromancy);
+            skills.Add(SkillName.MagicResist);
+            skills.Add(SkillName.Meditation);
+            skills.Add(SkillName.Alchemy);
 
             return skills;
         }

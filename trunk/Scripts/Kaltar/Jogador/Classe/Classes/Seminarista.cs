@@ -7,6 +7,8 @@ using Server;
 using Server.Mobiles; 
 using Server.Items;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 using Kaltar.Talentos;
 
@@ -60,6 +62,7 @@ namespace Kaltar.Classes
 		private void adicionarTalentos(Jogador jogador) {
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();
 			
+            /*
 			sistemaTalento.aprender(IDTalento.armaComumAmasso, true);
 			
 			sistemaTalento.aprender(IDTalento.armaduraLeve, true);
@@ -67,8 +70,32 @@ namespace Kaltar.Classes
 			sistemaTalento.aprender(IDTalento.escudoPequeno, true);
 			
 			sistemaTalento.aprender(IDTalento.magiaDivina, true);
-		}		
-		
+             */
+		}
+
+        public override List<SkillName> skillsDaClasse()
+        {
+            List<SkillName> skills = new List<SkillName>();
+
+            //skills de combate
+            skills.Add(SkillName.Swords);
+            skills.Add(SkillName.Macing);
+            skills.Add(SkillName.Fencing);
+            skills.Add(SkillName.TasteID);
+            skills.Add(SkillName.Archery);
+            skills.Add(SkillName.Wrestling);
+
+            //Espiritualista
+            skills.Add(SkillName.SpiritSpeak);
+            skills.Add(SkillName.Spellweaving);
+            skills.Add(SkillName.MagicResist);
+            skills.Add(SkillName.Veterinary);
+            skills.Add(SkillName.AnimalTaming);
+            skills.Add(SkillName.Meditation);
+
+            return skills;
+        }
+
 		private void adicionarSkillCap(Skills skills) {
 			maxSkill(skills.Alchemy,100.0);
 			maxSkill(skills.Anatomy,35.0);
