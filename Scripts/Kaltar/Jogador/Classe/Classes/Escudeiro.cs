@@ -62,6 +62,7 @@ namespace Kaltar.Classes
 		private void adicionarTalentos(Jogador jogador) {
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();
 			
+            /*
 			sistemaTalento.aprender(IDTalento.armaComumAmasso, true);
 			sistemaTalento.aprender(IDTalento.armaComumEspada, true);
 			sistemaTalento.aprender(IDTalento.armaComumMachado, true);
@@ -72,19 +73,23 @@ namespace Kaltar.Classes
 			
 			sistemaTalento.aprender(IDTalento.escudoPequeno, true);
 			sistemaTalento.aprender(IDTalento.escudoMedio, true);
+             * */
 		}
 
-        public override virtual List<SkillName> skillsDaClasse()
+        public override List<SkillName> skillsDaClasse()
         {
             List<SkillName> skills = new List<SkillName>();
             
+            //skills de combate
             skills.Add(SkillName.Swords);
             skills.Add(SkillName.Macing);
             skills.Add(SkillName.Fencing);
             skills.Add(SkillName.TasteID);
             skills.Add(SkillName.Archery);
             skills.Add(SkillName.Tactics);
-
+            skills.Add(SkillName.Wrestling);
+            skills.Add(SkillName.Parry);
+            
             return skills;
         }
 

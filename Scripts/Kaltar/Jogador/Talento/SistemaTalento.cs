@@ -58,17 +58,19 @@ namespace Kaltar.Talentos
 
                 if (skill.Base > valorSkill1)
                 {
+                    Console.WriteLine("escolhendo a skill1 {0} com valor {1}", skill.Name, skill.Base);
                     valorSkill1 = skill.Base;
                 }
                 else if (skill.Base > valorSkill2)
                 {
-                    valorSkill1 = skill.Base;
+                    Console.WriteLine("escolhendo a skill2 {0} com valor {1}", skill.Name, skill.Base);
+                    valorSkill2 = skill.Base;
                 }
 
             }
 
-            valorSkill1 = valorSkill1 - valorSkillBase / 7;
-            valorSkill2 = valorSkill2 - valorSkillBase / 7;
+            valorSkill1 = (valorSkill1 - valorSkillBase) / 7;
+            valorSkill2 = (valorSkill2 - valorSkillBase) / 7;
 
             int pontos = valorSkill1 < valorSkill2 ? (int)valorSkill1 : (int)valorSkill2;
 
@@ -81,7 +83,7 @@ namespace Kaltar.Talentos
             return minino - getTalentoModule().PontosGastos + 1;
             */
 
-            return pontos;
+            return pontos > 0 ? pontos : 0; ;
 		}
 		
         public Dictionary<IDTalento, IDTalento> getTalentos() {
