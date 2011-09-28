@@ -7,6 +7,8 @@ using Server;
 using Server.Items;
 using Server.Mobiles;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Kaltar.Classes
 {
@@ -46,7 +48,15 @@ namespace Kaltar.Classes
 		public virtual bool podeUsarItem(Item item){return true;}
 		public virtual bool podeUsarSkill(SkillName skill){return true;}		
 		public virtual int skillCap(){return 300;}
-		
+
+        /*
+         * Lista das skills da classe, responsável pelo calculo dos pontos.
+         */ 
+        public virtual List<SkillName> skillsDaClasse()
+        {
+            return new List<SkillName>();
+        }
+
 		/**
 		 * atribui o máximo, Cap da skill para o valor informado.
 		 * e se a skill tiver Base maior que valor, abaixa para valor.

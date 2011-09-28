@@ -8,6 +8,7 @@ using Server;
 using Server.Mobiles;
 using System.Collections.Generic;
 using Server.ACC.CM;
+using Kaltar.Classes;
 
 namespace Kaltar.Talentos
 {
@@ -38,15 +39,49 @@ namespace Kaltar.Talentos
 
 		/**
 		 * Pontos disponíveis para aprender talentos.
+         * 
+         * a cada 7 pontos ganhos em duas das skills da classe 1 ponto e ganha. apartir de 30 pontos.
 		 */
 		public int pontosDisponiveis() {
 
+            Classe classe = jogador.getSistemaClasse().getClasse();
+            List<SkillName> skillsDaClasse = classe.skillsDaClasse();
+
+            double valorSkillBase = 30; //valor base que deve ser subtraido para o calculo de pontos
+            double valorSkill1 = 0;    // valor da primeira maior skill.
+            double valorSkill2 = 0;    // valor da segunda maior skill.
+
+            Skill skill;
+            foreach (SkillName skillName in skillsDaClasse)
+            {
+                skill = jogador.Skills[skillName];
+
+                if (skill.Base > valorSkill1)
+                {
+                    valorSkill1 = skill.Base;
+                }
+                else if (skill.Base > valorSkill2)
+                {
+                    valorSkill1 = skill.Base;
+                }
+
+            }
+
+            valorSkill1 = valorSkill1 - valorSkillBase / 7;
+            valorSkill2 = valorSkill2 - valorSkillBase / 7;
+
+            int pontos = valorSkill1 < valorSkill2 ? (int)valorSkill1 : (int)valorSkill2;
+
+            /*
 			int meses = (int)(DateTime.Now - jogador.CreationTime).TotalDays/30;
 			int horasJogadas = jogador.GameTime.Hours;
 			
 			int minino = meses < (horasJogadas/30) ? meses : (horasJogadas/30);
 
             return minino - getTalentoModule().PontosGastos + 1;
+            */
+
+            return pontos;
 		}
 		
         public Dictionary<IDTalento, IDTalento> getTalentos() {
