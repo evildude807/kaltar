@@ -28,7 +28,22 @@ namespace Kaltar.Morte {
                     
         #endregion
 
+        #region atributos, não serializados
+        TimerMorte tm;
+        #endregion
+
         #region propriedades
+
+        public int Desmaio { get { return desmaio; } set { desmaio = value; } }
+
+        public int Morte { get { return morte; } set { morte = value; } }
+
+        public TimerMorte TimerMorte { get { return tm; } set { tm = value; } }
+
+        public DateTime InicioDesmaio { get { return inicioDesmaio; } set { inicioDesmaio = value; } }
+
+        public DateTime InicioMorte { get { return inicioMorte; } set { inicioMorte = value; } }
+
         #endregion
 
         #region sobrecarga

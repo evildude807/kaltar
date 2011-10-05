@@ -1,6 +1,13 @@
 using System;
 using Server.Network;
 
+using Kaltar.Classes;
+using Kaltar.Talentos;
+using Kaltar.Morte;
+using Kaltar.Modulo;
+using Server.ACC.CM;
+using Server.Mobiles;
+
 namespace Server.Misc
 {
 	public class LoginStats
@@ -25,6 +32,9 @@ namespace Server.Misc
 				userCount, userCount == 1 ? "" : "s",
 				itemCount, itemCount == 1 ? "" : "s",
 				mobileCount, mobileCount == 1 ? "" : "s" );
+
+            //registra os modulos que todo jogador deve possuir
+            RegistroModule.registrarModuleJogador((Jogador)m);
 		}
 	}
 }
