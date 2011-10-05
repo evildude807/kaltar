@@ -89,59 +89,12 @@ namespace Kaltar.Classes
         }
 
 		private void adicionarSkillCap(Skills skills) {
+
+            skillsMaximoCap(skills, 0.0);
+
+            //colcoar o cap das skills de trabalho para 100
+
 			maxSkill(skills.Alchemy,100.0);
-			maxSkill(skills.Anatomy,20.0);
-			maxSkill(skills.AnimalLore,0.0);
-			maxSkill(skills.AnimalTaming,0.0);
-			maxSkill(skills.Archery,20.0);
-			maxSkill(skills.ArmsLore,100.0);
-			maxSkill(skills.Begging,0.0);
-			maxSkill(skills.Blacksmith,100.0);
-			maxSkill(skills.Camping,100.0);
-			maxSkill(skills.Carpentry,100.0);
-			maxSkill(skills.Cartography,100.0);
-			maxSkill(skills.Chivalry,0.0);
-			maxSkill(skills.Cooking,100.0);
-			maxSkill(skills.DetectHidden,20.0);
-			maxSkill(skills.Discordance,0.0);
-			maxSkill(skills.EvalInt,45.0);
-			maxSkill(skills.Fencing,20.0);
-			maxSkill(skills.Fishing,100.0);
-			maxSkill(skills.Fletching,100.0);
-			maxSkill(skills.Focus,40.0);
-			maxSkill(skills.Forensics,20.0);
-			maxSkill(skills.Healing,20.0);
-			maxSkill(skills.Herding,0.0);
-			maxSkill(skills.Hiding,0.0);
-			maxSkill(skills.Highest,0.0);
-			maxSkill(skills.Inscribe,45.0);
-			maxSkill(skills.ItemID,45.0);
-			maxSkill(skills.Lockpicking,0.0);
-			maxSkill(skills.Lumberjacking,100.0);
-			maxSkill(skills.Macing,20.0);
-			maxSkill(skills.Magery,45.0);
-			maxSkill(skills.MagicResist,45.0);
-			maxSkill(skills.Meditation,45.0);
-			maxSkill(skills.Mining,100.0);
-			maxSkill(skills.Musicianship,0.0);
-			maxSkill(skills.Necromancy,0.0);
-			maxSkill(skills.Parry,20.0);
-			maxSkill(skills.Peacemaking,0.0);
-			maxSkill(skills.Poisoning,0.0);
-			maxSkill(skills.Provocation,0.0);
-			maxSkill(skills.RemoveTrap,0.0);
-			maxSkill(skills.Snooping,0.0);
-			maxSkill(skills.SpiritSpeak,0.0);
-			maxSkill(skills.Stealing,0.0);
-			maxSkill(skills.Stealth,0.0);
-			maxSkill(skills.Swords,20.0);
-			maxSkill(skills.Tactics,35.0);
-			maxSkill(skills.Tailoring,100.0);
-			maxSkill(skills.TasteID,40.0);
-			maxSkill(skills.Tinkering,100.0);
-			maxSkill(skills.Tracking,0.0);
-			maxSkill(skills.Veterinary,0.0);
-			maxSkill(skills.Wrestling,35.0);
 		}		
 	}
 }

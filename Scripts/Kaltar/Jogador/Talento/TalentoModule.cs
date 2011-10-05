@@ -15,8 +15,6 @@ namespace Kaltar.Talentos {
             CommandSystem.Register("testetalento", AccessLevel.Player, new CommandEventHandler(testeTalento_OnCommand));
         }
 
-        [Usage("testetalento")]
-        [Description("teste.")]
         private static void testeTalento_OnCommand(CommandEventArgs e)
         {
             TalentoModule tm = (TalentoModule) CentralMemory.GetModule(e.Mobile.Serial, typeof(TalentoModule));

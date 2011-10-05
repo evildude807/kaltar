@@ -11,6 +11,8 @@ using Kaltar.Talentos;
 using Kaltar.Util;
 using Kaltar.propriedade;
 using Kaltar.aventura;
+using Kaltar.Morte;
+using Kaltar.Modulo;
 
 using Server.ACC.CM;
 
@@ -28,7 +30,9 @@ namespace Server.Mobiles {
 		private SistemaPropriedade sistemaPropriedade = null;		
 		//sistema de aventura
 		private SistemaAventura sistemaAventura = null;		
-		
+		//sistema de morte
+        private SistemaMorte sistemaMorte = null;
+
 		#endregion
 
 		#region construtores
@@ -37,13 +41,10 @@ namespace Server.Mobiles {
 			sistemaTalento = new SistemaTalento(this);
 			sistemaPropriedade = new SistemaPropriedade(this);
 			sistemaAventura = new SistemaAventura(this);
+            sistemaMorte = new SistemaMorte(this);
 
-            //modulo de talento
-            CentralMemory.AddModule(new TalentoModule(this.Serial));
+            RegistroModule.registrarModuleJogador(this);
             
-            //modulo de classe
-            CentralMemory.AddModule(new ClasseModule(this.Serial));
-
             setClasse = classe.Aldeao;
 
 			//maximo de status
@@ -93,24 +94,26 @@ namespace Server.Mobiles {
             }
             return sistemaClasse;
         }
-	
+
+        public SistemaMorte getSistemaMorte()
+        {
+            return sistemaMorte;
+        }
+
 		#endregion
 		
 		#region serialização
 		public override void Deserialize( GenericReader reader ) {
             Console.WriteLine("Deserialize jogador");
 
-            //modulo de talento
-            CentralMemory.AddModule(new TalentoModule(this.Serial));
-
-            //modulo de classe
-            CentralMemory.AddModule(new ClasseModule(this.Serial));
+            RegistroModule.registrarModuleJogador(this);
 
             sistemaTalento = new SistemaTalento(this);
             sistemaClasse = new SistemaClasse(this);
             sistemaPropriedade = new SistemaPropriedade(this);
             sistemaAventura = new SistemaAventura(this);
-
+            sistemaMorte = new SistemaMorte(this);
+            
             // a inicializacao dos sistemas devem ficar antes deste método. Pois ele invoca métodos como max hits quqe utiliza os sistemas.
 			base.Deserialize( reader );
 

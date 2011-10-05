@@ -23,7 +23,8 @@ namespace Server.Misc
 
 		public static void Initialize()
 		{
-			EventSink.Login += new LoginEventHandler( EventSink_Login );
+            //Tiago não vamos usar esse script
+			//EventSink.Login += new LoginEventHandler( EventSink_Login );
 		}
 
 		private static void EventSink_Login( LoginEventArgs e )
