@@ -18,13 +18,20 @@ namespace Kaltar.Morte {
         //marca quantas vezes ja morreu
         private int morte = 0;
 
+        //marca se esta desmaiado
+        private bool desmaiado;
+
+        //marca se esta morto
+        private bool morto;
+
         //marca o inicio do desmaio
         private DateTime inicioDesmaio;
 
         //marca o inicio da morte
         private DateTime inicioMorte;
 
-        //colocar o local marcado para voltar ao morrer.
+        //local marcado para voltar ao morrer.
+        private String localMarcado = "padrao";
                     
         #endregion
 
@@ -34,11 +41,17 @@ namespace Kaltar.Morte {
 
         #region propriedades
 
+        public String LocalMaracado { get { return localMarcado; } set { localMarcado = value; } }
+
         public int Desmaio { get { return desmaio; } set { desmaio = value; } }
 
         public int Morte { get { return morte; } set { morte = value; } }
 
         public TimerMorte TimerMorte { get { return tm; } set { tm = value; } }
+
+        public bool Desmaiado { get { return desmaiado; } set { desmaiado = value; } }
+
+        public bool Morto { get { return morto; } set { morto = value; } }
 
         public DateTime InicioDesmaio { get { return inicioDesmaio; } set { inicioDesmaio = value; } }
 
@@ -71,8 +84,11 @@ namespace Kaltar.Morte {
 
             writer.Write((int)desmaio);
             writer.Write((int)morte);
+            writer.Write(desmaiado);
+            writer.Write(morto);
             writer.Write((DateTime) inicioDesmaio);
             writer.Write((DateTime) inicioMorte);
+            writer.Write(localMarcado);
 
         }
 
@@ -83,8 +99,11 @@ namespace Kaltar.Morte {
 
             desmaio = reader.ReadInt();
             morte = reader.ReadInt();
+            desmaiado = reader.ReadBool();
+            morto = reader.ReadBool();
             inicioDesmaio = reader.ReadDateTime();
             inicioMorte = reader.ReadDateTime();
+            localMarcado = reader.ReadString();
             
         }
         #endregion
