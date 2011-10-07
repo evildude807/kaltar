@@ -40,7 +40,12 @@ namespace Server.Misc
 		 * As penalidades são comulativas de sede e fome.
 		 */
 		private static void verificarFomeSede(Mobile m) {
-			
+
+            if (!m.Alive)
+            {
+                return;
+            }
+
 			string estadoFome = null;
 			string estadoSede = null;
 			

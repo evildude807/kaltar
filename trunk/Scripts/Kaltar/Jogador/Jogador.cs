@@ -207,7 +207,8 @@ namespace Server.Mobiles {
 				adicionarEntradaDeMenu((Jogador)from, list);
 			}
 		}
-		#endregion
+
+    	#endregion
 		
 		#region Entrada do menu ao clicar no jogador
 		private void adicionarEntradaDeMenu(Jogador jogador, List<ContextMenuEntry> list) {
