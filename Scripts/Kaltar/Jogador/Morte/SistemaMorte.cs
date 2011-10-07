@@ -51,19 +51,24 @@ namespace Kaltar.Morte
         private static void EventSink_PlayerDeath(PlayerDeathEventArgs args)
         {
             Jogador jogador = (Jogador)args.Mobile;
-            Console.WriteLine("{0} acaba de desmaiar as {1}.", jogador.Name, DateTime.Now);
             MorteModule mm = jogador.getSistemaMorte().getMorteModule();
+
+            //mensagem
+            jogador.SendMessage("voce acaba de desmaiar as {0}.", DateTime.Now);
+            jogador.SendAsciiMessage("{0} acaba de desmaiar.", jogador.Name);
 
             if (mm != null)
             {
                 //marca início de desmaio
+                mm.Desmaiado = true;
                 mm.InicioDesmaio = DateTime.Now;
 
                 //manda o jogador para a sala da morte
                 jogador.getSistemaMorte().teleportarSalaDaMorte();
 
                 //inicia o timer de morte
-                mm.TimerMorte = new TimerMorte(jogador);
+                int tempoDesmaiado = (mm.Desmaio * TempoDesmaio) + 1; // para cada ponto de desmaio, fica mais tempo desmaiado
+                mm.TimerMorte = new TimerMorte(jogador, tempoDesmaiado);
                 mm.TimerMorte.Start();
             }
             else
@@ -85,14 +90,46 @@ namespace Kaltar.Morte
         */
         private void teleportarLocalDeVolta()
         {
+            //se tiver corpo, vai para o lugar do corpo
             if (jogador.Corpse != null)
             {
                 jogador.MoveToWorld(jogador.Corpse.Location, jogador.Corpse.Map);
             }
             else
             {
-                //teleportar para local padrao marcado.
+                //se nao tiver corpo, vai para o lugar marcado
+                MorteModule mm = jogador.getSistemaMorte().getMorteModule();
+                object[] resultado = getLocalizacao(mm.LocalMaracado);
+
+                jogador.MoveToWorld((Point3D)resultado[0], (Map)resultado[1]);
             }
+        }
+
+        private object[] getLocalizacao(string nomeLocal)
+        {
+            object[] local = new object[2];
+            if (nomeLocal == "padrao")
+            {
+                local[0] = new Point3D(714, 819, -90);
+                local[1] = Map.Malas;
+            }
+            else if (nomeLocal == "ouroBranco")
+            {
+                local[0] = new Point3D(714, 819, -90);
+                local[1] = Map.Malas;
+            }
+            else if (nomeLocal == "loboLeite")
+            {
+                local[0] = new Point3D(714, 819, -90);
+                local[1] = Map.Malas;
+            }
+            else
+            {
+                local[0] = new Point3D(0,0,0);
+                local[1] = Map.Malas;
+            }
+
+            return local;
         }
 
         public void onTimerMorte()
@@ -116,9 +153,11 @@ namespace Kaltar.Morte
         {
             MorteModule mm = jogador.getSistemaMorte().getMorteModule();
 
+            mm.Morto = true;
             mm.Morte++;
-            mm.Desmaio--;
             mm.InicioMorte = DateTime.Now;
+
+            mm.Desmaio = MaxDesmaio;
 
             jogador.SendMessage("Voce acaba de morrer. Seu ponto de morte é {0}", mm.Morte);
         }
@@ -126,8 +165,9 @@ namespace Kaltar.Morte
         private void voltarAVida()
         {
             MorteModule mm = jogador.getSistemaMorte().getMorteModule();
-    
-            //mm.InicioDesmaio = null;
+
+            mm.Desmaiado = false;
+            mm.InicioDesmaio = DateTime.MinValue;
                 
             teleportarLocalDeVolta();
                 
@@ -144,9 +184,9 @@ namespace Kaltar.Morte
          */ 
         private void ajustarVidaManaStamina()
         {
-            jogador.Hits = 10;
-            jogador.Stam = 10;
-            jogador.Mana = 10;
+            jogador.Hits = (int)(jogador.HitsMax * 0.10);
+            jogador.Stam = (int)(jogador.StamMax * 0.10);
+            jogador.Mana = (int)(jogador.ManaMax * 0.10);
         }
 
         #region atributos
@@ -182,8 +222,7 @@ namespace Kaltar.Morte
 
         Jogador jogador;
 
-        public TimerMorte(Jogador jogador)
-            : base(TimeSpan.FromMinutes(SistemaMorte.TempoDesmaio))
+        public TimerMorte(Jogador jogador, int tempoDesmaiado) : base(TimeSpan.FromMinutes(tempoDesmaiado))
         {
             this.jogador = jogador;
         }
