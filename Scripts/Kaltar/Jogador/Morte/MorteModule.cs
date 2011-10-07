@@ -36,7 +36,7 @@ namespace Kaltar.Morte {
         #endregion
 
         #region atributos, não serializados
-        TimerMorte tm;
+        SistemaMorte.TimerMorte tm;
         #endregion
 
         #region propriedades
@@ -47,7 +47,7 @@ namespace Kaltar.Morte {
 
         public int Morte { get { return morte; } set { morte = value; } }
 
-        public TimerMorte TimerMorte { get { return tm; } set { tm = value; } }
+        public SistemaMorte.TimerMorte TimerMorte { get { return tm; } set { tm = value; } }
 
         public bool Desmaiado { get { return desmaiado; } set { desmaiado = value; } }
 

@@ -6,12 +6,13 @@ using Server.Items;
 using Server.Mobiles;
 using Server.Network;
 using Server.Targeting;
+using Server.Spells;
 
 namespace Server.Items
 {
 	public class Bandage : Item, IDyable
 	{
-		public static int Range = ( Core.AOS ? 2 : 1 ); 
+		public static int Range = ( Core.AOS ? 1 : 1 ); 
 
 		public override double DefaultWeight
 		{
@@ -60,7 +61,11 @@ namespace Server.Items
 
 		public override void OnDoubleClick( Mobile from )
 		{
-			if ( from.InRange( GetWorldLocation(), Range ) )
+            if (from.Mounted)
+            {
+                from.SendMessage("Voce esta montando, e nao pode curar os ferimentos assim.");
+            }
+			else if ( from.InRange( GetWorldLocation(), Range ) )
 			{
 				from.RevealingAction();
 
@@ -87,6 +92,20 @@ namespace Server.Items
 			{
 				if ( m_Bandage.Deleted )
 					return;
+
+                //para tratar de um corpo caido
+                if (targeted is Corpse)
+                {
+                    Corpse corpo = (Corpse)targeted;
+                    if (corpo.Owner != null && corpo.Owner is Jogador)
+                    {
+                        targeted = corpo.Owner;
+                    }
+                    else
+                    {
+                        from.SendLocalizedMessage(500970); // Bandages can not be used on that.
+                    }
+                }
 
 				if ( targeted is Mobile )
 				{
@@ -185,13 +204,18 @@ namespace Server.Items
 
 			BaseCreature petPatient = m_Patient as BaseCreature;
 
-			if ( !m_Healer.Alive )
+            //não pode estar montado
+            if (m_Healer.Mounted)
+            {
+                m_Healer.SendMessage("Voce esta montando, e nao pode curar os ferimentos assim.");
+            }
+			else if ( !m_Healer.Alive )
 			{
 				healerNumber = 500962; // You were unable to finish your work before you died.
 				patientNumber = -1;
 				playSound = false;
 			}
-			else if ( !m_Healer.InRange( m_Patient, Bandage.Range ) )
+            else if ((!m_Healer.InRange(m_Patient, Bandage.Range) && m_Patient.Alive) || (!m_Healer.InRange(m_Patient.Corpse, Bandage.Range) && !m_Patient.Alive))
 			{
 				healerNumber = 500963; // You did not stay close enough to heal your target.
 				patientNumber = -1;
@@ -199,111 +223,11 @@ namespace Server.Items
 			}
 			else if ( !m_Patient.Alive || (petPatient != null && petPatient.IsDeadPet) )
 			{
-				double healing = m_Healer.Skills[primarySkill].Value;
-				double anatomy = m_Healer.Skills[secondarySkill].Value;
-				double chance = ((healing - 68.0) / 50.0) - (m_Slips * 0.02);
-
-				if (( (checkSkills = (healing >= 80.0 && anatomy >= 80.0)) && chance > Utility.RandomDouble() )
-				      || ( Core.SE && petPatient is Factions.FactionWarHorse && petPatient.ControlMaster == m_Healer) )	//TODO: Dbl check doesn't check for faction of the horse here?
-				{
-					if ( m_Patient.Map == null || !m_Patient.Map.CanFit( m_Patient.Location, 16, false, false ) )
-					{
-						healerNumber = 501042; // Target can not be resurrected at that location.
-						patientNumber = 502391; // Thou can not be resurrected there!
-					}
-					else if ( m_Patient.Region != null && m_Patient.Region.IsPartOf( "Khaldun" ) )
-					{
-						healerNumber = 1010395; // The veil of death in this area is too strong and resists thy efforts to restore life.
-						patientNumber = -1;
-					}
-					else
-					{
-						healerNumber = 500965; // You are able to resurrect your patient.
-						patientNumber = -1;
-
-						m_Patient.PlaySound( 0x214 );
-						m_Patient.FixedEffect( 0x376A, 10, 16 );
-
-						if ( petPatient != null && petPatient.IsDeadPet )
-						{
-							Mobile master = petPatient.ControlMaster;
-
-							if ( master != null && master.InRange( petPatient, 3 ) )
-							{
-								healerNumber = 503255; // You are able to resurrect the creature.
-
-								master.CloseGump( typeof( PetResurrectGump ) );
-								master.SendGump( new PetResurrectGump( m_Healer, petPatient ) );
-							}
-							else
-							{
-								bool found = false;
-
-								List<Mobile> friends = petPatient.Friends;
-
-								for ( int i = 0; friends != null && i < friends.Count; ++i )
-								{
-									Mobile friend = friends[i];
-
-									if ( friend.InRange( petPatient, 3 ) )
-									{
-										healerNumber = 503255; // You are able to resurrect the creature.
-
-										friend.CloseGump( typeof( PetResurrectGump ) );
-										friend.SendGump( new PetResurrectGump( m_Healer, petPatient ) );
-
-										found = true;
-										break;
-									}
-								}
-
-								if ( !found )
-									healerNumber = 1049670; // The pet's owner must be nearby to attempt resurrection.
-							}
-						}
-						else
-						{
-							m_Patient.CloseGump( typeof( ResurrectGump ) );
-							m_Patient.SendGump( new ResurrectGump( m_Patient, m_Healer ) );
-						}
-					}
-				}
-				else
-				{
-					if ( petPatient != null && petPatient.IsDeadPet )
-						healerNumber = 503256; // You fail to resurrect the creature.
-					else
-						healerNumber = 500966; // You are unable to resurrect your patient.
-
-					patientNumber = -1;
-				}
+                curarPacienteMorto(ref healerNumber, ref patientNumber, ref checkSkills, primarySkill, secondarySkill, petPatient);
 			}
 			else if ( m_Patient.Poisoned )
 			{
-				m_Healer.SendLocalizedMessage( 500969 ); // You finish applying the bandages.
-
-				double healing = m_Healer.Skills[primarySkill].Value;
-				double anatomy = m_Healer.Skills[secondarySkill].Value;
-				double chance = ((healing - 30.0) / 50.0) - (m_Patient.Poison.Level * 0.1) - (m_Slips * 0.02);
-
-				if ( (checkSkills = (healing >= 60.0 && anatomy >= 60.0)) && chance > Utility.RandomDouble() )
-				{
-					if ( m_Patient.CurePoison( m_Healer ) )
-					{
-						healerNumber = (m_Healer == m_Patient) ? -1 : 1010058; // You have cured the target of all poisons.
-						patientNumber = 1010059; // You have been cured of all poisons.
-					}
-					else
-					{
-						healerNumber = -1;
-						patientNumber = -1;
-					}
-				}
-				else
-				{
-					healerNumber = 1010060; // You have failed to cure your target!
-					patientNumber = -1;
-				}
+                curarPacienteEnvenenado(ref healerNumber, ref patientNumber, ref checkSkills, primarySkill, secondarySkill);
 			}
 			else if ( BleedAttack.IsBleeding( m_Patient ) )
 			{
@@ -325,53 +249,7 @@ namespace Server.Items
 			}
 			else
 			{
-				checkSkills = true;
-				patientNumber = -1;
-
-				double healing = m_Healer.Skills[primarySkill].Value;
-				double anatomy = m_Healer.Skills[secondarySkill].Value;
-				double chance = ((healing + 10.0) / 100.0) - (m_Slips * 0.02);
-
-				if ( chance > Utility.RandomDouble() )
-				{
-					healerNumber = 500969; // You finish applying the bandages.
-
-					double min, max;
-
-					if ( Core.AOS )
-					{
-						min = (anatomy / 8.0) + (healing / 5.0) + 4.0;
-						max = (anatomy / 6.0) + (healing / 2.5) + 4.0;
-					}
-					else
-					{
-						min = (anatomy / 5.0) + (healing / 5.0) + 3.0;
-						max = (anatomy / 5.0) + (healing / 2.0) + 10.0;
-					}
-
-					double toHeal = min + (Utility.RandomDouble() * (max - min));
-
-					if ( m_Patient.Body.IsMonster || m_Patient.Body.IsAnimal )
-						toHeal += m_Patient.HitsMax / 100;
-
-					if ( Core.AOS )
-						toHeal -= toHeal * m_Slips * 0.35; // TODO: Verify algorithm
-					else
-						toHeal -= m_Slips * 4;
-
-					if ( toHeal < 1 )
-					{
-						toHeal = 1;
-						healerNumber = 500968; // You apply the bandages, but they barely help.
-					}
-
-					m_Patient.Heal( (int) toHeal, m_Healer, false );
-				}
-				else
-				{
-					healerNumber = 500968; // You apply the bandages, but they barely help.
-					playSound = false;
-				}
+                curarPaciente(ref healerNumber, ref patientNumber, ref playSound, ref checkSkills, primarySkill, secondarySkill);
 			}
 
 			if ( healerNumber != -1 )
@@ -389,6 +267,192 @@ namespace Server.Items
 				m_Healer.CheckSkill( primarySkill, 0.0, 120.0 );
 			}
 		}
+
+        private void curarPaciente(ref int healerNumber, ref int patientNumber, ref bool playSound, ref bool checkSkills, SkillName primarySkill, SkillName secondarySkill)
+        {
+            checkSkills = true;
+            patientNumber = -1;
+
+            double healing = m_Healer.Skills[primarySkill].Value;
+            double anatomy = m_Healer.Skills[secondarySkill].Value;
+            double chance = ((healing + 10.0) / 100.0) - (m_Slips * 0.02);
+
+            if (chance > Utility.RandomDouble())
+            {
+                healerNumber = 500969; // You finish applying the bandages.
+
+                double min, max;
+
+                if (Core.AOS)
+                {
+                    min = (anatomy / 8.0) + (healing / 5.0) + 4.0;
+                    max = (anatomy / 6.0) + (healing / 2.5) + 4.0;
+                }
+                else
+                {
+                    min = (anatomy / 5.0) + (healing / 5.0) + 3.0;
+                    max = (anatomy / 5.0) + (healing / 2.0) + 10.0;
+                }
+
+                double toHeal = min + (Utility.RandomDouble() * (max - min));
+
+                if (m_Patient.Body.IsMonster || m_Patient.Body.IsAnimal)
+                    toHeal += m_Patient.HitsMax / 100;
+
+                if (Core.AOS)
+                    toHeal -= toHeal * m_Slips * 0.35; // TODO: Verify algorithm
+                else
+                    toHeal -= m_Slips * 4;
+
+                if (toHeal < 1)
+                {
+                    toHeal = 1;
+                    healerNumber = 500968; // You apply the bandages, but they barely help.
+                }
+
+                m_Patient.Heal((int)toHeal, m_Healer, false);
+            }
+            else
+            {
+                healerNumber = 500968; // You apply the bandages, but they barely help.
+                playSound = false;
+            }
+        }
+
+        private void curarPacienteEnvenenado(ref int healerNumber, ref int patientNumber, ref bool checkSkills, SkillName primarySkill, SkillName secondarySkill)
+        {
+            m_Healer.SendLocalizedMessage(500969); // You finish applying the bandages.
+
+            double healing = m_Healer.Skills[primarySkill].Value;
+            double anatomy = m_Healer.Skills[secondarySkill].Value;
+            double chance = ((healing - 30.0) / 50.0) - (m_Patient.Poison.Level * 0.1) - (m_Slips * 0.02);
+
+            if ((checkSkills = (healing >= 60.0 && anatomy >= 60.0)) && chance > Utility.RandomDouble())
+            {
+                if (m_Patient.CurePoison(m_Healer))
+                {
+                    healerNumber = (m_Healer == m_Patient) ? -1 : 1010058; // You have cured the target of all poisons.
+                    patientNumber = 1010059; // You have been cured of all poisons.
+                }
+                else
+                {
+                    healerNumber = -1;
+                    patientNumber = -1;
+                }
+            }
+            else
+            {
+                healerNumber = 1010060; // You have failed to cure your target!
+                patientNumber = -1;
+            }
+        }
+
+        private void curarPacienteMorto(ref int healerNumber, ref int patientNumber, ref bool checkSkills, SkillName primarySkill, SkillName secondarySkill, BaseCreature petPatient)
+        {
+            double healing = m_Healer.Skills[primarySkill].Value;
+            double anatomy = m_Healer.Skills[secondarySkill].Value;
+            double chance = ((healing - 68.0) / 50.0) - (m_Slips * 0.02);
+
+            #region calculo novo
+            
+            healerNumber = 500965; // You are able to resurrect your patient.
+            patientNumber = -1;
+
+            if (petPatient != null && petPatient.IsDeadPet)
+            {
+                m_Healer.SendMessage("Ainda nao esta implementado ressussitar animais.");
+            }
+            else
+            {
+                Jogador paciente = (Jogador)m_Patient;
+                paciente.getSistemaMorte().levantarDesmaiado();
+
+                paciente.PlaySound(0x214);
+                paciente.FixedEffect(0x376A, 10, 16);
+            }
+
+            #endregion
+
+            #region calculo antigo
+            /*
+            if (((checkSkills = (healing >= 80.0 && anatomy >= 80.0)) && chance > Utility.RandomDouble())
+                  || (Core.SE && petPatient is Factions.FactionWarHorse && petPatient.ControlMaster == m_Healer))	//TODO: Dbl check doesn't check for faction of the horse here?
+            {
+                if (m_Patient.Map == null || !m_Patient.Map.CanFit(m_Patient.Location, 16, false, false))
+                {
+                    healerNumber = 501042; // Target can not be resurrected at that location.
+                    patientNumber = 502391; // Thou can not be resurrected there!
+                }
+                else if (m_Patient.Region != null && m_Patient.Region.IsPartOf("Khaldun"))
+                {
+                    healerNumber = 1010395; // The veil of death in this area is too strong and resists thy efforts to restore life.
+                    patientNumber = -1;
+                }
+                else
+                {
+                    healerNumber = 500965; // You are able to resurrect your patient.
+                    patientNumber = -1;
+
+                    m_Patient.PlaySound(0x214);
+                    m_Patient.FixedEffect(0x376A, 10, 16);
+
+                    if (petPatient != null && petPatient.IsDeadPet)
+                    {
+                        Mobile master = petPatient.ControlMaster;
+
+                        if (master != null && master.InRange(petPatient, 3))
+                        {
+                            healerNumber = 503255; // You are able to resurrect the creature.
+
+                            master.CloseGump(typeof(PetResurrectGump));
+                            master.SendGump(new PetResurrectGump(m_Healer, petPatient));
+                        }
+                        else
+                        {
+                            bool found = false;
+
+                            List<Mobile> friends = petPatient.Friends;
+
+                            for (int i = 0; friends != null && i < friends.Count; ++i)
+                            {
+                                Mobile friend = friends[i];
+
+                                if (friend.InRange(petPatient, 3))
+                                {
+                                    healerNumber = 503255; // You are able to resurrect the creature.
+
+                                    friend.CloseGump(typeof(PetResurrectGump));
+                                    friend.SendGump(new PetResurrectGump(m_Healer, petPatient));
+
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                                healerNumber = 1049670; // The pet's owner must be nearby to attempt resurrection.
+                        }
+                    }
+                    else
+                    {
+                        m_Patient.CloseGump(typeof(ResurrectGump));
+                        m_Patient.SendGump(new ResurrectGump(m_Patient, m_Healer));
+                    }
+                }
+            }
+            else
+            {
+                if (petPatient != null && petPatient.IsDeadPet)
+                    healerNumber = 503256; // You fail to resurrect the creature.
+                else
+                    healerNumber = 500966; // You are unable to resurrect your patient.
+
+                patientNumber = -1;
+            }
+            */
+            #endregion
+
+        }
 
 		private class InternalTimer : Timer
 		{
@@ -408,6 +472,9 @@ namespace Server.Items
 
 		public static BandageContext BeginHeal( Mobile healer, Mobile patient )
 		{
+            //vira para quem vai curar
+            SpellHelper.Turn(healer, patient);
+
 			bool isDeadPet = ( patient is BaseCreature && ((BaseCreature)patient).IsDeadPet );
 
 			if ( patient is Golem )
@@ -475,7 +542,25 @@ namespace Server.Items
 				if ( !onSelf )
 					patient.SendLocalizedMessage( 1008078, false, healer.Name ); //  : Attempting to heal you.
 
-				healer.SendLocalizedMessage( 500956 ); // You begin applying the bandages.
+                //mensagens
+                if (patient.Alive)
+                {
+                    healer.Emote("*{0} esta tratando os ferimentos de {1}*", healer.Name, patient.Name);
+                    if ( healer.Body.Type == BodyType.Human && !healer.Mounted ) {
+    		            healer.Animate(10, 5, 1, true, false, 0 );
+                        healer.PlaySound(72);
+                    }
+                }
+                else
+                {
+                    healer.Emote("*{0} esta estancando os ferimentos de {1}*", healer.Name, patient.Name);
+                    if (healer.Body.Type == BodyType.Human && !healer.Mounted) {
+                        healer.Animate(10, 5, 4, true, false, 0);
+                        healer.PlaySound(72);
+                    }
+                }
+				
+                healer.SendLocalizedMessage( 500956 ); // You begin applying the bandages.
 				return context;
 			}
 

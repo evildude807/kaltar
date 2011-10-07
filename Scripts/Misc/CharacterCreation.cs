@@ -704,7 +704,7 @@ namespace Server.Misc
 			//CityInfo city = GetStartLocation( args, young );
 			//CityInfo city = new CityInfo( "Britain", "Sweet Dreams Inn", 1496, 1628, 10, Map.Felucca );
 
-			CityInfo city = new CityInfo( "Ouro Branco", "Estrada real", 728, 794, 1, Map.Malas );
+			CityInfo city = new CityInfo( "Ouro Branco", "Barco", 1385, 579, 32, Map.Malas );
 			
 			newChar.MoveToWorld( city.Location, city.Map );
 

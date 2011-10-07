@@ -1819,6 +1819,7 @@ namespace Server.Mobiles
 
 			base.Resurrect();
 
+            /* não queremos dar o robe dos mortos
 			if ( this.Alive && !wasAlive )
 			{
 				Item deathRobe = new DeathRobe();
@@ -1826,6 +1827,7 @@ namespace Server.Mobiles
 				if ( !EquipItem( deathRobe ) )
 					deathRobe.Delete();
 			}
+            */
 		}
 
 		public override double RacialSkillBonus
