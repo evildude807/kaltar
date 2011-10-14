@@ -32,7 +32,10 @@ namespace Kaltar.Morte {
 
         //local marcado para voltar ao morrer.
         private String localMarcado = "padrao";
-                    
+
+        //marca a data do ultimo ponto ganho
+        private DateTime dataPontoGanho;
+            
         #endregion
 
         #region atributos, não serializados
@@ -43,9 +46,9 @@ namespace Kaltar.Morte {
 
         public String LocalMaracado { get { return localMarcado; } set { localMarcado = value; } }
 
-        public int Desmaio { get { return desmaio; } set { desmaio = value; } }
+        public int Desmaio { get { return desmaio; } set { desmaio = value > 0 ? value : 0; } }
 
-        public int Morte { get { return morte; } set { morte = value; } }
+        public int Morte { get { return morte; } set { morte = value > 0 ? value : 0; } }
 
         public SistemaMorte.TimerMorte TimerMorte { get { return tm; } set { tm = value; } }
 
@@ -56,6 +59,8 @@ namespace Kaltar.Morte {
         public DateTime InicioDesmaio { get { return inicioDesmaio; } set { inicioDesmaio = value; } }
 
         public DateTime InicioMorte { get { return inicioMorte; } set { inicioMorte = value; } }
+
+        public DateTime DataPontoGanho { get { return dataPontoGanho; } set { dataPontoGanho = value; } }
 
         #endregion
 
@@ -89,6 +94,7 @@ namespace Kaltar.Morte {
             writer.Write((DateTime) inicioDesmaio);
             writer.Write((DateTime) inicioMorte);
             writer.Write(localMarcado);
+            writer.Write((DateTime)dataPontoGanho);
 
         }
 
@@ -103,6 +109,7 @@ namespace Kaltar.Morte {
             morto = reader.ReadBool();
             inicioDesmaio = reader.ReadDateTime();
             inicioMorte = reader.ReadDateTime();
+            dataPontoGanho = reader.ReadDateTime();
             localMarcado = reader.ReadString();
             
         }
