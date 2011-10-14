@@ -22,10 +22,13 @@ namespace Kaltar.Morte
 
         public static void Initialize()
         {
-               // Register our event handler
+            //quando o jogador morrer
             EventSink.PlayerDeath += new PlayerDeathEventHandler(EventSink_PlayerDeath);
 
-            CommandSystem.Register("testeMorte", AccessLevel.Player, new CommandEventHandler(testeMorte_OnCommand));
+            //quando o jogador loga
+            EventSink.Login += new LoginEventHandler(EventSink_PlayerLogingOn);
+
+            CommandSystem.Register("morte", AccessLevel.Player, new CommandEventHandler(testeMorte_OnCommand));
         }
 
         private static void testeMorte_OnCommand(CommandEventArgs e)
@@ -38,22 +41,13 @@ namespace Kaltar.Morte
             jogador.SendMessage("Voce ja desmaiou {0} vezes e morreu {1}", desmaio, morte);
         }
 
-        //local da sala da morte.
-        CityInfo localSalaDaMorte = new CityInfo("Ceu", "Sala da morte", 1385, 579, 32, Map.Malas);
-
-        //número máximo de desmaio até ganhar um ponto de morte.
-        private static int MaxDesmaio = 5;
-
-        //número de minuto para ficar desmaiado
-        private static int tempoDesmaio = 1;
-
         private static void EventSink_PlayerDeath(PlayerDeathEventArgs args)
         {
             Jogador jogador = (Jogador)args.Mobile;
             MorteModule mm = jogador.getSistemaMorte().getMorteModule();
 
             //mensagem
-            jogador.SendMessage("{0} acaba de desmaiar.", jogador.Name);
+            jogador.PublicOverheadMessage(MessageType.Regular, 1, true, jogador.Name + " acaba de desmaiar.", true);
 
             if (mm != null)
             {
@@ -74,6 +68,44 @@ namespace Kaltar.Morte
             else
             {
                 Console.WriteLine("{0} não possui o modulo de morte.", jogador.Name);
+            }
+        }
+
+        private static void EventSink_PlayerLogingOn(LoginEventArgs args)
+        {
+            Jogador jogador = (Jogador)args.Mobile;
+            MorteModule mm = jogador.getSistemaMorte().getMorteModule();
+
+            DateTime dataUltimoPontoGanho = mm.InicioDesmaio > mm.DataPontoGanho ? mm.InicioDesmaio : mm.DataPontoGanho;
+
+            //tenta recuperar ponto de morte
+            if (!mm.Morto && mm.Morte > 0 && mm.Desmaio == 0 && DateTime.Now > dataUltimoPontoGanho + TimeSpan.FromDays(tempoRecuperarDesmaio))
+            {
+                //calcula quantos pontos de desmaio ele deve ganhar
+                TimeSpan difTempoDesmaiado = DateTime.Now - dataUltimoPontoGanho;
+                double diasDesmaiado = difTempoDesmaiado.TotalDays;
+
+                int recuperar = (int)(diasDesmaiado / tempoRecuperarDesmaio);
+
+                //subtrai o desmaio e marca a nova data de desmaio para hoje.
+                mm.DataPontoGanho = DateTime.Now;
+                mm.Morte -= recuperar;
+                jogador.SendMessage("Voce acaba de recuperar {0} pontos de morte.", recuperar);
+            }
+            //se ja passou o tempo de recuperar o tempo de desmaio
+            else if (mm.Desmaio > 0 && DateTime.Now > dataUltimoPontoGanho + TimeSpan.FromDays(tempoRecuperarDesmaio))
+            {
+
+                //calcula quantos pontos de desmaio ele deve ganhar
+                TimeSpan difTempoDesmaiado = DateTime.Now - dataUltimoPontoGanho;
+                double diasDesmaiado = difTempoDesmaiado.TotalDays;
+
+                int recuperar = (int)(diasDesmaiado / tempoRecuperarDesmaio);
+
+                //subtrai o desmaio e marca a nova data de desmaio para hoje.
+                mm.DataPontoGanho = DateTime.Now;
+                mm.Desmaio -= recuperar;
+                jogador.SendMessage("Voce acaba de recuperar {0} pontos de desmaio.", recuperar);
             }
         }
 
@@ -247,10 +279,51 @@ namespace Kaltar.Morte
             tratarCorpo();
         }
 
+        /**
+         * Verifica se o jogador pode ser revivido depois da morte.
+         */ 
+        public bool podeReviver()
+        {
+            MorteModule mm = jogador.getSistemaMorte().getMorteModule();
+
+            int tempoRecuperarMorte = mm.Morte * tempoRecuperarDesmaio;
+
+            if (mm.Morto && DateTime.Now > mm.InicioMorte + TimeSpan.FromDays(tempoRecuperarMorte))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void levantarMorte()
+        {
+            MorteModule mm = jogador.getSistemaMorte().getMorteModule();
+
+            jogador.Corpse = null;
+
+            //volta a vida
+            voltarAVida();
+        }
+
         #region atributos
 
         //jogador dono dos talentos
         private Jogador jogador = null;
+
+        //local da sala da morte.
+        CityInfo localSalaDaMorte = new CityInfo("Ceu", "Sala da morte", 1385, 579, 32, Map.Malas);
+
+        //número máximo de desmaio até ganhar um ponto de morte.
+        private static int MaxDesmaio = 5;
+
+        //número de minuto para ficar desmaiado
+        private static int tempoDesmaio = 1;
+
+        //número de dias para recuperar ponto de desmaio
+        private static int tempoRecuperarDesmaio = 3;
 
         #endregion
 
@@ -295,5 +368,6 @@ namespace Kaltar.Morte
         }
 
         #endregion
+
     }
 }
