@@ -1,5 +1,6 @@
 using System;
 using Server;
+using Kaltar.Raca;
 
 namespace Server.Misc
 {
@@ -17,6 +18,15 @@ namespace Server.Misc
 
 			RegisterRace( new Human	( 0, 0 ) );
 			RegisterRace( new Elf	( 1, 1 ) );
+
+            #region kaltar racas
+
+            RegisterRace(new Humano(32, 32));
+            RegisterRace(new Elfo(33, 33));
+            RegisterRace(new MeioOrc(34, 34));
+            RegisterRace(new ElfoNegro(35, 35));
+
+            #endregion
 		}
 
 		public static void RegisterRace( Race race )

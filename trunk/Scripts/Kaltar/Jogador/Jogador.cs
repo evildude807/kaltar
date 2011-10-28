@@ -139,11 +139,11 @@ namespace Server.Mobiles {
 		}
 		 
 		public override int StamMax{
-            get { return (int)(Dex * getSistemaClasse().getClasse().MaxST); }
+            get { return (int)((Dex / 2 * getSistemaClasse().getClasse().MaxST) + 20); }
 		}
 
 		public override int ManaMax{
-            get { return (int)(Int * getSistemaClasse().getClasse().MaxMA); }
+            get { return (int)((Int / 2 * getSistemaClasse().getClasse().MaxMA) + 20); }
 		}
 		
 		public override bool AllowSkillUse( SkillName skill ) {
