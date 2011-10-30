@@ -5,7 +5,7 @@ using Server;
 
 namespace Kaltar.Raca
 {
-    class MeioOrc: Race
+    class MeioOrc : Race, IKaltarRaca
     {
         public MeioOrc(int raceID, int raceIndex)
             : base(raceID, raceIndex, "Meio-Orc", "Meio-Orcs", 400, 401, 402, 403, Expansion.None)
@@ -63,22 +63,22 @@ namespace Kaltar.Raca
 
 		public override bool ValidateFacialHair( bool female, int itemID )
 		{
-			return false;   //não tem barba tem a mascara
+            return itemID == 0;   //não tem barba, apenas a mascara.
 		}
 
 		public override int RandomFacialHair( bool female )
 		{
-            return 0;       //colocar a mascara
+            return 0;  //colocar a mascara
 		}
 
 		public override int ClipSkinHue( int hue )
 		{
-            return 2212;
+            return 0x8A4;   
 		}
 
 		public override int RandomSkinHue()
 		{
-            return Utility.Random(2212, 57) | 0x8000;
+            return Utility.Random(0x89F, 5);
 		}
 
 		public override int ClipHairHue( int hue )
@@ -91,9 +91,13 @@ namespace Kaltar.Raca
 				return hue;
 		}
 
-		public override int RandomHairHue()
-		{
-			return Utility.Random( 1102, 48 );
-		}
+        public override int RandomHairHue()
+        {
+            return Utility.Random(1102, 48);
+        }
+
+        public int MaxStr { get { return 120; } }
+        public int MaxDex { get { return 80; } }
+        public int MaxInt { get { return 80; } }
     }
 }
