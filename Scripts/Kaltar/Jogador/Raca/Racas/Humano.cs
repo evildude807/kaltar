@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Server;
+using Kaltar.Raca;
 
 namespace Kaltar.Raca
 {
-    public class Humano : Race
+    public class Humano : Race, IKaltarRaca
     {
         public Humano(int raceID, int raceIndex) : base( raceID, raceIndex, "Humano", "Humanos", 400, 401, 402, 403, Expansion.None )
 		{
@@ -101,5 +102,8 @@ namespace Kaltar.Raca
 			return Utility.Random( 1102, 48 );
 		}
 
+        public int MaxStr { get { return 100;} }
+        public int MaxDex { get { return 100;} }
+        public int MaxInt { get { return 100;} }
     }
 }

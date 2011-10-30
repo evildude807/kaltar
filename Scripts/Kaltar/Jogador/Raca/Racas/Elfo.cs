@@ -5,7 +5,7 @@ using Server;
 
 namespace Kaltar.Raca
 {
-    public class Elfo : Race
+    public class Elfo : Race, IKaltarRaca
     {
         public Elfo(int raceID, int raceIndex) : base( raceID, raceIndex, "Elfo", "Elfos", 605, 606, 607, 608, Expansion.None)
 		{
@@ -99,6 +99,9 @@ namespace Kaltar.Raca
 		{
 			return m_HairHues[Utility.Random( m_HairHues.Length )];
 		}
-        
+
+        public int MaxStr { get { return 80; } }
+        public int MaxDex { get { return 120; } }
+        public int MaxInt { get { return 100; } }
     }
 }

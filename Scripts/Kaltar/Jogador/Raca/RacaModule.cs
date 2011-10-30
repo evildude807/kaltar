@@ -16,6 +16,12 @@ namespace Kaltar.Raca
         
         #endregion
 
+        #region propriedades
+
+        public Race Raca { get { return raca; } set { raca = value; } }
+
+        #endregion
+
         #region sobrecarga
         public override string Name() { return "Raca Module"; }
 
