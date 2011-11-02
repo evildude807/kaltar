@@ -13,6 +13,7 @@ using Kaltar.propriedade;
 using Kaltar.aventura;
 using Kaltar.Morte;
 using Kaltar.Modulo;
+using Kaltar.Raca;
 
 using Server.ACC.CM;
 
@@ -32,7 +33,8 @@ namespace Server.Mobiles {
 		private SistemaAventura sistemaAventura = null;		
 		//sistema de morte
         private SistemaMorte sistemaMorte = null;
-
+        //sistema de raca
+        private SistemaRaca sistemaRaca = null;
 		#endregion
 
 		#region construtores
@@ -42,13 +44,14 @@ namespace Server.Mobiles {
 			sistemaPropriedade = new SistemaPropriedade(this);
 			sistemaAventura = new SistemaAventura(this);
             sistemaMorte = new SistemaMorte(this);
+            sistemaRaca = new SistemaRaca(this);
 
             RegistroModule.registrarModuleJogador(this);
             
             setClasse = classe.Aldeao;
 
 			//maximo de status
-			StatCap = 225;			
+            StatCap = getSistemaRaca().StatusCap;			
 			
 			inicializarAtributos();
 		}
@@ -100,6 +103,11 @@ namespace Server.Mobiles {
             return sistemaMorte;
         }
 
+        public SistemaRaca getSistemaRaca()
+        {
+            return sistemaRaca;
+        }
+
 		#endregion
 		
 		#region serialização
@@ -113,7 +121,8 @@ namespace Server.Mobiles {
             sistemaPropriedade = new SistemaPropriedade(this);
             sistemaAventura = new SistemaAventura(this);
             sistemaMorte = new SistemaMorte(this);
-            
+            sistemaRaca = new SistemaRaca(this);
+
             // a inicializacao dos sistemas devem ficar antes deste método. Pois ele invoca métodos como max hits quqe utiliza os sistemas.
 			base.Deserialize( reader );
 
@@ -163,7 +172,8 @@ namespace Server.Mobiles {
 				SendMessage( "Você não pode equipar essa armadura.");
 			}
 			
-			return pode;
+            //foi alterado para testes
+			return true;
 		}
 
 		public bool podeEquiparArma(BaseWeapon arma) {
@@ -178,13 +188,15 @@ namespace Server.Mobiles {
 			if(!pode) {
 				SendMessage( "Você não pode equipar essa arma.");
 			}
-			
-			return pode;
+
+            //foi alterado para testes
+			return true;
 		}		
 
 		#endregion
 		
 		#region sobrecarga
+
 		public override int MaxWeight { 
 			get { 
 				return 40 + (2 * this.Str);
