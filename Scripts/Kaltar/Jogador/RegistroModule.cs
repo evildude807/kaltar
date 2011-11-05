@@ -10,10 +10,11 @@ using Kaltar.aventura;
 using Kaltar.Morte;
 using Server.Mobiles;
 using Server.ACC.CM;
+using Kaltar.Raca;
 
 namespace Kaltar.Modulo
 {
-    class RegistroModule
+    public class RegistroModule
     {
         public static void registrarModuleJogador(Jogador jogador)
         {
@@ -25,6 +26,9 @@ namespace Kaltar.Modulo
 
             //modulo de morte
             CentralMemory.AddModule(new MorteModule(jogador.Serial));
+
+            //modulo de raca
+            CentralMemory.AddModule(new RacaModule(jogador.Serial));
         }
     }
 }

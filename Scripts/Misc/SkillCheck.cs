@@ -1,6 +1,7 @@
 using System;
 using Server;
 using Server.Mobiles;
+using Kaltar.Raca;
 
 namespace Server.Misc
 {
@@ -260,11 +261,14 @@ namespace Server.Misc
 					return false;
 			}
 
-			switch ( stat )
+            //Kaltar utiliza o sistema de raca para verificar o status
+            Jogador jogador = (Jogador)from;
+
+            switch ( stat )
 			{
-				case Stat.Str: return ( from.StrLock == StatLockType.Up && from.RawStr < 125 );
-				case Stat.Dex: return ( from.DexLock == StatLockType.Up && from.RawDex < 125 );
-				case Stat.Int: return ( from.IntLock == StatLockType.Up && from.RawInt < 125 );
+                case Stat.Str: return (from.StrLock == StatLockType.Up && from.RawStr < jogador.getSistemaRaca().MaxStr);
+                case Stat.Dex: return (from.DexLock == StatLockType.Up && from.RawDex < jogador.getSistemaRaca().MaxDex);
+                case Stat.Int: return (from.IntLock == StatLockType.Up && from.RawInt < jogador.getSistemaRaca().MaxInt);
 			}
 
 			return false;
@@ -324,7 +328,8 @@ namespace Server.Misc
 			}
 		}
 
-		private static TimeSpan m_StatGainDelay = TimeSpan.FromMinutes( 15.0 );
+        //Marca o minimo de tempo para ganhar status
+		private static TimeSpan m_StatGainDelay = TimeSpan.FromMinutes( 30.0 );
 
 		public static void GainStat( Mobile from, Stat stat )
 		{

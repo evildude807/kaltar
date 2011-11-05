@@ -139,7 +139,7 @@ namespace Kaltar.Talentos
 		}
 		
 		private void adicionarTalento (Talento talento) {
-			jogador.SendMessage("Você acaba de aprender o talento {0}", talento.Nome);
+			jogador.SendMessage("Voce acaba de aprender o talento {0}", talento.Nome);
 			getTalentoModule().Talentos.Add(talento.ID, talento.ID);
 		}
 		
