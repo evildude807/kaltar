@@ -109,9 +109,8 @@ namespace Kaltar.Morte {
             morto = reader.ReadBool();
             inicioDesmaio = reader.ReadDateTime();
             inicioMorte = reader.ReadDateTime();
-            dataPontoGanho = reader.ReadDateTime();
             localMarcado = reader.ReadString();
-            
+            dataPontoGanho = reader.ReadDateTime();
         }
         #endregion
     }

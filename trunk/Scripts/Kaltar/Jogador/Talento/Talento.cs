@@ -37,10 +37,12 @@ namespace Kaltar.Talentos {
 	public abstract class Talento{
 		
 		#region atributos
+
 		private string nome;
 		private string descricao;
 		private string preRequisito;
 		private IDTalento id;
+
 		#endregion
 
 		#region Propriedades

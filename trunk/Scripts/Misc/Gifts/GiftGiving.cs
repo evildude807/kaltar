@@ -49,7 +49,7 @@ namespace Server.Misc
 				if ( acct.LastLogin >= giver.Start )
 					continue; // already got one
 
-				giver.DelayGiveGift( TimeSpan.FromSeconds( 5.0 ), e.Mobile );
+				//giver.DelayGiveGift( TimeSpan.FromSeconds( 5.0 ), e.Mobile );
 			}
 
 			acct.LastLogin = now;

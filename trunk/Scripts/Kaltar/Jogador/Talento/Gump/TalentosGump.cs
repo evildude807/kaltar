@@ -9,6 +9,11 @@ namespace Kaltar.Talentos {
 
 	public class TalentosGump : Gump {
 
+        public static void Initialize()
+        {
+            CommandSystem.Register("talento", AccessLevel.Player, new CommandEventHandler(talentosJogador));
+        }
+
 		public TalentosGump(Jogador jogador): base( 0, 0 ) {
 			this.Closable=true;
 			this.Disposable=true;
@@ -34,10 +39,10 @@ namespace Kaltar.Talentos {
 		private void listarTalentos(Jogador jogador) {
 
             Dictionary<IDTalento, IDTalento> talentos = jogador.getSistemaTalento().getTalentos();
-			int y = 135;	//posio do primeito talento
+			int y = 135;	//posicao do primeito talento
 			
 			if(talentos.Count == 0) {
-				this.AddLabel(65, y, 0, @"Voc no possui nenhum talento.");
+				this.AddLabel(65, y, 0, @"Voce nao possui nenhum talento.");
 			}
 			
 			Talento talento = null;
@@ -56,11 +61,7 @@ namespace Kaltar.Talentos {
 			return jogador.getSistemaTalento().pontosDisponiveis() + "";
 		}
 
-		public static void Initialize() {
-			CommandSystem.Register( "talento", AccessLevel.Player, new CommandEventHandler( talentosJogador ) );
-		}
-
-		private static void talentosJogador( CommandEventArgs e ) {
+        private static void talentosJogador( CommandEventArgs e ) {
 			Jogador jogador = (Jogador)e.Mobile;
 			jogador.SendGump(new TalentosGump(jogador));
 		}

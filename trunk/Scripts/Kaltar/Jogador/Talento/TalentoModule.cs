@@ -72,7 +72,7 @@ namespace Kaltar.Talentos {
             base.Serialize(writer);
             writer.Write((int)0);			//verso		
 
-            Console.WriteLine( "num talentos: {0}", talentos.Count);
+            //Console.WriteLine( "num talentos: {0}", talentos.Count);
 
             writer.Write((int)pontosGastos);
 
@@ -93,7 +93,7 @@ namespace Kaltar.Talentos {
 
             int numTalentos = reader.ReadInt();
 
-            Console.WriteLine( "num talentos: {0}", numTalentos);
+            //Console.WriteLine( "num talentos: {0}", numTalentos);
 
             //recuperas os objectivos
             talentos = new Dictionary<IDTalento, IDTalento>();

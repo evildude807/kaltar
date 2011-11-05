@@ -10,6 +10,8 @@ using System.Collections;
 using Server.ACC.CM;
 using Server.Kaltar.Items;
 using Server.Commands;
+using System.Collections.Generic;
+using Kaltar.Habilidades;
 
 namespace Kaltar.Raca
 {
@@ -55,7 +57,7 @@ namespace Kaltar.Raca
 		#region métodos
 
         /**
-         * Recupera o modulo de talento
+         * Recupera o modulo de HabilidadeRacial
          */
         private RacaModule getRacaModule()
         {
@@ -135,6 +137,153 @@ namespace Kaltar.Raca
          * Retorna o total de status cap.
          */ 
         public int StatusCap { get { return 250; } }
+
+        /**
+         * Retorna a raca.
+         */ 
+        public Race getRaca()
+        {
+            return getRacaModule().Raca;
+        }
+
+        /*
+         * Adiciona o HabilidadeRacial ao jogador.
+         * É verificado se o jogador possui os pré-requisitos
+         * e já não possua o HabilidadeRacial.
+         */
+        public bool aprender(IdHabilidadeRacial IdHabilidadeRacial)
+        {
+            HabilidadeRacial habilidade = HabilidadeRacial.getHabilidadeRacial(IdHabilidadeRacial);
+
+            if (habilidade == null)
+            {
+                jogador.SendMessage("Habilidade racial não encontrado, informe os administradores.");
+                return false;
+            }
+
+            if (pontosDisponiveis() < 1)
+            {
+                jogador.SendMessage("Voce não possui pontos de habilidade racial disponiveis.");
+                return false;
+            }
+
+            if (!habilidade.PossuiPreRequisitos(jogador))
+            {
+                jogador.SendMessage("Voce não possui os pre-requisitos para aprender o habilidade racial.");
+                return false;
+            }
+
+            if (possuiHabilidadeRacial((IdHabilidadeRacial)habilidade.Id))
+            {
+                podeAumentarNivelHabilidadeRacial((IdHabilidadeRacial)habilidade.Id);
+                jogador.SendMessage("Você já possui o habilidade racial.");
+                return false;
+            }
+
+            adicionarHabilidadeRacial(habilidade);
+
+            return true;
+        }
+
+        private bool podeAumentarNivelHabilidadeRacial(IdHabilidadeRacial idHabilidadeRacial)
+        {
+            RacaModule rm = getRacaModule();
+            if (rm.Habilidades.ContainsKey(idHabilidadeRacial))
+            {
+                HabilidadeRacial habilidade = HabilidadeRacial.getHabilidadeRacial(idHabilidadeRacial);
+                HabilidadeNode node = rm.Habilidades[idHabilidadeRacial];
+
+                if (habilidade.NivelMaximo > (node.Nivel + 1))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private void adicionarHabilidadeRacial(HabilidadeRacial habilidade)
+        {
+            RacaModule rm = getRacaModule();
+
+            HabilidadeNode node = null;
+            if (rm.Habilidades.ContainsKey((IdHabilidadeRacial)habilidade.Id))
+            {
+                node = rm.Habilidades[(IdHabilidadeRacial)habilidade.Id];
+            }
+
+            if (node == null)
+            {
+                node = new HabilidadeNode((int)habilidade.Id, 1);
+                rm.Habilidades.Add((IdHabilidadeRacial)node.Id, node);
+
+                jogador.SendMessage("Voce acaba de aprender o habilidade racial {0}.", habilidade.Nome);
+            }
+            else
+            {
+                node.aumentarNivel();
+                jogador.SendMessage("Sua habilidade {0} acaba de aumentar de nivel.", habilidade.Nome);
+            }
+           
+        }
+
+        /**
+         * Verifica se o jogador já possui o HabilidadeRacial
+         */
+        public bool possuiHabilidadeRacial(IdHabilidadeRacial IdHabilidadeRacial)
+        {
+            return getRacaModule().Habilidades.ContainsKey(IdHabilidadeRacial);
+        }
+
+        /**
+         * Total de pontos que o personagem tem.
+         * a cada 30 pontos ganhos status 1 ponto e ganha. apartir de 90 pontos.
+         */
+        public int pontosTotal()
+        {
+
+            int pontos = 0;
+            int pontosIniciais = 90;
+            int fatorPonto = 30;
+
+            pontos = jogador.RawStr;
+            pontos += jogador.RawDex;
+            pontos += jogador.RawInt;
+
+            pontos -= pontosIniciais;
+            pontos = pontos / fatorPonto;
+
+            return pontos > 0 ? pontos : 0;
+        }
+
+        /**
+         * Pontos disponíveis para aprender habilidade racial.
+         */
+        public int pontosDisponiveis()
+        {
+            return pontosTotal() - pontosGastos();
+        }
+
+        /**
+         * Pontos que já foram gastos em habilidade.
+         */ 
+        public int pontosGastos()
+        {
+            int pontosGastos = 0;
+
+            List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(getHabilidades().Values);
+            foreach (HabilidadeNode node in habilidadesNode)
+            {
+                pontosGastos += node.Nivel;
+            }
+
+            return pontosGastos;
+        }
+
+        public Dictionary<IdHabilidadeRacial, HabilidadeNode> getHabilidades()
+        {
+            return getRacaModule().Habilidades;
+        }
 
         #endregion
     }

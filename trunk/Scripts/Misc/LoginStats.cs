@@ -4,9 +4,9 @@ using Server.Network;
 using Kaltar.Classes;
 using Kaltar.Talentos;
 using Kaltar.Morte;
-using Kaltar.Modulo;
 using Server.ACC.CM;
 using Server.Mobiles;
+using Kaltar.Modulo;
 
 namespace Server.Misc
 {
@@ -26,12 +26,11 @@ namespace Server.Misc
 
 			Mobile m = args.Mobile;
 
-			m.SendMessage( "Welcome, {0}! There {1} currently {2} user{3} online, with {4} item{5} and {6} mobile{7} in the world.",
+			m.SendMessage( "Bem-vindo, {0}! Existem {1} jogadores online, {2} itens e {3} contas no mundo de Kaltar.",
 				args.Mobile.Name,
-				userCount == 1 ? "is" : "are",
-				userCount, userCount == 1 ? "" : "s",
-				itemCount, itemCount == 1 ? "" : "s",
-				mobileCount, mobileCount == 1 ? "" : "s" );
+				userCount,
+				itemCount,
+				mobileCount);
 
             //registra os modulos que todo jogador deve possuir
             RegistroModule.registrarModuleJogador((Jogador)m);
