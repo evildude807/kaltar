@@ -68,6 +68,14 @@ namespace Kaltar.Raca
         }
 
         /**
+         * Recupera o número de pontos de habilidade.
+         */
+        public override string totalPontosHabilidade(Jogador jogador)
+        {
+            return jogador.getSistemaRaca().pontosDisponiveis() + "";
+        }
+
+        /**
          * Recupera o nome do tipo de habilidade. ex.: habilidade racial, talento etc.
          */
         public override string getTipoHabilidade()

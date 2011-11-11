@@ -54,7 +54,7 @@ namespace Kaltar.Habilidades
             Habilidade Habilidade = AprenderHabilidadeGump.getHabilidade(IdHabilidade);
 
             string descricao = "<u>Habilidade:</u> <b>" + Habilidade.Nome + "</b><br/>" +
-                "<u>Nível máximo:</u> " + Habilidade.NivelMaximo + "<br/>" + 
+                "<u>Nível máximo:</u> <b>" + Habilidade.NivelMaximo + "</b><br/>" + 
                 "<u>Descricao:</u> " + (Habilidade.Descricao != null ? Habilidade.Descricao : "Nenhuma descricao.") + "<br/>" +
                 "<u>Pre-requisito:</u> " + (Habilidade.PreRequisito != null ? Habilidade.PreRequisito : "Nenhum pre-requisito.");
             return descricao;
@@ -75,11 +75,11 @@ namespace Kaltar.Habilidades
                 
                 if (aprendeu)
                 {
-                    jogador.SendMessage("Você aprendeu a " + AprenderHabilidadeGump.getTipoHabilidade() + " {0}", habilidade.Nome);
+                    jogador.SendMessage("Você aprendeu a " + AprenderHabilidadeGump.getTipoHabilidade() + " \"{0}\"", habilidade.Nome);
                 }
                 else
                 {
-                    jogador.SendMessage("Você não pode aprender a " + AprenderHabilidadeGump.getTipoHabilidade() + " {0}", habilidade.Nome);
+                    jogador.SendMessage("Você não pode aprender a " + AprenderHabilidadeGump.getTipoHabilidade() + " \"{0}\"", habilidade.Nome);
                 }
             }
         }

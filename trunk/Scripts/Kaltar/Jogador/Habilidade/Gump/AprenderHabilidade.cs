@@ -31,7 +31,7 @@ namespace Kaltar.Habilidades
             this.AddLabel(82, 54, 193, @"Aprender " + getTipoHabilidade());
 			this.AddImage(32, 56, 52);
 			this.AddImage(401, 53, 51);
-			this.AddLabel(417, 67, 0, @jogador.getSistemaTalento().pontosDisponiveis() + "");
+            this.AddLabel(417, 67, 0, @totalPontosHabilidade(jogador));
             this.AddHtml(72, 93, 395, 38, @"Escolha a " + getTipoHabilidade() + " que deseja aprender.", (bool)false, (bool)false);
 			
 			listarHabilidades();
@@ -68,6 +68,8 @@ namespace Kaltar.Habilidades
             }
         }
 
+        #region metodos abstratos
+
         /**
          * Recupera a habilidade apartir do seu Id.
          */ 
@@ -79,11 +81,19 @@ namespace Kaltar.Habilidades
         public abstract bool aprenderHabilidade(Jogador jogador, int IdHabilidade);
 
         /**
+         * Recupera o número de pontos de habilidade.
+         */
+        public abstract string totalPontosHabilidade(Jogador jogador);
+
+        /**
          * Recupera o nome do tipo de habilidade. ex.: habilidade racial, talento etc.
          */ 
         public virtual string getTipoHabilidade()
         {
             return "habilidade";
         }
+
+
+        #endregion
     }
 }

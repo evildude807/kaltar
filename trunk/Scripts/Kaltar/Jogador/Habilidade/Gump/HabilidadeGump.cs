@@ -56,6 +56,8 @@ namespace Kaltar.Habilidades {
             }
 		}
 
+        #region metodos abstratos
+
         /**
          * Recupera a habilidade por seu id.
          */ 
@@ -78,5 +80,7 @@ namespace Kaltar.Habilidades {
         {
             return "Habilidades";
         }
+
+        #endregion
     }
 }

@@ -175,9 +175,11 @@ namespace Kaltar.Raca
 
             if (possuiHabilidadeRacial((IdHabilidadeRacial)habilidade.Id))
             {
-                podeAumentarNivelHabilidadeRacial((IdHabilidadeRacial)habilidade.Id);
-                jogador.SendMessage("Você já possui o habilidade racial.");
-                return false;
+                if (!podeAumentarNivelHabilidadeRacial((IdHabilidadeRacial)habilidade.Id))
+                {
+                    jogador.SendMessage("Você já possui o nível máximo nesta habilidade racial.");
+                    return false;
+                }
             }
 
             adicionarHabilidadeRacial(habilidade);
@@ -217,12 +219,12 @@ namespace Kaltar.Raca
                 node = new HabilidadeNode((int)habilidade.Id, 1);
                 rm.Habilidades.Add((IdHabilidadeRacial)node.Id, node);
 
-                jogador.SendMessage("Voce acaba de aprender o habilidade racial {0}.", habilidade.Nome);
+                jogador.SendMessage("Você acaba de aprender o habilidade racial {0}.", habilidade.Nome);
             }
             else
             {
                 node.aumentarNivel();
-                jogador.SendMessage("Sua habilidade {0} acaba de aumentar de nivel.", habilidade.Nome);
+                jogador.SendMessage("Sua habilidade {0} acaba de aumentar de nível.", habilidade.Nome);
             }
            
         }
