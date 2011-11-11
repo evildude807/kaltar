@@ -15,7 +15,7 @@ namespace Server.Misc
 		 
 		private static string CustomPath = null;
         */
-        private const string CustomPath = @"C:\Jogos\EA Games\Ultima Online Mondain's Legacy";
+        private const string CustomPath = @"D:\jogos\EA Games\Ultima Online 2D Client";
 		/* The following is a list of files which a required for proper execution:
 		 * 
 		 * Multi.idx

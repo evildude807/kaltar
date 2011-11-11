@@ -3,8 +3,9 @@ using Server;
 using Server.Mobiles;
 
 namespace Kaltar.Talentos {
-	
-	public sealed class Alerta : Talento {
+
+    public sealed class Alerta : HabilidadeTalento
+    {
 		
 		private static Alerta instance = new Alerta();
 		public static Alerta Instance {
@@ -12,14 +13,16 @@ namespace Kaltar.Talentos {
 		}		
 		
 		private Alerta() {
-			setIDTalento(IDTalento.alerta);
-			Nome = "Alerta";
-			Descricao = "O seu estado de alerta é aprimorado o que lhe permite seila oque.";
-			PreRequisitos = null;
+			id = (int)IdHabilidadeTalento.alerta;
+			nome = "Alerta";
+			descricao = "O seu estado de alerta é aprimorado o que lhe permite seila oque.";
+			preRequisito = null;
+            nivelMaximo = 1;
 		}
 		
-		public override bool possuiPreRequisitos (Jogador jogador){
-			return true;
+        public override bool PossuiPreRequisitos(Jogador jogador)
+        {
+            return false;
 		}
 	}
 }
