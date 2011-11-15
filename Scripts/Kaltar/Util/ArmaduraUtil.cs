@@ -41,8 +41,8 @@ namespace Kaltar.Util
 		public static bool temTalentoParaEquiparEscudo(Jogador jogador, BaseShield escudo) {
 
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();			
-			
-			if(isEscudoPequeno(escudo) && sistemaTalento.possuiTalento(IDTalento.escudoPequeno)) {
+			/*
+			if(isEscudoPequeno(escudo) && sistemaTalento.possuiTalento(IdHabilidadeTalento.escudoPequeno)) {
 				return true;				
 			}
 			else if(isEscudoMedio(escudo) && sistemaTalento.possuiTalento(IDTalento.escudoMedio)) {
@@ -50,7 +50,8 @@ namespace Kaltar.Util
 			}			
 			else if(isEscudoGrande(escudo) && sistemaTalento.possuiTalento(IDTalento.escudoGrande)) {
 				return true;				
-			}						
+			}
+             */
 			
 			return false;
 		}
@@ -59,6 +60,7 @@ namespace Kaltar.Util
 			
 			SistemaTalento sistemaTalento = jogador.getSistemaTalento();			
 			
+            /*
 			if(isRoupa(armadura)) {
 				return true;
 			}
@@ -71,6 +73,7 @@ namespace Kaltar.Util
 			else if(isArmaduraPesada(armadura) && sistemaTalento.possuiTalento(IDTalento.armaduraPesada)) {
 				return true;
 			}
+             */ 
 			
 			return false;
 		}

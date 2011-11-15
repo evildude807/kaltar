@@ -1,8 +1,10 @@
 using System;
 using Server;
 using Server.Mobiles;
-
+using System.Collections.Generic;
+using Kaltar.Raca;
 using Kaltar.Talentos;
+using Kaltar.Habilidades;
 
 namespace Kaltar.Util
 {
@@ -23,16 +25,36 @@ namespace Kaltar.Util
 		/**
 		 * Retorna o bônus que o jogador tem para o tipo de resistencia.
 		 */ 
-		public static int bonusResistencia(Jogador jogador, ResistanceType type) {
-			
-		 	//FIXME criar os talentos de resistencia e adicionar os bonus
-			
-			//if(type == ResistanceType.Physical) {
-			//	if(jogador.getSistemaTalento().possuiTalento(IDTalento.))
-			//}
-			
-			return 0;
+		public int bonusResistencia(Jogador jogador, ResistanceType type) {
+
+            int bonus = 0;
+
+            //habilidade racial
+            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = jogador.getSistemaRaca().getHabilidades();
+            List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.racial, type);
+
+            //habilidade talento
+            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
+            habilidadesNode = new List<HabilidadeNode>(talento.Values);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, type);
+
+            return bonus;
 		}
+
+        private int getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, ResistanceType type)
+        {
+            int bonus = 0;
+            Habilidade habilidade = null;
+
+            foreach (HabilidadeNode node in habilidadesNode)
+            {
+                habilidade = Habilidade.getHabilidade(node.Id, tipo);
+                bonus += habilidade.resistenciaBonus(node, type);
+            }
+
+            return bonus;
+        }
 		
 	}
 }

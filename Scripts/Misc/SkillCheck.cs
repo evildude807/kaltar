@@ -2,6 +2,7 @@ using System;
 using Server;
 using Server.Mobiles;
 using Kaltar.Raca;
+using Kaltar.Util;
 
 namespace Server.Misc
 {
@@ -18,7 +19,7 @@ namespace Server.Misc
 			false,// Alchemy = 0,
 			true,// Anatomy = 1,
 			true,// AnimalLore = 2,
-			true,// ItemID = 3,
+			false,// ItemID = 3, Essa skill virou a skill Machado(Axe)
 			true,// ArmsLore = 4,
 			false,// Parry = 5,
 			true,// Begging = 6,
@@ -199,7 +200,10 @@ namespace Server.Misc
 			if ( skill.SkillName == SkillName.Focus && from is BaseCreature )
 				return;
 
-			if ( skill.Base < skill.Cap && skill.Lock == SkillLock.Up )
+            //recupera o valor novo do cap, pois pode haver bonus de habilidade
+            double skillCap = SkillUtil.Instance.skillCap((Jogador)from, skill);
+
+            if (skill.Base < skillCap && skill.Lock == SkillLock.Up)
 			{
 				int toGain = 1;
 
@@ -208,7 +212,7 @@ namespace Server.Misc
 
 				Skills skills = from.Skills;
 
-				if ( from.Player && ( skills.Total / skills.Cap ) >= Utility.RandomDouble() )//( skills.Total >= skills.Cap )
+                if (from.Player && (skills.Total / skillCap) >= Utility.RandomDouble())//( skills.Total >= skills.Cap )
 				{
 					for ( int i = 0; i < skills.Length; ++i )
 					{
@@ -222,7 +226,7 @@ namespace Server.Misc
 					}
 				}
 
-				if ( !from.Player || (skills.Total + toGain) <= skills.Cap )
+                if (!from.Player || (skills.Total + toGain) <= skillCap)
 				{
 					skill.BaseFixedPoint += toGain;
 				}
