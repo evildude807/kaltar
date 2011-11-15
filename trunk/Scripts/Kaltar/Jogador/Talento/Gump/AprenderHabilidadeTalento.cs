@@ -7,26 +7,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Kaltar.Habilidades;
 
-namespace Kaltar.Raca
+namespace Kaltar.Talentos
 {
-    public class AprenderHabilidadeRacial : AprenderHabilidadeGump
+    public class AprenderHabilidadeTalento : AprenderHabilidadeGump
 	{
         public static void Initialize()
         {
-            CommandSystem.Register("aHabilidaderacial", AccessLevel.Player, new CommandEventHandler(AprenderHabilidadeRacials));
+            CommandSystem.Register("aHabilidadeTalento", AccessLevel.Player, new CommandEventHandler(AprenderHabilidadeTalentos));
         }
 
-        private static void AprenderHabilidadeRacials(CommandEventArgs e)
+        private static void AprenderHabilidadeTalentos(CommandEventArgs e)
         {
             Jogador jogador = (Jogador)e.Mobile;
 
             List<int> habilidades = new List<int>();
-            habilidades.Add((int)IdHabilidadeRacial.skillCapTrabalho);
+            habilidades.Add((int)IdHabilidadeTalento.alerta);
 
-            jogador.SendGump(new AprenderHabilidadeRacial(jogador, habilidades));
+            jogador.SendGump(new AprenderHabilidadeTalento(jogador, habilidades));
         }
 
-        public AprenderHabilidadeRacial(Jogador jogador, List<int> habilidades) : base(jogador, habilidades)
+        public AprenderHabilidadeTalento(Jogador jogador, List<int> habilidades) : base(jogador, habilidades)
         {
 
         }
@@ -38,7 +38,7 @@ namespace Kaltar.Raca
         {
             try
             {
-                return HabilidadeRacial.getHabilidadeRacial((IdHabilidadeRacial)idHabilidade);
+                return HabilidadeTalento.getHabilidadeTalento((IdHabilidadeTalento)idHabilidade);
             }
             catch(Exception e) {
                 Console.WriteLine(e.StackTrace);
@@ -55,7 +55,7 @@ namespace Kaltar.Raca
         {
             try
             {
-                return jogador.getSistemaRaca().aprender((IdHabilidadeRacial)idHabilidade);
+                return jogador.getSistemaTalento().aprender((IdHabilidadeTalento)idHabilidade);
             }
             catch (Exception e)
             {
@@ -71,15 +71,15 @@ namespace Kaltar.Raca
          */
         public override string totalPontosHabilidade(Jogador jogador)
         {
-            return jogador.getSistemaRaca().pontosDisponiveis() + "";
+            return jogador.getSistemaTalento().pontosDisponiveis() + "";
         }
 
         /**
-         * Recupera o nome do tipo de habilidade. ex.: habilidade racial, talento etc.
+         * Recupera o nome do tipo de habilidade. ex.: habilidade Talento, talento etc.
          */
         public override string getTipoHabilidade()
         {
-            return "habilidade racial";
+            return "talento";
         }
 	}
 }

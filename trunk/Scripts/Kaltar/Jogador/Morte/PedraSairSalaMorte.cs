@@ -9,30 +9,30 @@ namespace Server.Kaltar.Morte
     	[Constructable]
 		public PedraSairSalaMorte() : base( 0xED4 ) {
 			Movable = false;
-			Name = "Pedra dos mortos";		
+			Name = "Pedra dos mortos";
 		}
 
         public PedraSairSalaMorte(Serial serial)
             : base(serial)
         {
 		}
-		
-		public override void OnDoubleClick( Mobile from ) {
+
+        public override void OnDoubleClickDead(Mobile from)
+        {
             Jogador jogador = (Jogador)from;
             if (jogador.Alive)
             {
-                jogador.SendMessage("Voce esta vivo, nao pode usar esta pedra, ela e para os mortos.");
+                jogador.SendMessage("Voce esta vivo, não pode usar esta pedra, ela é para os mortos.");
             }
             else
             {
                 if (jogador.getSistemaMorte().podeReviver())
                 {
                     jogador.getSistemaMorte().levantarMorte();
-                    jogador.SendMessage("Voce acaba de voltar a vida, tome mais cuidado.");
+                    jogador.SendMessage("Você acaba de voltar a vida, tome mais cuidado.");
                 }
             }
-
-		}
+        }
 		
 		public override void Serialize( GenericWriter writer ) {
 			base.Serialize( writer );

@@ -15,20 +15,7 @@ namespace Kaltar.Talentos {
         //todos os habilidades disponíveis
         public static void Initialize()
         {
-            habilidades.Add(Alerta.Instance.ID, Alerta.Instance);
-
-            habilidades.Add(ArmaComumEspada.Instance.ID, ArmaComumEspada.Instance);
-            habilidades.Add(ArmaComumPontiaguda.Instance.ID, ArmaComumPontiaguda.Instance);
-            habilidades.Add(ArmaComumMachado.Instance.ID, ArmaComumMachado.Instance);
-            habilidades.Add(ArmaComumDistancia.Instance.ID, ArmaComumDistancia.Instance);
-            habilidades.Add(ArmaComumAmasso.Instance.ID, ArmaComumAmasso.Instance);
-
-            habilidades.Add(ArmaduraLeve.Instance.ID, ArmaduraLeve.Instance);
-            habilidades.Add(ArmaduraMedia.Instance.ID, ArmaduraMedia.Instance);
-            habilidades.Add(ArmaduraPesada.Instance.ID, ArmaduraPesada.Instance);
-
-            habilidades.Add(EscudoPequeno.Instance.ID, EscudoPequeno.Instance);
-            habilidades.Add(EscudoMedio.Instance.ID, EscudoMedio.Instance);
+            habilidades.Add(IdHabilidadeTalento.alerta, Alerta.Instance);
         }
 
         #region metodos

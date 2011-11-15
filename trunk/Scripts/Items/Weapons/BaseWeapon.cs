@@ -13,6 +13,9 @@ using Server.Engines.Craft;
 using System.Collections.Generic;
 using Server.Spells.Spellweaving;
 
+using Kaltar.Util;
+
+
 namespace Server.Items
 {
 	public interface ISlayer
@@ -721,6 +724,7 @@ namespace Server.Items
 				double swrd = m.Skills[SkillName.Swords].Value;
 				double fenc = m.Skills[SkillName.Fencing].Value;
 				double mcng = m.Skills[SkillName.Macing].Value;
+                double axe = m.Skills[SkillName.TasteID].Value; //Skill Machado
 				double val;
 
 				sk = SkillName.Swords;
@@ -728,9 +732,11 @@ namespace Server.Items
 
 				if ( fenc > val ){ sk = SkillName.Fencing; val = fenc; }
 				if ( mcng > val ){ sk = SkillName.Macing; val = mcng; }
+                if (axe > val) { sk = SkillName.TasteID; val = axe; }   //skill Machado
 			}
 			else if ( m_AosWeaponAttributes.MageWeapon != 0 )
 			{
+                //TODO Tiago, ajustar para as várias pericias de magia das classes
 				if ( m.Skills[SkillName.Magery].Value > m.Skills[Skill].Value )
 					sk = SkillName.Magery;
 				else
@@ -779,11 +785,14 @@ namespace Server.Items
 
 			if ( Core.AOS )
 			{
+                
 				if ( atkValue <= -20.0 )
 					atkValue = -19.9;
 
 				if ( defValue <= -20.0 )
 					defValue = -19.9;
+                
+                //CALCULANDO A ATAQUE ==============================
 
 				bonus += AosAttributes.GetValue( attacker, AosAttribute.AttackChance );
 
@@ -810,7 +819,14 @@ namespace Server.Items
 				if ( bonus > 45 )
 					bonus = 45;
 
+                //Bonus para jogador
+                if(attacker is Jogador) {
+                    bonus += CombateUtil.Instance.acertarBonus((Jogador)attacker, atkWeapon.Type);
+                }
+
 				ourValue = (atkValue + 20.0) * (100 + bonus);
+
+                //CALCULANDO A DEFESA ==============================
 
 				bonus = AosAttributes.GetValue( defender, AosAttribute.DefendChance );
 
@@ -839,6 +855,12 @@ namespace Server.Items
 				// Defense Chance Increase = 45%
 				if ( bonus > 45 )
 					bonus = 45;
+
+                //Bonus para jogador
+                if (defender is Jogador)
+                {
+                    bonus += CombateUtil.Instance.defenderBonus((Jogador)defender);
+                }
 
 				theirValue = (defValue + 20.0) * (100 + bonus);
 
@@ -1087,9 +1109,13 @@ namespace Server.Items
 				if ( Evasion.IsEvading( defender ) )
                     chance *= Evasion.GetParryScalar( defender );
 
+                //Kaltar, não gostei desta regra
 				// Low dexterity lowers the chance.
-				if ( defender.Dex < 80 )
-					chance = chance * (20 + defender.Dex) / 100;
+                //if ( defender.Dex < 80 )
+				//	chance = chance * (20 + defender.Dex) / 100;
+
+                //bonus para aparar. Não pode ser muito para nao desbalancear
+                chance += CombateUtil.Instance.apararBonus((Jogador)defender, shield as Item);
 
 				return defender.CheckSkill( SkillName.Parry, chance );
 			}
@@ -1118,9 +1144,15 @@ namespace Server.Items
                 if( Evasion.IsEvading( defender ) )
                     chance *= Evasion.GetParryScalar( defender );
 
+                //Kaltar, nao gostei desta regra
 				// Low dexterity lowers the chance.
-				if( defender.Dex < 80 )
-					chance = chance * (20 + defender.Dex) / 100;
+				//if( defender.Dex < 80 )
+				//	chance = chance * (20 + defender.Dex) / 100;
+
+                //bonus para aparar. Não pode ser muito para nao desbalancear
+                double bonus = CombateUtil.Instance.apararBonus((Jogador)defender, defender.Weapon as Item);
+                chance += bonus;
+                aosChance += bonus;
 
 				if ( chance > aosChance )
 					return defender.CheckSkill( SkillName.Parry, chance );
@@ -2147,8 +2179,9 @@ namespace Server.Items
 				attacker.CheckSkill( SkillName.Tactics, 0.0, attacker.Skills[SkillName.Tactics].Cap ); // Passively check tactics for gain
 				attacker.CheckSkill( SkillName.Anatomy, 0.0, attacker.Skills[SkillName.Anatomy].Cap ); // Passively check Anatomy for gain
 
-				if ( Type == WeaponType.Axe )
-					attacker.CheckSkill( SkillName.Lumberjacking, 0.0, 100.0 ); // Passively check Lumberjacking for gain
+                //Kaltar, ridiculo ganhar skill por atacar com machado
+				//if ( Type == WeaponType.Axe )
+				//	attacker.CheckSkill( SkillName.Lumberjacking, 0.0, 100.0 ); // Passively check Lumberjacking for gain
 			}
 
 			#region Physical bonuses
@@ -2159,10 +2192,16 @@ namespace Server.Items
 			double strengthBonus = GetBonus( attacker.Str,										0.300, 100.0,  5.00 );
 			double  anatomyBonus = GetBonus( attacker.Skills[SkillName.Anatomy].Value,			0.500, 100.0,  5.00 );
 			double  tacticsBonus = GetBonus( attacker.Skills[SkillName.Tactics].Value,			0.625, 100.0,  6.25 );
-			double   lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,	0.200, 100.0, 10.00 );
+			//Kaltar, lumber nao da bonus para atacar com machado
+            //double   lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,	0.200, 100.0, 10.00 );
+            
+            double habilidadeBonus = 0;
+            if(attacker is Jogador) {
+                habilidadeBonus = CombateUtil.Instance.danoBonus((Jogador)attacker);
+            }
 
-			if ( Type != WeaponType.Axe )
-				lumberBonus = 0.0;
+			//if ( Type != WeaponType.Axe )
+			//	lumberBonus = 0.0;
 			#endregion
 
 			#region Modifiers
@@ -2196,7 +2235,7 @@ namespace Server.Items
 				damageBonus = 100;
 			#endregion
 
-			double totalBonus = strengthBonus + anatomyBonus + tacticsBonus + lumberBonus + ((double)(GetDamageBonus() + damageBonus) / 100.0);
+			double totalBonus = strengthBonus + anatomyBonus + tacticsBonus + habilidadeBonus  + ((double)(GetDamageBonus() + damageBonus) / 100.0);
 
 			return damage + (int)(damage * totalBonus);
 		}

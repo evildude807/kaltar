@@ -33,6 +33,7 @@ namespace Kaltar.Util
 			//FIXME quando as armas forem criadas. elas teram as categorias corretas e
 			//será mais fácil realizar o teste
 			
+            /*
 			if(isItemComun(arma)) {
 				return true;
 			}
@@ -66,7 +67,7 @@ namespace Kaltar.Util
 			else if(isArmaMarcial(arma, CategoriaArma.distancia) && sistemaTalento.possuiTalento(IDTalento.armaMarcialDistancia)) {
 				return true;
 			}
-			
+			*/
 			return false;
 		}
 		

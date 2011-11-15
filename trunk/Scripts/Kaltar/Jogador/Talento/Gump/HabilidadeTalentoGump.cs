@@ -6,22 +6,22 @@ using Server.Commands;
 using System.Collections.Generic;
 using Kaltar.Habilidades;
 
-namespace Kaltar.Raca {
+namespace Kaltar.Talentos {
 
-    public class HabilidadeRacialGump : HabilidadeGump {
+    public class HabilidadeTalentoGump : HabilidadeGump {
 
         public static void Initialize()
         {
-            CommandSystem.Register("habilidaderacial", AccessLevel.Player, new CommandEventHandler(HabilidadeRacialsJogador));
+            CommandSystem.Register("habilidadeTalento", AccessLevel.Player, new CommandEventHandler(HabilidadeTalentosJogador));
         }
 
-        private static void HabilidadeRacialsJogador(CommandEventArgs e)
+        private static void HabilidadeTalentosJogador(CommandEventArgs e)
         {
             Jogador jogador = (Jogador)e.Mobile;
-            jogador.SendGump(new HabilidadeRacialGump(jogador));
+            jogador.SendGump(new HabilidadeTalentoGump(jogador));
         }
 
-		public HabilidadeRacialGump(Jogador jogador): base(jogador) {
+		public HabilidadeTalentoGump(Jogador jogador): base(jogador) {
 		}
 
         /**
@@ -29,7 +29,7 @@ namespace Kaltar.Raca {
          */
         public override Habilidade getHabilidade(int idHabilidade)
         {
-            return HabilidadeRacial.getHabilidadeRacial((IdHabilidadeRacial)idHabilidade);
+            return HabilidadeTalento.getHabilidadeTalento((IdHabilidadeTalento)idHabilidade);
         }
 
         /**
@@ -38,7 +38,7 @@ namespace Kaltar.Raca {
         public override List<HabilidadeNode> getHabilidades(Jogador jogador)
         {
             List<HabilidadeNode> habilidades = new List<HabilidadeNode>();
-            foreach(HabilidadeNode node in jogador.getSistemaRaca().getHabilidades().Values) {
+            foreach(HabilidadeNode node in jogador.getSistemaTalento().getHabilidades().Values) {
                 habilidades.Add(node);
             }
 
@@ -50,7 +50,7 @@ namespace Kaltar.Raca {
          */
         public override string totalPontosHabilidade(Jogador jogador)
         {
-            return jogador.getSistemaRaca().pontosDisponiveis() + "";
+            return jogador.getSistemaTalento().pontosDisponiveis() + "";
         }
 
         /**
@@ -58,7 +58,7 @@ namespace Kaltar.Raca {
          */
         public override string getTitulo()
         {
-            return "Habilidades raciais";
+            return "Talentos";
         }	
 	}
 }

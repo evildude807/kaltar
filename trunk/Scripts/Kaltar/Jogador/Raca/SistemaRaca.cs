@@ -12,6 +12,7 @@ using Server.Kaltar.Items;
 using Server.Commands;
 using System.Collections.Generic;
 using Kaltar.Habilidades;
+using Kaltar.Util;
 
 namespace Kaltar.Raca
 {
@@ -116,21 +117,30 @@ namespace Kaltar.Raca
          * Retorna o total de força.
          */
         public int MaxStr {
-            get { return ((IKaltarRaca)getRacaModule().Raca).MaxStr; } 
+            get {
+                int bonus = AtributoUtil.Instance.forcaBonus(jogador);
+                return ((IKaltarRaca)getRacaModule().Raca).MaxStr + bonus; 
+            } 
         }
 
         /**
         * Retorna o total de destreza.
         */
         public int MaxDex { 
-            get { return ((IKaltarRaca)getRacaModule().Raca).MaxDex; } 
+            get {
+                int bonus = AtributoUtil.Instance.destrezaBonus(jogador);
+                return ((IKaltarRaca)getRacaModule().Raca).MaxDex + bonus; 
+            } 
         }
 
         /**
          * Retorna o total de inteligencia.
          */
         public int MaxInt { 
-            get { return ((IKaltarRaca)getRacaModule().Raca).MaxInt; }
+            get {
+                int bonus = AtributoUtil.Instance.inteligenciaBonus(jogador);
+                return ((IKaltarRaca)getRacaModule().Raca).MaxInt + bonus; 
+            }
         }
         
         /**

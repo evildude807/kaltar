@@ -112,7 +112,6 @@ namespace Server.Mobiles {
 		
 		#region serialização
 		public override void Deserialize( GenericReader reader ) {
-            Console.WriteLine("Deserialize jogador");
 
             RegistroModule.registrarModuleJogador(this);
 
@@ -125,8 +124,6 @@ namespace Server.Mobiles {
 
             // a inicializacao dos sistemas devem ficar antes deste método. Pois ele invoca métodos como max hits quqe utiliza os sistemas.
 			base.Deserialize( reader );
-
-            Console.WriteLine("Deserialize jogador 2");
 
 			int versao = reader.ReadInt();
 
@@ -144,15 +141,24 @@ namespace Server.Mobiles {
 		#region eventos
 
 		public override int HitsMax{
-		 	get{return (int)((Str/2 * getSistemaClasse().getClasse().MaxHP) + 50);}
+		 	get{
+                int bonus = AtributoUtil.Instance.vidaBonus(this);
+                return (int)((Str / 2 * getSistemaClasse().getClasse().MaxHP) + 50) + bonus;
+            }
 		}
 		 
 		public override int StamMax{
-            get { return (int)((Dex / 2 * getSistemaClasse().getClasse().MaxST) + 20); }
+            get {
+                int bonus = AtributoUtil.Instance.folegoBonus(this);
+                return (int)((Dex / 2 * getSistemaClasse().getClasse().MaxST) + 20); 
+            }
 		}
 
 		public override int ManaMax{
-            get { return (int)((Int / 2 * getSistemaClasse().getClasse().MaxMA) + 20); }
+            get {
+                int bonus = AtributoUtil.Instance.manaBonus(this);
+                return (int)((Int / 2 * getSistemaClasse().getClasse().MaxMA) + 20); 
+            }
 		}
 		
 		public override bool AllowSkillUse( SkillName skill ) {
@@ -198,15 +204,25 @@ namespace Server.Mobiles {
 		#region sobrecarga
 
 		public override int MaxWeight { 
-			get { 
-				return 40 + (2 * this.Str);
+			get {
+                int bonus = AtributoUtil.Instance.cargaBonus(this);
+				return 40 + (2 * this.Str) + bonus;
 			}
 		}
+
+        public override int GetMinResistance(ResistanceType type)
+        {
+            int min = base.GetMaxResistance(type);
+
+            int bonus = ResistenciaUtil.Instance.bonusResistencia(this, type);
+
+            return (min + bonus);
+        }
 
 		public override int GetMaxResistance( ResistanceType type ) {
 			int max = base.GetMaxResistance( type );
 
-			int bonus = ResistenciaUtil.bonusResistencia(this, type);
+            int bonus = ResistenciaUtil.Instance.bonusResistencia(this, type);
 			
 			return (max + bonus);
 		}
@@ -228,7 +244,7 @@ namespace Server.Mobiles {
 		}
 
 		private void menuTalentoGump() {
-			SendGump(new TalentosGump(this));
+			SendGump(new HabilidadeTalentoGump(this));
 		}
 		#endregion
 		

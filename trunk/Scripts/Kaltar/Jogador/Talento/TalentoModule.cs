@@ -5,47 +5,22 @@ using Server;
 using Server.ACC.CM;
 using Server.Commands;
 using Server.Mobiles;
+using Kaltar.Habilidades;
 
 namespace Kaltar.Talentos {
 
     public class TalentoModule : Module {
 
-        public static void Initialize()
-        {
-            CommandSystem.Register("testetalento", AccessLevel.Player, new CommandEventHandler(testeTalento_OnCommand));
-        }
-
-        private static void testeTalento_OnCommand(CommandEventArgs e)
-        {
-            TalentoModule tm = (TalentoModule) CentralMemory.GetModule(e.Mobile.Serial, typeof(TalentoModule));
-            if (tm == null)
-            {
-                e.Mobile.SendMessage("Voce nao tem o Talento module.");
-                
-                CentralMemory.AddModule(new TalentoModule(e.Mobile.Serial));
-                e.Mobile.SendMessage("Foi adicionado o talento module.");
-            }
-            else
-            {
-                e.Mobile.SendMessage("Voce ja tem o talento module.");
-            }
-        }
-
         #region atributos
-        
+
         //armazena todos os talentos do jogadore
-        private Dictionary<IDTalento, IDTalento> talentos = new Dictionary<IDTalento, IDTalento>();
-        
-        //pontos gastos de talentos
-        private int pontosGastos = 0;
+        private Dictionary<IdHabilidadeTalento, HabilidadeNode> habilidades = new Dictionary<IdHabilidadeTalento, HabilidadeNode>();
 
         #endregion
 
         #region propriedades
 
-        public int PontosGastos { get { return pontosGastos; } set { pontosGastos = value; } }
-
-        public Dictionary<IDTalento, IDTalento> Talentos { get { return talentos; } }
+        public Dictionary<IdHabilidadeTalento, HabilidadeNode> Habilidades { get { return habilidades; } }
 
         #endregion
 
@@ -72,16 +47,13 @@ namespace Kaltar.Talentos {
             base.Serialize(writer);
             writer.Write((int)0);			//verso		
 
-            //Console.WriteLine( "num talentos: {0}", talentos.Count);
-
-            writer.Write((int)pontosGastos);
-
             //serializa os objetivos
-            writer.Write(talentos.Count);	// nmero de objetivos
-            foreach (IDTalento idTalento in talentos.Values)
+            writer.Write(habilidades.Count);	// numero de objetivos
+            foreach (HabilidadeNode habilidade in habilidades.Values)
             {
-                writer.Write((int)idTalento);
+                habilidade.Serialize(writer);
             }
+
         }
 
         public override void Deserialize(GenericReader reader)
@@ -89,20 +61,18 @@ namespace Kaltar.Talentos {
             base.Deserialize(reader);
             int versao = reader.ReadInt();
 
-            pontosGastos = reader.ReadInt();
-
-            int numTalentos = reader.ReadInt();
-
-            //Console.WriteLine( "num talentos: {0}", numTalentos);
-
-            //recuperas os objectivos
-            talentos = new Dictionary<IDTalento, IDTalento>();
-            for (int i = 0; i < numTalentos; i++)
+            //recuperas as habilidades
+            habilidades = new Dictionary<IdHabilidadeTalento, HabilidadeNode>();
+            int numHabilidade = reader.ReadInt();
+            for (int i = 0; i < numHabilidade; i++)
             {
-                IDTalento idTalento = (IDTalento)reader.ReadInt();
-                talentos.Add(idTalento, idTalento);
+                HabilidadeNode hn = new HabilidadeNode();
+                hn.Deserialize(reader);
+
+                habilidades.Add((IdHabilidadeTalento)hn.Id, hn);
             }
         }
+
         #endregion
     }
         
