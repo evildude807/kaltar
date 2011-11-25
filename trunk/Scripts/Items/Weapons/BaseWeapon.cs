@@ -1393,7 +1393,16 @@ namespace Server.Items
 			attacker.PlaySound( GetHitAttackSound( attacker, defender ) );
 			defender.PlaySound( GetHitDefendSound( attacker, defender ) );
 
+            //onde o dano e computado
 			int damage = ComputeDamage( attacker, defender );
+
+            //adiciona o bonus da habilidade
+            int habilidadeBonus = 0;
+            if (attacker is Jogador)
+            {
+                habilidadeBonus = CombateUtil.Instance.danoBonus((Jogador)attacker, defender);
+                damage += habilidadeBonus;
+            }
 
 			#region Damage Multipliers
 			/*
@@ -2189,17 +2198,20 @@ namespace Server.Items
 			 * These are the bonuses given by the physical characteristics of the mobile.
 			 * No caps apply.
 			 */
-			double strengthBonus = GetBonus( attacker.Str,										0.300, 100.0,  5.00 );
-			double  anatomyBonus = GetBonus( attacker.Skills[SkillName.Anatomy].Value,			0.500, 100.0,  5.00 );
-			double  tacticsBonus = GetBonus( attacker.Skills[SkillName.Tactics].Value,			0.625, 100.0,  6.25 );
-			//Kaltar, lumber nao da bonus para atacar com machado
-            //double   lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,	0.200, 100.0, 10.00 );
-            
-            double habilidadeBonus = 0;
-            if(attacker is Jogador) {
-                habilidadeBonus = CombateUtil.Instance.danoBonus((Jogador)attacker);
+
+            int valorAtributobonus = attacker.Str;
+            if (attacker is Jogador)
+            {
+                valorAtributobonus = CombateUtil.Instance.valorAtributoBonusAtaque((Jogador)attacker);
             }
 
+            double strengthBonus = GetBonus(valorAtributobonus,                                 0.300, 100.0, 5.00);
+			double  anatomyBonus = GetBonus( attacker.Skills[SkillName.Anatomy].Value,			0.500, 100.0,  5.00 );
+			double  tacticsBonus = GetBonus( attacker.Skills[SkillName.Tactics].Value,			0.625, 100.0,  6.25 );
+			
+            //Kaltar, lumber nao da bonus para atacar com machado
+            //double   lumberBonus = GetBonus( attacker.Skills[SkillName.Lumberjacking].Value,	0.200, 100.0, 10.00 );
+            
 			//if ( Type != WeaponType.Axe )
 			//	lumberBonus = 0.0;
 			#endregion
@@ -2235,7 +2247,7 @@ namespace Server.Items
 				damageBonus = 100;
 			#endregion
 
-			double totalBonus = strengthBonus + anatomyBonus + tacticsBonus + habilidadeBonus  + ((double)(GetDamageBonus() + damageBonus) / 100.0);
+			double totalBonus = strengthBonus + anatomyBonus + tacticsBonus + ((double)(GetDamageBonus() + damageBonus) / 100.0);
 
 			return damage + (int)(damage * totalBonus);
 		}

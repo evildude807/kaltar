@@ -138,8 +138,8 @@ namespace Server.Misc
 
 			if ( from is BaseCreature && ((BaseCreature)from).Controlled )
 				gc *= 2;
-
-			if ( from.Alive && ( ( gc >= Utility.RandomDouble() && AllowGain( from, skill, amObj ) ) || skill.Base < 10.0 ) )
+			
+            if ( from.Alive && ( ( gc >= Utility.RandomDouble() && AllowGain( from, skill, amObj ) ) || skill.Base < 10.0 ) )
 				Gain( from, skill );
 
 			return success;
@@ -212,7 +212,10 @@ namespace Server.Misc
 
 				Skills skills = from.Skills;
 
-                if (from.Player && (skills.Total / skillCap) >= Utility.RandomDouble())//( skills.Total >= skills.Cap )
+                //recupera o valor novo do cap das skills, pois pode haver alguma alteração
+                double skillsCap = SkillUtil.Instance.skillsCap((Jogador)from, TipoSkill.ambos);
+
+                if (from.Player && (skills.Total / skillsCap) >= Utility.RandomDouble())//( skills.Total >= skills.Cap )
 				{
 					for ( int i = 0; i < skills.Length; ++i )
 					{
@@ -226,12 +229,32 @@ namespace Server.Misc
 					}
 				}
 
-                if (!from.Player || (skills.Total + toGain) <= skillCap)
+                if (!from.Player || (skills.Total + toGain) <= skillsCap)
 				{
-					skill.BaseFixedPoint += toGain;
+                    //pode ser o cap de skill de classe ou de trabalho
+                    int skillCapTestar = 0;
+                    double totalSkill = 0;
+
+                    //recupera os valores de skill de trabalho e skill normal
+                    if (SkillUtil.eSkillTrabalho(skill))
+                    {
+                        skillCapTestar = SkillUtil.skillCapTrabalho((Jogador)from);
+                        totalSkill = SkillUtil.totalSkillTrabalho((Jogador)from);
+                    }
+                    else
+                    {
+                        skillCapTestar = SkillUtil.skillCap((Jogador)from);
+                        totalSkill = SkillUtil.totalSkill((Jogador)from);
+                    }
+
+                    if (totalSkill + toGain <= skillCapTestar)
+                    {
+                        skill.BaseFixedPoint += toGain;
+                    }
 				}
 			}
 
+            //verificacao para ganhar Atributo com o uso de skill
 			if ( skill.Lock == SkillLock.Up )
 			{
 				SkillInfo info = skill.Info;

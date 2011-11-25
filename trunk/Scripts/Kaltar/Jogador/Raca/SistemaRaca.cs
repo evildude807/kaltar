@@ -224,19 +224,24 @@ namespace Kaltar.Raca
                 node = rm.Habilidades[(IdHabilidadeRacial)habilidade.Id];
             }
 
+            bool primeiraVez = true;
             if (node == null)
             {
                 node = new HabilidadeNode((int)habilidade.Id, 1);
                 rm.Habilidades.Add((IdHabilidadeRacial)node.Id, node);
 
                 jogador.SendMessage("Você acaba de aprender o habilidade racial {0}.", habilidade.Nome);
+                primeiraVez = true;
             }
             else
             {
                 node.aumentarNivel();
                 jogador.SendMessage("Sua habilidade {0} acaba de aumentar de nível.", habilidade.Nome);
+                primeiraVez = false;
             }
-           
+
+            //faz as modificacoes necessárias da habilidade
+            habilidade.aplicar(jogador, node, primeiraVez);
         }
 
         /**

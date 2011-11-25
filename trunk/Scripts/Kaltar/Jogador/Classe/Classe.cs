@@ -47,7 +47,7 @@ namespace Kaltar.Classes
         public virtual double MaxMA { get { return 1; } }
 		public virtual bool podeUsarItem(Item item){return true;}
 		public virtual bool podeUsarSkill(SkillName skill){return true;}		
-		public virtual int skillCap(){return 300;}
+		public virtual int skillCap(){return 3000;}
 
         /*
          * Lista das skills da classe, responsável pelo calculo dos pontos.

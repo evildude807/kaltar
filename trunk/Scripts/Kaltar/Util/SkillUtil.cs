@@ -26,19 +26,29 @@ namespace Kaltar.Util
 		}
 		
 		//skill cap das skills de trabalho
-		public static double skillCapTrabalho = 150.0;
+		public static int SKILL_CAP_TRABALHO = 1500;
 		
 		/**
 		 * Maximo de pontos de skill que o jogador por ter em suas skills de classe 
 		 */
-		public static double skillCap(Jogador jogador) {
-			return jogador.getSistemaClasse().getClasse().skillCap();
+		public static int skillCap(Jogador jogador) {
+            int bonus = SkillUtil.instancia.skillsCap(jogador, TipoSkill.normal);
+			return jogador.getSistemaClasse().getClasse().skillCap() + bonus;
 		}
-		
-		public static double quantoPodeSubir(Jogador jogador, Skill skill) {
+
+        /**
+         * Maximo de pontos de skill que o jogador por ter em suas skills de classe 
+         */
+        public static int skillCapTrabalho(Jogador jogador)
+        {
+            int bonus = SkillUtil.instancia.skillsCap(jogador, TipoSkill.trabalho);
+            return SKILL_CAP_TRABALHO + bonus;
+        }
+
+		public static int quantoPodeSubir(Jogador jogador, Skill skill) {
 			
 		 	if(eSkillTrabalho(skill)) {
-		 		return skillCapTrabalho - totalSkillTrabalho(jogador);
+                return skillCapTrabalho(jogador) - totalSkillTrabalho(jogador);
 		 	}
 		 	else {
 				return skillCap(jogador) - totalSkill(jogador);
@@ -68,22 +78,22 @@ namespace Kaltar.Util
 		 	return false;
 		}
 		
-		public static double totalSkillTrabalho(Jogador jogador) {
-		 	double totalSkillTrabalho = 0;
+		public static int totalSkillTrabalho(Jogador jogador) {
+		 	int totalSkillTrabalho = 0;
 		 	Skills skills = jogador.Skills;
 		 	
 			totalSkillTrabalho = 
-				 skills.Alchemy.Base
-		 	   + skills.Blacksmith.Base 
-		 	   + skills.Fletching.Base 
-		 	   + skills.Carpentry.Base 
-		 	   + skills.Cartography.Base 
-		 	   + skills.Cooking.Base 
-		 	   + skills.Fishing.Base 
-		 	   + skills.Tailoring.Base 
-		 	   + skills.Tinkering.Base 
-		 	   + skills.Lumberjacking.Base 
-		 	   + skills.Mining.Base;
+				 skills.Alchemy.BaseFixedPoint
+               + skills.Blacksmith.BaseFixedPoint
+               + skills.Fletching.BaseFixedPoint
+               + skills.Carpentry.BaseFixedPoint
+               + skills.Cartography.BaseFixedPoint
+               + skills.Cooking.BaseFixedPoint
+               + skills.Fishing.BaseFixedPoint
+               + skills.Tailoring.BaseFixedPoint
+               + skills.Tinkering.BaseFixedPoint
+               + skills.Lumberjacking.BaseFixedPoint
+               + skills.Mining.BaseFixedPoint;
 			
 			return totalSkillTrabalho;
 		 }
@@ -100,11 +110,15 @@ namespace Kaltar.Util
 
         }
 
-		 public static double totalSkill(Jogador jogador) {
+		public static int totalSkill(Jogador jogador) {
 			//Console.WriteLine("TotalSkillUO: {0} totalSkillTrabalho: {1}",(jogador.Skills.Total/10.0),totalSkillTrabalho(jogador));
-			return (jogador.Skills.Total/10.0) - totalSkillTrabalho(jogador);
-		 }
-
+		    return (jogador.Skills.Total) - totalSkillTrabalho(jogador);
+		}
+         
+        /**
+         * Recupera o skillCap da skill informada. Procurando alguma habilidade de possa aumentar o valor.
+         * 
+         */ 
          public double skillCap(Jogador jogador, Skill skill)
          {
              double cap = skill.Cap;
@@ -137,5 +151,52 @@ namespace Kaltar.Util
              return bonus;
          }
 
+
+        /**
+         * Recupera o valor do skillCap total. 
+         */
+        public int skillsCap(Jogador jogador, TipoSkill tipoSkill)
+        {
+            int skillsCap = jogador.Skills.Cap;
+
+            //habilidade racial
+            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = jogador.getSistemaRaca().getHabilidades();
+            List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
+            int bonus = getBonus(habilidadesNode, HabilidadeTipo.racial, tipoSkill);
+
+            //habilidade talento
+            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
+            habilidadesNode = new List<HabilidadeNode>(talento.Values);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, tipoSkill);
+
+            return skillsCap + bonus;
+        }
+
+        private int getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, TipoSkill tipoSkill)
+        {
+            int bonus = 0;
+            Habilidade habilidade = null;
+
+            foreach (HabilidadeNode node in habilidadesNode)
+            {
+                habilidade = Habilidade.getHabilidade(node.Id, tipo);
+
+                if (TipoSkill.ambos.Equals(tipo) || TipoSkill.trabalho.Equals(tipoSkill))
+                {
+                    bonus += habilidade.skillsCapTrabalhoBonus(node);
+                }
+
+                if (TipoSkill.ambos.Equals(tipo) || TipoSkill.normal.Equals(tipoSkill))
+                {
+                    bonus += habilidade.skillsCapBonus(node);
+                }
+            }
+
+            return bonus;
+        }
+    }
+
+    public enum TipoSkill : int{
+        trabalho, normal, ambos
     }
 }

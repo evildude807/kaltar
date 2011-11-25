@@ -123,30 +123,32 @@ namespace Kaltar.Util
             return bonus;
         }
 
-        public double danoBonus(Jogador jogador)
+        public int danoBonus(Jogador atacante, Mobile defensor)
         {
             int bonus = 0;
-            BaseWeapon arma = jogador.Weapon as BaseWeapon;
+
+            /*
+            BaseWeapon arma = atacante.Weapon as BaseWeapon;
             WeaponType  weaponTipo = WeaponType.Fists;
             if (arma != null)
             {
                 weaponTipo = arma.Type;
-            }
+            }*/
 
             //habilidade racial
-            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = jogador.getSistemaRaca().getHabilidades();
+            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = atacante.getSistemaRaca().getHabilidades();
             List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
-            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.racial, weaponTipo);
+            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
 
             //habilidade talento
-            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
+            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.racial, weaponTipo);
+            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
 
             return bonus;            
         }
 
-        private int getDanoBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, WeaponType arma)
+        private int getDanoBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Jogador atacante, Mobile defensor)
         {
             int bonus = 0;
             Habilidade habilidade = null;
@@ -154,10 +156,40 @@ namespace Kaltar.Util
             foreach (HabilidadeNode node in habilidadesNode)
             {
                 habilidade = Habilidade.getHabilidade(node.Id, tipo);
-                bonus += habilidade.danoBonus(node, arma);
+                bonus += habilidade.danoBonus(node, atacante, defensor);
             }
 
             return bonus;
+        }
+
+        /**
+         * Retorna o valor do atributo que é utilizado para calcular o dano.
+         * Normalmente será a força, mas existe talento que pode alterar isso.
+         * 
+         */ 
+        public int valorAtributoBonusAtaque(Jogador jogador)
+        {
+            int valorAtributo = jogador.Str;
+
+            
+            
+            //TODO TIAGO, mudar o talento alerta para o talento certo
+
+
+
+
+            //procura pelo talento que altera o atributo para dar dano com dex
+            bool dex = jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta);
+
+            //se possuir, verifica se ele esta com arma pontiaguda
+            if (dex)
+            {
+                if(WeaponType.Piercing.Equals(jogador.Weapon.GetType())) {
+                    valorAtributo = jogador.Dex;
+                }
+            }
+
+            return valorAtributo;
         }
     }
 }

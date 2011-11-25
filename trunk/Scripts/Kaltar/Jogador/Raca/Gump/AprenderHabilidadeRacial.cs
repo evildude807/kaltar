@@ -21,7 +21,15 @@ namespace Kaltar.Raca
             Jogador jogador = (Jogador)e.Mobile;
 
             List<int> habilidades = new List<int>();
+            
             habilidades.Add((int)IdHabilidadeRacial.skillCapTrabalho);
+            habilidades.Add((int)IdHabilidadeRacial.resistenciaFisica);
+            habilidades.Add((int)IdHabilidadeRacial.resistenciaRaio);
+            habilidades.Add((int)IdHabilidadeRacial.mana);
+            habilidades.Add((int)IdHabilidadeRacial.capacidadeCarga);
+            habilidades.Add((int)IdHabilidadeRacial.inteligencia);
+            habilidades.Add((int)IdHabilidadeRacial.forcaDestrezaInteligencia);
+            habilidades.Add((int)IdHabilidadeRacial.longaDistancia);
 
             jogador.SendGump(new AprenderHabilidadeRacial(jogador, habilidades));
         }
