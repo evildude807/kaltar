@@ -159,7 +159,7 @@ namespace Kaltar.Habilidades {
 
         /*
          * Bonus que a habilidade da para defender com a arma e escudo. 
-         * O escudo, pode nao sei um escudo, pode ser outro item que esta na mão do defensor.
+         * O escudo, pode nao ser um escudo, pode ser outro item que esta na mão do defensor.
          */
         public virtual int defenderBonus(HabilidadeNode node, BaseWeapon arma, Item escudo)
         {
@@ -179,8 +179,26 @@ namespace Kaltar.Habilidades {
         /**
          * Bonus no dano com o tipo de arma usada
          * 
-         */ 
-        public virtual int danoBonus(HabilidadeNode node, WeaponType tipo)
+         */
+        public virtual int danoBonus(HabilidadeNode node, Jogador atacante, Mobile defensor)
+        {
+            return 0;   
+        }
+           
+        /**
+         * Bonus que a habilidade concede ao cap de skill. Normalmente toda habilidade que da bonus em um determinada skill, deve dar o mesmo bonus do Cap.
+         * 
+         */
+        public virtual int skillsCapBonus(HabilidadeNode node)
+        {
+            return 0;
+        }
+
+        /**
+         * Bonus que a habilidade concede ao cap de skill de trabalho. Normalmente toda habilidade que da bonus em um determinada skill, deve dar o mesmo bonus do Cap.
+         * 
+         */
+        public virtual int skillsCapTrabalhoBonus(HabilidadeNode node)
         {
             return 0;
         }
