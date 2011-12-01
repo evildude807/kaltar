@@ -6,25 +6,25 @@ using Kaltar.Habilidades;
 
 namespace Kaltar.Raca {
 	
-	public sealed class StatusMana : HabilidadeRacial {
+	public sealed class StatusFolego : HabilidadeRacial {
 		
-		private static StatusMana instance = new StatusMana();
-		public static StatusMana Instance {
+		private static StatusFolego instance = new StatusFolego();
+		public static StatusFolego Instance {
 			get {return instance;}
 		}
 
-        private StatusMana()
+        private StatusFolego()
         {
             id = (int)IdHabilidadeRacial.mana;
-            nome = "Mana";
-            descricao = "Você possui mais mana.";
-            preRequisito = "Raça Elfo Negro";
+            nome = "Folego";
+            descricao = "Você possui mais folego.";
+            preRequisito = "Raça Elfo";
             nivelMaximo = 2;
 		}
 
         public override bool PossuiPreRequisitos(Jogador jogador)
         {
-            return jogador.getSistemaRaca().getRaca() is ElfoNegro;
+            return jogador.getSistemaRaca().getRaca() is Elfo;
 		}
 
         private int bonus(int nivel)
@@ -44,7 +44,7 @@ namespace Kaltar.Raca {
         /*
          * Bonus que a habilidade da para a mana.
          */
-        public override int manaBonus(HabilidadeNode node)
+        public override int folegoBonus(HabilidadeNode node)
         {
             return bonus(node.Nivel);
         }            
@@ -53,7 +53,7 @@ namespace Kaltar.Raca {
         {
             int ponto = primeiraVez ? node.Nivel : node.Nivel - 1;
 
-            jogador.Mana += bonus(ponto);
+            jogador.Stam += bonus(ponto);
 
         }
 	}

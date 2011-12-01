@@ -25,7 +25,7 @@ using System.Collections;
 using Server.Enums;
 using Server.ACC.CM;
 using Server.LucidNagual;
-
+using Kaltar.Util;
 
 namespace Server.Items
 {
@@ -105,8 +105,25 @@ namespace Server.Items
 		public override WeaponAnimation DefAnimation{ get{ return WeaponAnimation.ShootXBow; } }
 		
 		public override SkillName AccuracySkill{ get{ return SkillName.Archery; } }
-		
-		public BaseRanged( int itemID ) : base( itemID )
+
+        #region kaltar Distancia
+
+        //o alcance das armas
+        public virtual int Alcance{ get{ return 1; } }
+
+        private int bonusAlcance = 0;   //armazena o bonus de alcance
+        public virtual int BonusAlcance { get { return bonusAlcance; } set { bonusAlcance = value; } }
+
+        public override int DefMaxRange { 
+            get {
+                //Console.WriteLine("alcance: {0} bonus alcance: {1}", Alcance, BonusAlcance);
+                return Alcance + BonusAlcance; 
+            } 
+        }
+
+        #endregion
+
+        public BaseRanged( int itemID ) : base( itemID )
 		{
 		}
 		
@@ -125,9 +142,10 @@ namespace Server.Items
 		public override TimeSpan OnSwing( Mobile attacker, Mobile defender )
 		{
 			WeaponAbility a = WeaponAbility.GetCurrentAbility( attacker );
-			
-			// Make sure we've been standing still for .25/.5/1 second depending on Era
-			if ( DateTime.Now > ( attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) )) || (Core.AOS && WeaponAbility.GetCurrentAbility( attacker ) is MovingShot) )
+
+            // Make sure we've been standing still for .25/.5/1 second depending on Era 
+            // Kaltar, comentado, vai ser sempre 1.0 e nao : Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) 
+			if ( DateTime.Now > ( attacker.LastMoveTime + TimeSpan.FromSeconds(1.0)) || (Core.AOS && WeaponAbility.GetCurrentAbility( attacker ) is MovingShot) )
 			{
 				bool canSwing = true;
 				
@@ -290,9 +308,31 @@ namespace Server.Items
 		{
 			m_Mobile = from;
 			
+            //Kaltar adiciona o alcance 
+            if (from is Jogador)
+            {
+                int bonus = CombateUtil.Instance.alcanceBonus((Jogador)from, (BaseWeapon)this);
+                //atribui o valor do bonus que esse jogador da
+                BonusAlcance = bonus;
+            }
+
 			return true;
 		}
-		
+
+        public override void OnRemoved(object parent)
+        {
+            base.OnRemoved(parent);
+
+            if (parent is Mobile)
+            {
+                m_Mobile = null;
+            }
+
+            //Kaltar alcance
+            BonusAlcance = 0;
+        }
+
+
 		public override bool CanEquip( Mobile from )
 		{
 			BaseRangedModule module = this.BaseRangedModule;
@@ -457,7 +497,10 @@ namespace Server.Items
 		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
-			writer.Write( (int) 2 ); // version
+			writer.Write( (int) 3 ); // version
+
+            //Kaltar, armazena o bonus para quando carregar com a arma na mao ja funcionar
+            writer.Write((int)BonusAlcance);
 		}
 		
 		public override void Deserialize( GenericReader reader )
@@ -484,6 +527,12 @@ namespace Server.Items
 				WeaponAttributes.MageWeapon = 0;
 				WeaponAttributes.UseBestSkill = 0;
 			}
+
+            if (version >= 3)
+            {
+                //Kaltar lendo o bonus de alcance
+                BonusAlcance = reader.ReadInt();
+            }
 		}
 	}
 }

@@ -1204,6 +1204,9 @@ namespace Server.Items
 
 					BaseShield shield = defender.FindItemOnLayer( Layer.TwoHanded ) as BaseShield;
 
+                    //evento quando ocorre um ataque é aparado
+                    CombateUtil.Instance.onAparar(attacker, defender);
+
 					if ( shield != null )
 					{
 						shield.OnHit( this, damage );
@@ -1361,8 +1364,11 @@ namespace Server.Items
 		}
 
 		public virtual void OnHit( Mobile attacker, Mobile defender, double damageBonus )
-		{
-			if ( MirrorImage.HasClone( defender ) && (defender.Skills.Ninjitsu.Value / 150.0) > Utility.RandomDouble() )
+        {
+
+            #region coisa de ninja, nao usaremos por agora
+
+            if ( MirrorImage.HasClone( defender ) && (defender.Skills.Ninjitsu.Value / 150.0) > Utility.RandomDouble() )
 			{
 				Clone bc;
 
@@ -1385,9 +1391,11 @@ namespace Server.Items
 						break;
 					}
 				}
-			}
+            }
 
-			PlaySwingAnimation( attacker );
+            #endregion
+
+            PlaySwingAnimation( attacker );
 			PlayHurtAnimation( defender );
 
 			attacker.PlaySound( GetHitAttackSound( attacker, defender ) );
@@ -1523,7 +1531,42 @@ namespace Server.Items
 			damage = AOS.Scale( damage, 100 + percentageBonus );
 			#endregion
 
-			if ( attacker is BaseCreature )
+            #region ataque crítico
+
+            //bonus de habilida para ataque crítico
+            int bonusChanceAtaqueCritico = 0;
+            int bonusDanoAtaqueCritico = 0;
+            if (attacker is Jogador)
+            {
+                bonusChanceAtaqueCritico = CombateUtil.Instance.chanceAtaqueCriticoBonus((Jogador)attacker, defender);
+                bonusDanoAtaqueCritico = CombateUtil.Instance.danoAtaqueCriticoBonus((Jogador)attacker, defender);
+            }
+
+            double chanceAtaqueCritico = (50.0 + bonusChanceAtaqueCritico) / 100.0;   //chance de 5% de acertar um ataque crítico
+            int porcentagemDeDanoAtaqueCritico = 25 + bonusDanoAtaqueCritico;    //25% de dano a mais no ataque crítico
+
+            //Console.WriteLine("Chance de critivo: {0} randor {1}", chanceAtaqueCritico, Utility.RandomDouble());
+
+            //teste pata verificar se foi ataque crítico
+            if (chanceAtaqueCritico > Utility.RandomDouble())
+            {
+                string msg = "Crítico!!!";  //alterar para msg de número
+                attacker.PublicOverheadMessage(MessageType.Regular, 0, false, msg);
+
+                //Console.WriteLine("Dano normal {0}", damage);
+
+                //calcula a porcentagem no dano. 
+                damage = AOS.Scale(damage, 100 + porcentagemDeDanoAtaqueCritico);
+
+                //Console.WriteLine("Dano critico {0}", damage);
+
+                //evento quando ocorre um ataque crítico
+                CombateUtil.Instance.onAtaqueCritico(attacker, defender);
+            }
+
+            #endregion 
+
+            if ( attacker is BaseCreature )
 				((BaseCreature)attacker).AlterMeleeDamageTo( defender, ref damage );
 
 			if ( defender is BaseCreature )
@@ -1550,7 +1593,9 @@ namespace Server.Items
 
 			GetDamageTypes( attacker, out phys, out fire, out cold, out pois, out nrgy );
 
-			if ( m_Consecrated )
+            #region consecrated
+
+            if ( m_Consecrated )
 			{
 				phys = defender.PhysicalResistance;
 				fire = defender.FireResistance;
@@ -1572,9 +1617,11 @@ namespace Server.Items
 				else if ( type == 2 ) cold = 100;
 				else if ( type == 3 ) pois = 100;
 				else if ( type == 4 ) nrgy = 100;
-			}
+            }
 
-			int damageGiven = damage;
+            #endregion
+
+            int damageGiven = damage;
 
 			if ( a != null && !a.OnBeforeDamage( attacker, defender ) )
 			{
@@ -1590,11 +1637,14 @@ namespace Server.Items
 
 			bool ignoreArmor = ( a is ArmorIgnore || (move != null && move.IgnoreArmor( attacker )) );
 
+            //calculo do dano pelo seu tipo e resistencia
 			damageGiven = AOS.Damage( defender, attacker, damage, ignoreArmor, phys, fire, cold, pois, nrgy );
 
 			double propertyBonus = ( move == null ) ? 1.0 : move.GetPropertyBonus( attacker );
 
-			if ( Core.AOS )
+            #region Leech Habilidades das armas de sugar coisas Hits, Mana e Stamina
+
+            if ( Core.AOS )
 			{
 				int lifeLeech = 0;
 				int stamLeech = 0;
@@ -1639,9 +1689,13 @@ namespace Server.Items
 
 				if ( lifeLeech != 0 || stamLeech != 0 || manaLeech != 0 )
 					attacker.PlaySound( 0x44D );
-			}
+            }
 
-			if ( m_MaxHits > 0 && ((MaxRange <= 1 && (defender is Slime || defender is ToxicElemental)) || Utility.Random( 25 ) == 0) ) // Stratics says 50% chance, seems more like 4%..
+            #endregion
+
+            #region defensor e slime ou toxicElemental para destruir arma
+
+            if ( m_MaxHits > 0 && ((MaxRange <= 1 && (defender is Slime || defender is ToxicElemental)) || Utility.Random( 25 ) == 0) ) // Stratics says 50% chance, seems more like 4%..
 			{
 				if ( MaxRange <= 1 && (defender is Slime || defender is ToxicElemental) )
 					attacker.LocalOverheadMessage( MessageType.Regular, 0x3B2, 500263 ); // *Acid blood scars your weapon!*
@@ -1670,7 +1724,10 @@ namespace Server.Items
 				}
 			}
 
-			if ( attacker is VampireBatFamiliar )
+            #endregion
+
+            #region se o atacando for um familiar vampiro dar HP para o mestre
+            if ( attacker is VampireBatFamiliar )
 			{
 				BaseCreature bc = (BaseCreature)attacker;
 				Mobile caster = bc.ControlMaster;
@@ -1682,9 +1739,13 @@ namespace Server.Items
 					caster.Hits += damage;
 				else
 					bc.Hits += damage;
-			}
+            }
 
-			if ( Core.AOS )
+            #endregion
+
+            #region Efeitos magicos das armas
+			
+            if ( Core.AOS )
 			{
 				int physChance = (int)(m_AosWeaponAttributes.HitPhysicalArea * propertyBonus);
 				int fireChance = (int)(m_AosWeaponAttributes.HitFireArea * propertyBonus);
@@ -1736,9 +1797,11 @@ namespace Server.Items
 
 				if ( ldChance != 0 && ldChance > Utility.Random( 100 ) )
 					DoLowerDefense( attacker, defender );
-			}
+            }
 
-			if ( attacker is BaseCreature )
+            #endregion
+
+            if ( attacker is BaseCreature )
 				((BaseCreature)attacker).OnGaveMeleeAttack( defender );
 
 			if ( defender is BaseCreature )

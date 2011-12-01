@@ -200,8 +200,13 @@ namespace Server.Misc
 			if ( skill.SkillName == SkillName.Focus && from is BaseCreature )
 				return;
 
+            double skillCap = skill.Cap;
+
             //recupera o valor novo do cap, pois pode haver bonus de habilidade
-            double skillCap = SkillUtil.Instance.skillCap((Jogador)from, skill);
+            if (from is Jogador)
+            {
+                skillCap = SkillUtil.Instance.skillCap((Jogador)from, skill);
+            }
 
             if (skill.Base < skillCap && skill.Lock == SkillLock.Up)
 			{
@@ -212,8 +217,13 @@ namespace Server.Misc
 
 				Skills skills = from.Skills;
 
+                double skillsCap = from.SkillsCap;
+
                 //recupera o valor novo do cap das skills, pois pode haver alguma alteração
-                double skillsCap = SkillUtil.Instance.skillsCap((Jogador)from, TipoSkill.ambos);
+                if (from is Jogador)
+                {
+                    skillsCap = SkillUtil.Instance.skillsCap((Jogador)from, TipoSkill.ambos);
+                }
 
                 if (from.Player && (skills.Total / skillsCap) >= Utility.RandomDouble())//( skills.Total >= skills.Cap )
 				{
@@ -231,23 +241,31 @@ namespace Server.Misc
 
                 if (!from.Player || (skills.Total + toGain) <= skillsCap)
 				{
-                    //pode ser o cap de skill de classe ou de trabalho
-                    int skillCapTestar = 0;
-                    double totalSkill = 0;
-
-                    //recupera os valores de skill de trabalho e skill normal
-                    if (SkillUtil.eSkillTrabalho(skill))
+                    //testa para jogador
+                    if (from is Jogador)
                     {
-                        skillCapTestar = SkillUtil.skillCapTrabalho((Jogador)from);
-                        totalSkill = SkillUtil.totalSkillTrabalho((Jogador)from);
+                        //pode ser o cap de skill de classe ou de trabalho
+                        int skillCapTestar = 0;
+                        double totalSkill = 0;
+
+                        //recupera os valores de skill de trabalho e skill normal
+                        if (SkillUtil.eSkillTrabalho(skill))
+                        {
+                            skillCapTestar = SkillUtil.skillCapTrabalho((Jogador)from);
+                            totalSkill = SkillUtil.totalSkillTrabalho((Jogador)from);
+                        }
+                        else
+                        {
+                            skillCapTestar = SkillUtil.skillCap((Jogador)from);
+                            totalSkill = SkillUtil.totalSkill((Jogador)from);
+                        }
+
+                        if (totalSkill + toGain <= skillCapTestar)
+                        {
+                            skill.BaseFixedPoint += toGain;
+                        }
                     }
                     else
-                    {
-                        skillCapTestar = SkillUtil.skillCap((Jogador)from);
-                        totalSkill = SkillUtil.totalSkill((Jogador)from);
-                    }
-
-                    if (totalSkill + toGain <= skillCapTestar)
                     {
                         skill.BaseFixedPoint += toGain;
                     }
@@ -288,14 +306,25 @@ namespace Server.Misc
 					return false;
 			}
 
+            int maxStr = 125;
+            int maxDex = 125;
+            int maxInt = 125;
+
             //Kaltar utiliza o sistema de raca para verificar o status
-            Jogador jogador = (Jogador)from;
+            if (from is Jogador)
+            {
+                Jogador jogador = (Jogador)from;
+
+                maxStr = jogador.getSistemaRaca().MaxStr;
+                maxDex = jogador.getSistemaRaca().MaxStr;
+                maxInt = jogador.getSistemaRaca().MaxStr;
+            }
 
             switch ( stat )
 			{
-                case Stat.Str: return (from.StrLock == StatLockType.Up && from.RawStr < jogador.getSistemaRaca().MaxStr);
-                case Stat.Dex: return (from.DexLock == StatLockType.Up && from.RawDex < jogador.getSistemaRaca().MaxDex);
-                case Stat.Int: return (from.IntLock == StatLockType.Up && from.RawInt < jogador.getSistemaRaca().MaxInt);
+                case Stat.Str: return (from.StrLock == StatLockType.Up && from.RawStr < maxStr);
+                case Stat.Dex: return (from.DexLock == StatLockType.Up && from.RawDex < maxDex);
+                case Stat.Int: return (from.IntLock == StatLockType.Up && from.RawInt < maxInt);
 			}
 
 			return false;

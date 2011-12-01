@@ -41,7 +41,9 @@ namespace Kaltar.Util
          */ 
         public int vidaBonus(Jogador jogador)
         {
-            return atributoBonus(jogador, AtributoTipo.vida);
+            int bonus = AosAttributes.GetValue(jogador, AosAttribute.BonusHits);
+            bonus += atributoBonus(jogador, AtributoTipo.vida);
+            return bonus;
         }
 
         /*
@@ -50,7 +52,9 @@ namespace Kaltar.Util
          */
         public int folegoBonus(Jogador jogador)
         {
-            return atributoBonus(jogador, AtributoTipo.folego);
+            int bonus = AosAttributes.GetValue(jogador, AosAttribute.BonusStam);
+            bonus += atributoBonus(jogador, AtributoTipo.folego);
+            return bonus;
         }
 
         /*
@@ -59,7 +63,9 @@ namespace Kaltar.Util
          */
         public int manaBonus(Jogador jogador)
         {
-            return atributoBonus(jogador, AtributoTipo.mana);
+            int bonus = AosAttributes.GetValue(jogador, AosAttribute.BonusMana);
+            bonus += atributoBonus(jogador, AtributoTipo.mana);
+            return bonus;
         }
 
         public int forcaBonus(Jogador jogador)

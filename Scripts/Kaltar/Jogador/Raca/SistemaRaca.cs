@@ -205,7 +205,7 @@ namespace Kaltar.Raca
                 HabilidadeRacial habilidade = HabilidadeRacial.getHabilidadeRacial(idHabilidadeRacial);
                 HabilidadeNode node = rm.Habilidades[idHabilidadeRacial];
 
-                if (habilidade.NivelMaximo > (node.Nivel + 1))
+                if (habilidade.NivelMaximo > node.Nivel)
                 {
                     return true;
                 }
@@ -303,5 +303,11 @@ namespace Kaltar.Raca
         }
 
         #endregion
+
+        //Teste, apenas para testar
+        public void removerTotalHabilidades()
+        {
+            getRacaModule().Habilidades.Clear();
+        }
     }
 }

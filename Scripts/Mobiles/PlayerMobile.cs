@@ -449,7 +449,16 @@ namespace Server.Mobiles
 			UpdateResistances();
 		}
 
-		public override int MaxWeight { get { return (((Core.ML && this.Race == Race.Human) ? 100 : 40) + (int)(3.5 * this.Str)); } }
+        //Foi alterado para possibilitar alterar no jogador o calculo de peso máximo carregado
+        public override int MaxWeight { get { Console.WriteLine("Opaaa entradno no maxweight"); return pesoMaximo(); } }
+
+        //calculo do peso maximo padrao
+        public virtual int pesoMaximo()
+        {
+            Console.WriteLine("Opaaa entradno no peso");
+            //(((Core.ML && this.Race == Race.Human) ? 100 : 40) + (int)(3.5 * this.Str));
+            return 0;
+        }
 
 		private int m_LastGlobalLight = -1, m_LastPersonalLight = -1;
 

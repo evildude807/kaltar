@@ -5,6 +5,7 @@ using Server.Spells;
 using Server.Spells.Necromancy;
 using Server.Spells.Ninjitsu;
 using Server.Mobiles;
+using Kaltar.Util;
 
 namespace Server.Misc
 {
@@ -73,6 +74,12 @@ namespace Server.Misc
 			if ( points < 0 )
 				points = 0;
 
+            //kaltar, bonus para gereneracao
+            if (from is Jogador)
+            {
+                points += RegeneracaoUtil.Instance.pontosDeVidaRegenBonus((Jogador) from);
+            }
+
 			if( Core.ML && from is PlayerMobile )	//does racial bonus go before/after?
 				points = Math.Min ( points, 18 );
 
@@ -84,9 +91,9 @@ namespace Server.Misc
 			if ( from.Skills == null )
 				return Mobile.DefaultStamRate;
 
-			CheckBonusSkill( from, from.Stam, from.StamMax, SkillName.Focus );
-
-			int points =(int)(from.Skills[SkillName.Focus].Value * 0.1);
+            //kaltar, Removi o teste de Focus para recuperar stamina
+			//CheckBonusSkill( from, from.Stam, from.StamMax, SkillName.Focus );
+            int points = 0; //(int)(from.Skills[SkillName.Focus].Value * 0.1);
 
 			if( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
 				points += 40;
@@ -98,6 +105,12 @@ namespace Server.Misc
 
 			if ( CheckAnimal( from, typeof( Kirin ) ) )
 				cappedPoints += 20;
+
+            //kaltar, bonus para gereneracao
+            if (from is Jogador)
+            {
+                cappedPoints += RegeneracaoUtil.Instance.folegoRegenBonus((Jogador)from);
+            }
 
 			if( Core.ML && from is PlayerMobile )
 				cappedPoints = Math.Min( cappedPoints, 24 );
@@ -123,6 +136,8 @@ namespace Server.Misc
 
 			if ( Core.AOS )
 			{
+                /*Kaltar, nao será usado o Focus e nem meditation automaticamente.
+                 * 
 				double medPoints = from.Int + (from.Skills[SkillName.Meditation].Value * 3);
 
 				medPoints *= ( from.Skills[SkillName.Meditation].Value < 100.0 ) ? 0.025 : 0.0275;
@@ -133,8 +148,9 @@ namespace Server.Misc
 
 				if ( armorPenalty > 0 )
 					medPoints = 0; // In AOS, wearing any meditation-blocking armor completely removes meditation bonus
+                */
 
-				double totalPoints = focusPoints + medPoints + (from.Meditating ? (medPoints > 13.0 ? 13.0 : medPoints) : 0.0);
+                double totalPoints = 0;//focusPoints + medPoints + (from.Meditating ? (medPoints > 13.0 ? 13.0 : medPoints) : 0.0);
 
 				if( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
 					totalPoints += 40;
@@ -145,6 +161,12 @@ namespace Server.Misc
 					cappedPoints += 3;
 				else if ( CheckTransform( from, typeof( LichFormSpell ) ) )
 					cappedPoints += 13;
+
+                //kaltar, bonus para gereneracao
+                if (from is Jogador)
+                {
+                    cappedPoints += RegeneracaoUtil.Instance.manaRegenBonus((Jogador)from);
+                }
 
 				if( Core.ML && from is PlayerMobile )
 					cappedPoints = Math.Min( cappedPoints, 18 );
