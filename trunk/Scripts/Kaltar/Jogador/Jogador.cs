@@ -140,7 +140,7 @@ namespace Server.Mobiles {
 		
 		#region eventos
 
-		public override int HitsMax{
+        public override int HitsMax{
 		 	get{
                 int bonus = AtributoUtil.Instance.vidaBonus(this);
                 return (int)((Str / 2 * getSistemaClasse().getClasse().MaxHP) + 50) + bonus;
@@ -150,14 +150,14 @@ namespace Server.Mobiles {
 		public override int StamMax{
             get {
                 int bonus = AtributoUtil.Instance.folegoBonus(this);
-                return (int)((Dex / 2 * getSistemaClasse().getClasse().MaxST) + 20); 
+                return (int)((Dex / 2 * getSistemaClasse().getClasse().MaxST) + 20) + bonus; 
             }
 		}
 
 		public override int ManaMax{
             get {
                 int bonus = AtributoUtil.Instance.manaBonus(this);
-                return (int)((Int / 2 * getSistemaClasse().getClasse().MaxMA) + 20); 
+                return (int)((Int / 2 * getSistemaClasse().getClasse().MaxMA) + 20) + bonus; 
             }
 		}
 		
@@ -203,18 +203,21 @@ namespace Server.Mobiles {
 		
 		#region sobrecarga
 
-		public override int MaxWeight { 
-			get {
-                int bonus = AtributoUtil.Instance.cargaBonus(this);
-				return 40 + (2 * this.Str) + bonus;
-			}
+		public override int pesoMaximo() { 
+            int bonus = AtributoUtil.Instance.cargaBonus(this);
+
+            //Console.WriteLine("carga bonus: {0}", bonus);
+
+			return 40 + this.Str + bonus;
 		}
 
         public override int GetMinResistance(ResistanceType type)
         {
-            int min = base.GetMaxResistance(type);
+            int min = base.GetMinResistance(type);
 
             int bonus = ResistenciaUtil.Instance.bonusResistencia(this, type);
+
+            //Console.WriteLine("resistencia min: {0} e {1}", min, bonus);
 
             return (min + bonus);
         }
@@ -223,7 +226,9 @@ namespace Server.Mobiles {
 			int max = base.GetMaxResistance( type );
 
             int bonus = ResistenciaUtil.Instance.bonusResistencia(this, type);
-			
+
+            //Console.WriteLine("resistencia max: {0} e {1}", max, bonus);
+
 			return (max + bonus);
 		}
 			

@@ -17,27 +17,27 @@ namespace Kaltar.Raca {
         {
             //humano
             habilidades.Add(IdHabilidadeRacial.skillCapTrabalho, SkillCapTrabalho.Instance);
-            habilidades.Add(IdHabilidadeRacial.vidaFolegoMana, null);
-            habilidades.Add(IdHabilidadeRacial.forcaDestrezaInteligencia, null);
-            habilidades.Add(IdHabilidadeRacial.tatica, null);
+            habilidades.Add(IdHabilidadeRacial.vidaFolegoMana, VidaFolegoMana.Instance);
+            habilidades.Add(IdHabilidadeRacial.forcaDestrezaInteligencia, ForcaDestrezaInteligencia.Instance);
+            habilidades.Add(IdHabilidadeRacial.tatica, PericiaTatica.Instance);
 
             //elfo
-            habilidades.Add(IdHabilidadeRacial.folego, null);
-            habilidades.Add(IdHabilidadeRacial.esconder, null);
-            habilidades.Add(IdHabilidadeRacial.longaDistancia, null);
-            habilidades.Add(IdHabilidadeRacial.destreza, null);
-            habilidades.Add(IdHabilidadeRacial.resistenciaVeneno, null);
+            habilidades.Add(IdHabilidadeRacial.folego, StatusFolego.Instance);
+            habilidades.Add(IdHabilidadeRacial.esconder, PericiaEsconder.Instance);
+            habilidades.Add(IdHabilidadeRacial.longaDistancia, PericiaArquearia.Instance);
+            habilidades.Add(IdHabilidadeRacial.destreza, StatusDestreza.Instance);
+            habilidades.Add(IdHabilidadeRacial.resistenciaVeneno, ResistenciaVeneno.Instance);
 
             //Meio-orc
-            habilidades.Add(IdHabilidadeRacial.capacidadeCarga, null);
-            habilidades.Add(IdHabilidadeRacial.forca, null);
-            habilidades.Add(IdHabilidadeRacial.resistenciaFisica, null);
-            habilidades.Add(IdHabilidadeRacial.resistenciaFrio, null);
+            habilidades.Add(IdHabilidadeRacial.capacidadeCarga, CapacidadeCarga.Instance);
+            habilidades.Add(IdHabilidadeRacial.forca, StatusForca.Instance);
+            habilidades.Add(IdHabilidadeRacial.resistenciaFisica, ResistenciaFisica.Instance);
+            habilidades.Add(IdHabilidadeRacial.resistenciaFrio, ResistenciaFrio.Instance);
     
             //Elfo negro
-            habilidades.Add(IdHabilidadeRacial.resistenciaRaio, null);
-            habilidades.Add(IdHabilidadeRacial.mana, null);
-            habilidades.Add(IdHabilidadeRacial.inteligencia, null);
+            habilidades.Add(IdHabilidadeRacial.resistenciaRaio, ResistenciaRaio.Instance);
+            habilidades.Add(IdHabilidadeRacial.mana, StatusMana.Instance);
+            habilidades.Add(IdHabilidadeRacial.inteligencia, StatusInteligencia.Instance);
             //esconder que esta no elfo
         }
 

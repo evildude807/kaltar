@@ -191,5 +191,106 @@ namespace Kaltar.Util
 
             return valorAtributo;
         }
+
+        /**
+         * Bonus na chance do ataque crítico. Valor em %. exemplo 10 para 10% a mais na chance, que já é de 5%.
+         */
+        public int chanceAtaqueCriticoBonus(Jogador atacante, Mobile defensor)
+        {
+            int bonus = 0;
+
+            //habilidade racial
+            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = atacante.getSistemaRaca().getHabilidades();
+            List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
+            bonus += getChanceAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+
+            //habilidade talento
+            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
+            habilidadesNode = new List<HabilidadeNode>(talento.Values);
+            bonus += getChanceAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+
+            return bonus;            
+        }
+
+        private int getChanceAtaqueCriticoBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Jogador atacante, Mobile defensor)
+        {
+            int bonus = 0;
+            Habilidade habilidade = null;
+
+            foreach (HabilidadeNode node in habilidadesNode)
+            {
+                habilidade = Habilidade.getHabilidade(node.Id, tipo);
+                bonus += habilidade.chanceAtaqueCriticoBonus(node, atacante, defensor);
+            }
+
+            return bonus;
+        }
+
+        /**
+         * Bonus no dano do ataqueCritico. Valor em %. exemplo 10 para 10% no dano crítico, que já é de 25% a mais no dano.
+         */
+        public int danoAtaqueCriticoBonus(Jogador atacante, Mobile defensor)
+        {
+            int bonus = 0;
+
+            //habilidade racial
+            Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = atacante.getSistemaRaca().getHabilidades();
+            List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
+            bonus += getDanoAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+
+            //habilidade talento
+            Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
+            habilidadesNode = new List<HabilidadeNode>(talento.Values);
+            bonus += getDanoAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+
+            return bonus;    
+        }
+
+        private int getDanoAtaqueCriticoBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Jogador atacante, Mobile defensor)
+        {
+            int bonus = 0;
+            Habilidade habilidade = null;
+
+            foreach (HabilidadeNode node in habilidadesNode)
+            {
+                habilidade = Habilidade.getHabilidade(node.Id, tipo);
+                bonus += habilidade.danoAtaqueCriticoBonus(node, atacante, defensor);
+            }
+
+            return bonus;
+        }
+
+        /**
+         * Evento que ocorre quando um ataque crítico ocorre.
+         */ 
+        public void onAtaqueCritico(Mobile attacker, Mobile defender)
+        {
+            
+        }
+
+        /**
+         * Evento que ocorre quando um ataque e aparado.
+         */ 
+        public void onAparar(Mobile attacker, Mobile defender)
+        {
+    
+        }
+
+        /**
+         * Evento que ocorre quando um arco é equipado. Mesmo que seja um BaseWeapon, ainda nao fiz para as
+         * demais armas.
+         */ 
+        public int alcanceBonus(Jogador jogador, BaseWeapon arma)
+        {
+            int bonus = 0;
+
+            //Tiago, trocar pelo nome da habilidade correta
+            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta))
+            {
+                bonus += 2;
+            }
+
+            return bonus;
+        }
     }
 }

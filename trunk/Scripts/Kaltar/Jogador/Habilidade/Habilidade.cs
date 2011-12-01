@@ -203,6 +203,22 @@ namespace Kaltar.Habilidades {
             return 0;
         }
 
+        /**
+         * Bonus na chance do ataque crítico. Valor em %. exemplo 10 para 10% a mais na chance, que já é de 5%.
+         */
+        public virtual int chanceAtaqueCriticoBonus(HabilidadeNode node, Jogador atacante, Mobile defensor)
+        {
+            return 0;
+        }
+
+        /**
+         * Bonus no dano do ataqueCritico. Valor em %. exemplo 10 para 10% no dano crítico, que já é de 25% a mais no dano.
+         */
+        public virtual int danoAtaqueCriticoBonus(HabilidadeNode node, Jogador atacante, Mobile defensor)
+        {
+            return 0;
+        }
+
         #endregion
     }
 }

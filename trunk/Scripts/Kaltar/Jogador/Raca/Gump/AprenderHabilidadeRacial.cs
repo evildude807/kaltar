@@ -14,6 +14,16 @@ namespace Kaltar.Raca
         public static void Initialize()
         {
             CommandSystem.Register("aHabilidaderacial", AccessLevel.Player, new CommandEventHandler(AprenderHabilidadeRacials));
+            CommandSystem.Register("rHabilidaderacial", AccessLevel.Player, new CommandEventHandler(RemoverHabilidadeRacials));
+        }
+
+        private static void RemoverHabilidadeRacials(CommandEventArgs e)
+        {
+            Jogador jogador = (Jogador)e.Mobile;
+
+            jogador.getSistemaRaca().removerTotalHabilidades();
+
+            jogador.UpdateResistances();
         }
 
         private static void AprenderHabilidadeRacials(CommandEventArgs e)

@@ -461,7 +461,7 @@ namespace Server.Gumps
 
 		private static SkillsGumpGroup[] m_Groups = new SkillsGumpGroup[]
 			{
-				new SkillsGumpGroup( "Crafting", new SkillName[]
+				new SkillsGumpGroup( "Trabalho", new SkillName[]
 				{
 					SkillName.Alchemy,
 					SkillName.Blacksmith,
@@ -471,16 +471,19 @@ namespace Server.Gumps
 					SkillName.Fletching,
 					SkillName.Inscribe,
 					SkillName.Tailoring,
-					SkillName.Tinkering
+					SkillName.Tinkering,
+  					SkillName.Lumberjacking,
+					SkillName.Mining
+
 				} ),
-				new SkillsGumpGroup( "Bardic", new SkillName[]
+				new SkillsGumpGroup( "Bardo", new SkillName[]
 				{
 					SkillName.Discordance,
 					SkillName.Musicianship,
 					SkillName.Peacemaking,
 					SkillName.Provocation
 				} ),
-				new SkillsGumpGroup( "Magical", new SkillName[]
+				new SkillsGumpGroup( "Magicas", new SkillName[]
 				{
 					SkillName.Chivalry,
 					SkillName.EvalInt,
@@ -493,7 +496,7 @@ namespace Server.Gumps
 					SkillName.Bushido,
 					SkillName.Spellweaving
 				} ),
-				new SkillsGumpGroup( "Miscellaneous", new SkillName[]
+				new SkillsGumpGroup( "Diversos", new SkillName[]
 				{
 					SkillName.Camping,
 					SkillName.Fishing,
@@ -501,22 +504,21 @@ namespace Server.Gumps
 					SkillName.Healing,
 					SkillName.Herding,
 					SkillName.Lockpicking,
-					SkillName.Lumberjacking,
-					SkillName.Mining,
 					SkillName.Snooping,
 					SkillName.Veterinary
 				} ),
-				new SkillsGumpGroup( "Combat Ratings", new SkillName[]
+				new SkillsGumpGroup( "Combate", new SkillName[]
 				{
 					SkillName.Archery,
 					SkillName.Fencing,
 					SkillName.Macing,
 					SkillName.Parry,
 					SkillName.Swords,
+                    SkillName.ItemID,
 					SkillName.Tactics,
 					SkillName.Wrestling
 				} ),
-				new SkillsGumpGroup( "Actions", new SkillName[]
+				new SkillsGumpGroup( "Ação", new SkillName[]
 				{
 					SkillName.AnimalTaming,
 					SkillName.Begging,
@@ -528,13 +530,12 @@ namespace Server.Gumps
 					SkillName.Stealth,
 					SkillName.Tracking
 				} ),
-				new SkillsGumpGroup( "Lore & Knowledge", new SkillName[]
+				new SkillsGumpGroup( "Conhecimento", new SkillName[]
 				{
 					SkillName.Anatomy,
 					SkillName.AnimalLore,
 					SkillName.ArmsLore,
 					SkillName.Forensics,
-					SkillName.ItemID,
 					SkillName.TasteID
 				} )
 			};

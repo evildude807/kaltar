@@ -4,20 +4,23 @@ using Server.Kaltar.Gumps;
 
 namespace Server.Kaltar.Morte
 {
-    public class PedraSairSalaMorte : Item
+    public class PortalDaVida : Item
     {
     	[Constructable]
-		public PedraSairSalaMorte() : base( 0xED4 ) {
+        public PortalDaVida() : base(0xF6C)
+        {
 			Movable = false;
-			Name = "Pedra dos mortos";
+            Hue = 0x2D1;
+            Light = LightType.Circle150;
+			Name = "Portal da Vida";
 		}
 
-        public PedraSairSalaMorte(Serial serial)
+        public PortalDaVida(Serial serial)
             : base(serial)
         {
 		}
 
-        public override void OnDoubleClickDead(Mobile from)
+        public override bool OnMoveOver(Mobile from)
         {
             Jogador jogador = (Jogador)from;
             if (jogador.Alive)
@@ -32,6 +35,8 @@ namespace Server.Kaltar.Morte
                     jogador.SendMessage("Você acaba de voltar a vida, tome mais cuidado.");
                 }
             }
+
+            return false;
         }
 		
 		public override void Serialize( GenericWriter writer ) {

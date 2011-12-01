@@ -41,6 +41,7 @@ namespace Kaltar.Raca {
 
         public override void aplicar(Jogador jogador, HabilidadeNode node, bool primeiraVez)
         {
+            jogador.UpdateResistances();
         }
 	}
 }
