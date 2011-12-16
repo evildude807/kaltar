@@ -75,6 +75,13 @@ namespace Kaltar.Habilidades {
 
         #endregion
 
+        /**
+         * Invocado quando uma habilidade e aprendia ou tem seu valor aumentado.
+         */
+        public virtual void aplicar(Jogador jogador, HabilidadeNode node, bool primeiraVez)
+        {
+        }
+
         #region vantagens
 
         /*
@@ -151,8 +158,9 @@ namespace Kaltar.Habilidades {
 
         /*
          * Bonus que a habilidade da para acertar com o tipo de arma.
+         * Bonus em % exemplo: 5 = 5%.
          */
-        public virtual int acertarBonus(HabilidadeNode node, WeaponType weaponType)
+        public virtual int acertarBonus(HabilidadeNode node, Jogador jogador, Mobile defensor)
         {
             return 0;
         }
@@ -170,8 +178,10 @@ namespace Kaltar.Habilidades {
          * Bonus que a habilidade da para aparar os ataques.
          * O item pode ser um escudo ou arma. Nao esta aparando com as maos.
          * O bonus deve ser muito pouco, como no scrito BaseWeapon linha 1153
+         * 
+         * Exemplo 0.05 = 5%
          */
-        public virtual int apararBonus(HabilidadeNode node, Item item)
+        public virtual double apararBonus(HabilidadeNode node, Item item)
         {
             return 0;
         }
@@ -217,6 +227,22 @@ namespace Kaltar.Habilidades {
         public virtual int danoAtaqueCriticoBonus(HabilidadeNode node, Jogador atacante, Mobile defensor)
         {
             return 0;
+        }
+
+        /**
+         * Ocorre quando um ataque e aparado.
+         * dano = Dano recebido se nao fosse aparado.
+         */ 
+        public virtual void onAparar(Mobile attacker, Jogador defensor, int dano)
+        {
+        }
+
+        /**
+         * Evento que ocorre quando um ataque crítico ocorre.
+         * dano = dano que será causado.
+         */
+        public virtual void onAtaqueCritico(Jogador atacante1, Mobile defensor, int dano)
+        {
         }
 
         #endregion

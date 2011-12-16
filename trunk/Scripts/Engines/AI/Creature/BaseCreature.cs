@@ -16,6 +16,8 @@ using Server.Spells.Bushido;
 using Server.Spells.Spellweaving;
 using Server.Spells.Necromancy;
 
+using Kaltar.Util;
+
 namespace Server.Mobiles
 {
 	#region Enums
@@ -4512,10 +4514,20 @@ namespace Server.Mobiles
 
 			creature.RangeHome = 10;
 			creature.Summoned = true;
-
 			creature.SummonMaster = caster;
 
-			Container pack = creature.Backpack;
+            #region Kaltar, OnSummon
+            
+            if (caster is Jogador)
+            {
+                SummonUtil.Instance.OnSummon((Jogador)caster, creature, ref p, ref duration);
+            }
+
+            #endregion
+
+            #region DeletarItensDaMochila
+
+            Container pack = creature.Backpack;
 
 			if ( pack != null )
 			{
@@ -4526,13 +4538,18 @@ namespace Server.Mobiles
 
 					pack.Items[i].Delete();
 				}
-			}
+            }
 
-			new UnsummonTimer( caster, creature, duration ).Start();
+            #endregion
+
+            #region Duracao do summon
+            
+            new UnsummonTimer( caster, creature, duration ).Start();
 			creature.m_SummonEnd = DateTime.Now + duration;
 
-			creature.MoveToWorld( p, caster.Map );
+            #endregion
 
+            creature.MoveToWorld( p, caster.Map );
 			Effects.PlaySound( p, creature.Map, sound );
 
 			m_Summoning = false;

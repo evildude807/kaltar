@@ -26,24 +26,24 @@ namespace Kaltar.Util
 
         #endregion
 
-        public int acertarBonus(Jogador jogador, WeaponType tipo)
+        public int acertarBonus(Jogador jogador, Mobile defensor)
         {
             int bonus = 0;
 
             //habilidade racial
             Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = jogador.getSistemaRaca().getHabilidades();
             List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(racial.Values);
-            bonus += getBonus(habilidadesNode, HabilidadeTipo.racial, tipo);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.racial, jogador, defensor);
 
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, tipo);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, jogador, defensor);
 
             return bonus;
         }
 
-        private int getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, WeaponType weaponType)
+        private int getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Jogador jogador, Mobile defensor)
         {
             int bonus = 0;
             Habilidade habilidade = null;
@@ -51,7 +51,7 @@ namespace Kaltar.Util
             foreach (HabilidadeNode node in habilidadesNode)
             {
                 habilidade = Habilidade.getHabilidade(node.Id, tipo);
-                bonus += habilidade.acertarBonus(node, weaponType);
+                bonus += habilidade.acertarBonus(node, jogador, defensor);
             }
 
             return bonus;
@@ -72,7 +72,7 @@ namespace Kaltar.Util
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getBonus(habilidadesNode, HabilidadeTipo.racial, arma, escudo);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, arma, escudo);
 
             return bonus;
         }
@@ -94,7 +94,7 @@ namespace Kaltar.Util
 
         public double apararBonus(Jogador jogador, Item item)
         {
-            int bonus = 0;
+            double bonus = 0;
 
             //habilidade racial
             Dictionary<IdHabilidadeRacial, HabilidadeNode> racial = jogador.getSistemaRaca().getHabilidades();
@@ -104,14 +104,14 @@ namespace Kaltar.Util
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = jogador.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getBonus(habilidadesNode, HabilidadeTipo.racial, item);
+            bonus += getBonus(habilidadesNode, HabilidadeTipo.talento, item);
 
             return bonus;
         }
 
-        private int getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Item item)
+        private double getBonus(List<HabilidadeNode> habilidadesNode, HabilidadeTipo tipo, Item item)
         {
-            int bonus = 0;
+            double bonus = 0;
             Habilidade habilidade = null;
 
             foreach (HabilidadeNode node in habilidadesNode)
@@ -143,7 +143,7 @@ namespace Kaltar.Util
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+            bonus += getDanoBonus(habilidadesNode, HabilidadeTipo.talento, atacante, defensor);
 
             return bonus;            
         }
@@ -171,15 +171,8 @@ namespace Kaltar.Util
         {
             int valorAtributo = jogador.Str;
 
-            
-            
-            //TODO TIAGO, mudar o talento alerta para o talento certo
-
-
-
-
             //procura pelo talento que altera o atributo para dar dano com dex
-            bool dex = jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta);
+            bool dex = jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.agilidadeComArma);
 
             //se possuir, verifica se ele esta com arma pontiaguda
             if (dex)
@@ -207,7 +200,7 @@ namespace Kaltar.Util
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getChanceAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+            bonus += getChanceAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.talento, atacante, defensor);
 
             return bonus;            
         }
@@ -241,7 +234,7 @@ namespace Kaltar.Util
             //habilidade talento
             Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante.getSistemaTalento().getHabilidades();
             habilidadesNode = new List<HabilidadeNode>(talento.Values);
-            bonus += getDanoAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.racial, atacante, defensor);
+            bonus += getDanoAtaqueCriticoBonus(habilidadesNode, HabilidadeTipo.talento, atacante, defensor);
 
             return bonus;    
         }
@@ -262,18 +255,47 @@ namespace Kaltar.Util
 
         /**
          * Evento que ocorre quando um ataque crítico ocorre.
-         */ 
-        public void onAtaqueCritico(Mobile attacker, Mobile defender)
+         * dano = dano que será causado.
+         */
+        public void onAtaqueCritico(Mobile atacante, Mobile defensor, int dano)
         {
-            
+            if (atacante is Jogador)
+            {
+                Jogador atacante1 = (Jogador)atacante;
+
+                //habilidade talento
+                Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = atacante1.getSistemaTalento().getHabilidades();
+                List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(talento.Values);
+
+                Habilidade habilidade = null;
+                foreach (HabilidadeNode node in habilidadesNode)
+                {
+                    habilidade = Habilidade.getHabilidade(node.Id, HabilidadeTipo.talento);
+                    habilidade.onAtaqueCritico(atacante1, defensor, dano);
+                }
+            }
         }
 
         /**
          * Evento que ocorre quando um ataque e aparado.
          */ 
-        public void onAparar(Mobile attacker, Mobile defender)
+        public void onAparar(Mobile attacker, Mobile defender, int dano)
         {
-    
+            if (defender is Jogador)
+            {
+                Jogador defensor = (Jogador)defender;
+
+                //habilidade talento
+                Dictionary<IdHabilidadeTalento, HabilidadeNode> talento = defensor.getSistemaTalento().getHabilidades();
+                List<HabilidadeNode> habilidadesNode = new List<HabilidadeNode>(talento.Values);
+
+                Habilidade habilidade = null;
+                foreach (HabilidadeNode node in habilidadesNode)
+                {
+                    habilidade = Habilidade.getHabilidade(node.Id, HabilidadeTipo.talento);
+                    habilidade.onAparar(attacker, defensor, dano);
+                }
+            }
         }
 
         /**
@@ -285,7 +307,7 @@ namespace Kaltar.Util
             int bonus = 0;
 
             //Tiago, trocar pelo nome da habilidade correta
-            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta))
+            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.olhosDeAguia))
             {
                 bonus += 2;
             }

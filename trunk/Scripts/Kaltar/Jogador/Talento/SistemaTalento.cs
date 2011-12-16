@@ -132,7 +132,8 @@ namespace Kaltar.Talentos
                 return false;
             }
 
-            if (!habilidade.PossuiPreRequisitos(jogador))
+            //Tiago, qualquer um pode comprar talento, para teste
+            if (!habilidade.PossuiPreRequisitos(jogador)  && false)
             {
                 jogador.SendMessage("Voce não possui os pre-requisitos para aprender o talento.");
                 return false;
@@ -160,7 +161,7 @@ namespace Kaltar.Talentos
                 HabilidadeTalento habilidade = HabilidadeTalento.getHabilidadeTalento(idHabilidadeTalento);
                 HabilidadeNode node = rm.Habilidades[idHabilidadeTalento];
 
-                if (habilidade.NivelMaximo > (node.Nivel + 1))
+                if (habilidade.NivelMaximo > node.Nivel)
                 {
                     return true;
                 }
@@ -179,18 +180,24 @@ namespace Kaltar.Talentos
                 node = rm.Habilidades[(IdHabilidadeTalento)habilidade.Id];
             }
 
+            bool primeiraVez = true;
             if (node == null)
             {
                 node = new HabilidadeNode((int)habilidade.Id, 1);
                 rm.Habilidades.Add((IdHabilidadeTalento)node.Id, node);
 
                 jogador.SendMessage("Você acaba de aprender o talento {0}.", habilidade.Nome);
+                primeiraVez = true;
             }
             else
             {
                 node.aumentarNivel();
                 jogador.SendMessage("Sua talento {0} acaba de aumentar de nível.", habilidade.Nome);
+                primeiraVez = false;
             }
+
+            //faz as modificacoes necessárias da habilidade
+            habilidade.aplicar(jogador, node, primeiraVez);
 
         }
 
@@ -208,5 +215,11 @@ namespace Kaltar.Talentos
         }
 
         #endregion
+
+        //Teste, apenas para testar
+        public void removerTotalHabilidades()
+        {
+            getTalentoModule().Habilidades.Clear();
+        }
     }
 }

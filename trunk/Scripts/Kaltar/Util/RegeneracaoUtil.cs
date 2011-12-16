@@ -30,7 +30,7 @@ namespace Kaltar.Util {
             int bonus = 0;
 
             //Trocar para o talento correto
-            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta))
+            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.regeneracaoAprimorada))
             {
                 bonus += 2;
             }
@@ -50,7 +50,7 @@ namespace Kaltar.Util {
             int bonus = 0;
 
             //Trocar para o talento correto
-            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta))
+            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.folegoAprimorado))
             {
                 bonus += 2;
             }
@@ -70,7 +70,7 @@ namespace Kaltar.Util {
             int bonus = 0;
 
             //Trocar para o talento correto
-            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.alerta))
+            if (jogador.getSistemaTalento().possuiHabilidadeTalento(IdHabilidadeTalento.manaAprimorado))
             {
                 bonus += 2;
             }

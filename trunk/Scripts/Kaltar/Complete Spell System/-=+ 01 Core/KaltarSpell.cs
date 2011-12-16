@@ -38,11 +38,8 @@ namespace Server.ACC.CSS
 		}
 
 		public override bool CheckFizzle() {
-			if ( !base.CheckFizzle() ) {
-				return false;
-			}
-			
-			return true;
+            return base.CheckFizzle();
+            //return true;
 		}
 
 		public override void SayMantra() {
@@ -51,8 +48,7 @@ namespace Server.ACC.CSS
 		}
 
 		public override void DoFizzle() {
-			Caster.PlaySound( 0x1D6 );
-			Caster.NextSpellTime = DateTime.Now;
+            base.DoFizzle();
 		}
 
 		public override void DoHurtFizzle() {

@@ -14,7 +14,7 @@ namespace Server.Kaltar.Gumps
 
         public static void Initialize()
         {
-            CommandSystem.Register("comandoRaca", AccessLevel.Administrator, new CommandEventHandler(comandoRaca_OnCommand));
+            CommandSystem.Register("comandoRaca", AccessLevel.Player, new CommandEventHandler(comandoRaca_OnCommand));
         }
 
         [Usage("comandoRaca")]

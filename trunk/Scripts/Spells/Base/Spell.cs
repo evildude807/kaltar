@@ -126,10 +126,15 @@ namespace Server.Spells
 			int damage = Utility.Dice( dice, sides, bonus ) * 100;
 			int damageBonus = 0;
 
+            //Kaltar, removi o bonus de incribe para dano de magia
+            //bonus de incribe 
+            /*
 			int inscribeSkill = GetInscribeFixed( m_Caster );
 			int inscribeBonus = (inscribeSkill + (1000 * (inscribeSkill / 1000))) / 200;
 			damageBonus += inscribeBonus;
-
+            */
+             
+            //Bonus de inteligencia
 			int intBonus = Caster.Int / 10;
 			damageBonus += intBonus;
 

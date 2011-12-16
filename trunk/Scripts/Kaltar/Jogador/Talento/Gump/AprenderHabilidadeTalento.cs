@@ -13,7 +13,17 @@ namespace Kaltar.Talentos
 	{
         public static void Initialize()
         {
-            CommandSystem.Register("aHabilidadeTalento", AccessLevel.Player, new CommandEventHandler(AprenderHabilidadeTalentos));
+            CommandSystem.Register("aTalento", AccessLevel.Player, new CommandEventHandler(AprenderHabilidadeTalentos));
+            CommandSystem.Register("rTalento", AccessLevel.Player, new CommandEventHandler(RemoverHabilidadeTalentos));
+        }
+
+        private static void RemoverHabilidadeTalentos(CommandEventArgs e)
+        {
+            Jogador jogador = (Jogador)e.Mobile;
+
+            jogador.getSistemaTalento().removerTotalHabilidades();
+
+            jogador.UpdateResistances();
         }
 
         private static void AprenderHabilidadeTalentos(CommandEventArgs e)
@@ -21,7 +31,10 @@ namespace Kaltar.Talentos
             Jogador jogador = (Jogador)e.Mobile;
 
             List<int> habilidades = new List<int>();
-            habilidades.Add((int)IdHabilidadeTalento.alerta);
+            habilidades.Add((int)IdHabilidadeTalento.bloquear);
+            habilidades.Add((int)IdHabilidadeTalento.flanquear);
+            habilidades.Add((int)IdHabilidadeTalento.poderDaFe);
+            habilidades.Add((int)IdHabilidadeTalento.peleDeferro);
 
             jogador.SendGump(new AprenderHabilidadeTalento(jogador, habilidades));
         }

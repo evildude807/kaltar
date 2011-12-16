@@ -2,6 +2,9 @@ using System;
 using Server.Targeting;
 using Server.Network;
 using Server.Spells;
+using System.Collections.Generic;
+
+using Kaltar.Util;
 
 namespace Server.ACC.CSS.Systems.Aprendiz {
 	
@@ -26,24 +29,38 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 		public override void OnCast() {
 		
 			if(CheckSequence()) {
-				double damageReal = Utility.Random( 10, 20 );						
 				
-				IPooledEnumerable mobiles = Caster.GetMobilesInRange(4);
-				foreach (Mobile mobile in mobiles) {
-				
-					
-					double damage = 0;
-					if(Caster.CanSee( mobile) && Caster != mobile && Caster.CanBeHarmful(mobile) && mobile.Alive) {
-						
-						Caster.DoHarmful( mobile );
-						
-						
-						damage = damageReal * GetDamageScalar( mobile );
-						SpellHelper.Damage( this, mobile, damage);
-						
-						Caster.MovingParticles( mobile, 0x36FE, 5, 10, false, true, 3006, 4006, 0 );
-						mobile.PlaySound( 0x1E5 );
-					}
+                //lista dos mobiles que vao tomar dano
+                List<Mobile> targets = new List<Mobile>();
+                
+                //pega os mobiles afetados
+                IPooledEnumerable mobiles = Caster.GetMobilesInRange(4);
+                foreach (Mobile m in mobiles)
+                {
+                    if (m == Caster)
+                        continue;
+
+                    if (SpellHelper.ValidIndirectTarget(Caster, m)
+                        && Caster.CanBeHarmful(m, false)
+                        && Caster.CanSee(m)
+                        && SummonUtil.Instance.estaNoArcoDeVisao(Caster, m))
+                    {
+                        targets.Add(m);
+                    }
+                }
+                mobiles.Free();
+
+                foreach (Mobile mobile in targets)
+                {
+					Caster.DoHarmful( mobile );
+
+                    //dano 2d6 + 10
+                    int damage = GetNewAosDamage(10, 3, 6, mobile);
+
+                    Caster.MovingParticles(mobile, 0x36CB, 5, 0, false, true, 0, 0, 3006, 4006, 0, 0);
+                    Caster.PlaySound(0x1E5);
+
+                    SpellHelper.Damage(this, mobile, damage, 0, 100, 0, 0, 0);
 	            }
 			}
 			
