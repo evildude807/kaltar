@@ -821,7 +821,7 @@ namespace Server.Items
 
                 //Bonus para jogador
                 if(attacker is Jogador) {
-                    bonus += CombateUtil.Instance.acertarBonus((Jogador)attacker, atkWeapon.Type);
+                    bonus += CombateUtil.Instance.acertarBonus((Jogador)attacker, defender);
                 }
 
 				ourValue = (atkValue + 20.0) * (100 + bonus);
@@ -1166,6 +1166,7 @@ namespace Server.Items
 		public virtual int AbsorbDamageAOS( Mobile attacker, Mobile defender, int damage )
 		{
 			bool blocked = false;
+            int danoOriginal = damage;  //Kaltar, armazena o dano que foi dado.
 
 			if ( defender.Player || defender.Body.IsHuman )
 			{
@@ -1205,7 +1206,7 @@ namespace Server.Items
 					BaseShield shield = defender.FindItemOnLayer( Layer.TwoHanded ) as BaseShield;
 
                     //evento quando ocorre um ataque é aparado
-                    CombateUtil.Instance.onAparar(attacker, defender);
+                    CombateUtil.Instance.onAparar(attacker, defender, danoOriginal);
 
 					if ( shield != null )
 					{
@@ -1404,6 +1405,8 @@ namespace Server.Items
             //onde o dano e computado
 			int damage = ComputeDamage( attacker, defender );
 
+            #region Kaltar, bonus de dano por habilidade
+
             //adiciona o bonus da habilidade
             int habilidadeBonus = 0;
             if (attacker is Jogador)
@@ -1412,8 +1415,10 @@ namespace Server.Items
                 damage += habilidadeBonus;
             }
 
-			#region Damage Multipliers
-			/*
+            #endregion
+
+            #region Damage Multipliers
+            /*
 			 * The following damage bonuses multiply damage by a factor.
 			 * Capped at x3 (300%).
 			 */
@@ -1542,16 +1547,16 @@ namespace Server.Items
                 bonusDanoAtaqueCritico = CombateUtil.Instance.danoAtaqueCriticoBonus((Jogador)attacker, defender);
             }
 
-            double chanceAtaqueCritico = (50.0 + bonusChanceAtaqueCritico) / 100.0;   //chance de 5% de acertar um ataque crítico
-            int porcentagemDeDanoAtaqueCritico = 25 + bonusDanoAtaqueCritico;    //25% de dano a mais no ataque crítico
+            double chanceAtaqueCritico = (5.0 + bonusChanceAtaqueCritico) / 100.0;   //chance de 5% de acertar um ataque crítico
+            int porcentagemDeDanoAtaqueCritico = 100 + bonusDanoAtaqueCritico;    //100% de dano a mais no ataque crítico
 
             //Console.WriteLine("Chance de critivo: {0} randor {1}", chanceAtaqueCritico, Utility.RandomDouble());
 
             //teste pata verificar se foi ataque crítico
             if (chanceAtaqueCritico > Utility.RandomDouble())
             {
-                string msg = "Crítico!!!";  //alterar para msg de número
-                attacker.PublicOverheadMessage(MessageType.Regular, 0, false, msg);
+                attacker.PublicOverheadMessage(MessageType.Regular, 0, false, "Crítico!!!");
+                defender.PrivateOverheadMessage(MessageType.Regular, 0, false, "Recebeu ataque crítico!", defender.NetState);
 
                 //Console.WriteLine("Dano normal {0}", damage);
 
@@ -1561,7 +1566,7 @@ namespace Server.Items
                 //Console.WriteLine("Dano critico {0}", damage);
 
                 //evento quando ocorre um ataque crítico
-                CombateUtil.Instance.onAtaqueCritico(attacker, defender);
+                CombateUtil.Instance.onAtaqueCritico(attacker, defender, damage);
             }
 
             #endregion 

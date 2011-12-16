@@ -3,32 +3,33 @@ using Server;
 using Server.Mobiles;
 using Kaltar.Classes;
 using Kaltar.Habilidades;
+using Server.Items;
 
-namespace Kaltar.Raca {
-	
-	public sealed class ResistenciaFisica : HabilidadeRacial {
+namespace Kaltar.Talentos {
+
+    public sealed class PeleDeFerro : HabilidadeTalento
+    {
 		
-		private static ResistenciaFisica instance = new ResistenciaFisica();
-		public static ResistenciaFisica Instance {
+		private static PeleDeFerro instance = new PeleDeFerro();
+		public static PeleDeFerro Instance {
 			get {return instance;}
-		}
-
-        private ResistenciaFisica()
-        {
-            id = (int)IdHabilidadeRacial.resistenciaFisica;
-            nome = "Resistência Física";
-            descricao = "Você é mais resistente a pancadas.";
-            preRequisito = "Raça Meio-Orc";
+		}		
+		
+		private PeleDeFerro() {
+            id = (int)IdHabilidadeTalento.peleDeferro;
+			nome = "Pele de Ferro";
+            descricao = "VocÃª adquiriu resistÃªncia ao dano fÃ­sico que diminui o poder do ataque. <br/> VocÃª recebe bÃ´nus na resistÃªncia fÃ­sica. (3 - 6).";
+            preRequisito = "NÃ£o tem.";
             nivelMaximo = 2;
 		}
-
+		
         public override bool PossuiPreRequisitos(Jogador jogador)
         {
-            return jogador.getSistemaRaca().getRaca() is MeioOrc;
+            return true;
 		}
-        
+
         /*
-         * Bonus que a habilidade da no tipo de resistência.
+         * Bonus que a habilidade da no tipo de resistÃªncia.
          */
         public override int resistenciaBonus(HabilidadeNode node, ResistanceType type)
         {

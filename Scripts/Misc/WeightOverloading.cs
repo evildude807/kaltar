@@ -55,6 +55,8 @@ namespace Server.Misc
 			//return ((( Core.ML && m.Race == Race.Human) ? 100 : 40 ) + (int)(3.5 * m.Str));
 			//Moved to core virtual method for use there
 
+            Console.WriteLine("Calculo do maxweigth wm Misc/WeightOverLoading");
+
 			return m.MaxWeight;
 		}
 

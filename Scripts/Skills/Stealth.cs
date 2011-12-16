@@ -57,10 +57,10 @@ namespace Server.SkillHandlers
 		public static TimeSpan OnUse( Mobile m )
 		{
 			
-			//Kaltar, obriga a tentear esconder primeiro
-			//while(!m.Hidden) {
-			//	Server.SkillHandlers.Stealth.OnUse( m );
-			//}
+			//Kaltar, obriga a tentar esconder primeiro
+			if(!m.Hidden) {
+				Server.SkillHandlers.Hiding.OnUse( m );
+			}
 			
 			if ( !m.Hidden )
 			{

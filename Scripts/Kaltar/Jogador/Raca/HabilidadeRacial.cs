@@ -52,12 +52,5 @@ namespace Kaltar.Raca {
         }	
 
         #endregion
-        
-        /**
-         * Invocado quando uma habilidade e aprendia ou tem seu valor aumentado.
-         */ 
-        public virtual void aplicar(Jogador jogador, HabilidadeNode node, bool primeiraVez)
-        {
-        }
     }
 }

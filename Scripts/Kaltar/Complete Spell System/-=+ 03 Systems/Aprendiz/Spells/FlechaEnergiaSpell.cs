@@ -5,11 +5,11 @@ using Server.Spells;
 
 namespace Server.ACC.CSS.Systems.Aprendiz {
 	
-	public class FlechaMagicaSpell : AprendizSpell {
+	public class FlechaEnergiaSpell : AprendizSpell {
 		
 		private static SpellInfo m_Info = new SpellInfo(
-				"Flecha Mágica", 
-				"Flecha Mágica",
+				"Flecha de Energia", 
+				"Flecha de Energia",
 				212,
 				9041,
 				Reagent.SulfurousAsh
@@ -20,7 +20,7 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 		public override double CastDelay{ get{ return 2.0; } }
 		public override int RequiredMana   { get{ return    5; } }
 		
-		public FlechaMagicaSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
+		public FlechaEnergiaSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
 		}
 		
 		public override void OnCast() {
@@ -37,24 +37,22 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 				SpellHelper.Turn( source, m );
 				SpellHelper.CheckReflect( (int)this.Circle, ref source, ref m );
 
-				double damage;
-				
-				damage = Utility.Random( 1, 10 );
-				damage *= GetDamageScalar( m );
+                //dano 2d6 + 10
+                int damage = GetNewAosDamage(10, 2, 6, m);
 
-				source.MovingParticles( m, 0x36E4, 5, 0, false, true, 3006, 4006, 0 );
+                source.MovingParticles(m, 0x36E4, 5, 0, false, true, 0x4FE, 0, 3006, 4006, 0, 0);
 				source.PlaySound( 0x1E5 );
 
-				SpellHelper.Damage( this, m, damage, 0, 100, 0, 0, 0 );
+                SpellHelper.Damage(this, m, damage, 0, 0, 0, 0, 100);
 			}
 
 			FinishSequence();
 		}
 
 		private class InternalTarget : Target {
-			private FlechaMagicaSpell m_Owner;
+			private FlechaEnergiaSpell m_Owner;
 
-			public InternalTarget( FlechaMagicaSpell owner ) : base(12, false, TargetFlags.Harmful ) {
+			public InternalTarget( FlechaEnergiaSpell owner ) : base(12, false, TargetFlags.Harmful ) {
 				m_Owner = owner;
 			}
 
