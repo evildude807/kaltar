@@ -11,20 +11,16 @@ namespace Server.ACC.CSS.Systems.Cleric
 	public class GloboDeLuzSpell : SeminaristaSpell {
 		
 		private static SpellInfo m_Info = new SpellInfo(
-		                                                "Globo de Luz", 
-		                                                "Globo de Luz",
-		                                                //SpellCircle.Third,
-		                                                212,
-		                                                9041
-		                                               );
+		    "Globo de Luz", 
+		    "Globo de Luz",
+		    //SpellCircle.Third,
+		    212,
+		    9041
+		    );
 
-        public override SpellCircle Circle {
-            get { return SpellCircle.First; }
-        }
-		
-		
+        public override SpellCircle Circle { get { return SpellCircle.First; } }
 		public override int RequiredTithing{ get{ return 5; } }
-		public override double RequiredSkill{ get{ return 0.0; } }
+		public override double RequiredSkill{ get{ return 5.0; } }
 		public override double CastDelay{ get{ return 3.0; } }
 		public override int RequiredMana   { get{ return 20; } }
 		

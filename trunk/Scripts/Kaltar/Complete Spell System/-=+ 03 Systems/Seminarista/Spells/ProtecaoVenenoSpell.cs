@@ -8,11 +8,11 @@ using Server.Spells;
 
 namespace Server.ACC.CSS.Systems.Cleric
 {
-	public class ToqueDaResistenciaSpell : SeminaristaSpell {
+	public class ProtecaoVenenoSpell : SeminaristaSpell {
 		
 		private static SpellInfo m_Info = new SpellInfo(
-		                                                "Toque da Resistência", 
-		                                                "Toque da Resistência",
+		                                                "Proteção Veneno",
+                                                        "Proteção Veneno",
 		                                                //SpellCircle.Third,
 		                                                212,
 		                                                9041
@@ -27,7 +27,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 		public override double CastDelay{ get{ return 5.0; } }
 		public override int RequiredMana   { get{ return 30; } }
 		
-		public ToqueDaResistenciaSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
+		public ProtecaoVenenoSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
 		}
 
 		/**
@@ -58,7 +58,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 				Caster.SendLocalizedMessage( 500237 ); // Target can not be seen.
 			}
 			if ( sobreEfeito( m ) ){
-				Caster.LocalOverheadMessage( MessageType.Regular, 0x481, false, "O alvo já esta sobre o efeito de magia de proteção." );
+				Caster.LocalOverheadMessage( MessageType.Regular, 0x481, false, "O alvo já esta sobre o efeito de magia Proteção Veneno." );
 			}
 			else if ( CheckBSequence( m, false ) ) {
 				SpellHelper.Turn( Caster, m );
@@ -67,30 +67,24 @@ namespace Server.ACC.CSS.Systems.Cleric
 				double valorSkill = Caster.Skills[DamageSkill].Value;
 
                 int bonus = (int)(valorSkill / 10);
-                int valorMaximo = bonus > 6 ? 6 : bonus;
-                int protecao = Utility.RandomMinMax(Math.Max(1, bonus - 3), valorMaximo);
+                int protecao = Utility.RandomMinMax(Math.Max(1, bonus - 3), bonus + Utility.Random(5));
 				
                 //duracao
 				TimeSpan duracao = TimeSpan.FromMinutes(Caster.Skills[CastSkill].Value / 10 + Utility.Random(2));
 
                 //adicona a resistencia
-                ResistanceMod[] resistencias = new ResistanceMod[5];
+                ResistanceMod[] resistencias = new ResistanceMod[1];
 
-                resistencias[0] = new ResistanceMod(ResistanceType.Physical, protecao);
-                resistencias[1] = new ResistanceMod(ResistanceType.Fire, protecao);
-                resistencias[2] = new ResistanceMod(ResistanceType.Cold, protecao);
-                resistencias[3] = new ResistanceMod(ResistanceType.Energy, protecao);
-                resistencias[4] = new ResistanceMod(ResistanceType.Poison, protecao);
+                resistencias[0] = new ResistanceMod(ResistanceType.Poison, protecao);
 
-                foreach (ResistanceMod resis in resistencias)
-                {
+                foreach (ResistanceMod resis in resistencias) {
                     Caster.AddResistanceMod(resis);
                 }
-		    
+			    
                 //efeito
 				m.PlaySound( 0x202 );
 				m.FixedParticles( 0x373A, 10, 15, 5012, 0x450, 3, EffectLayer.Waist );
-				m.SendMessage( "Você esta sobre o efeito do Toque da Resistência" );
+				m.SendMessage( "Você esta sobre o efeito da magia Proteção Veneno" );
 				
 				adicionarEfeito(m);
 
@@ -102,9 +96,9 @@ namespace Server.ACC.CSS.Systems.Cleric
 		}
 
 		private class InternalTarget : Target {
-			private ToqueDaResistenciaSpell m_Owner;
+			private ProtecaoVenenoSpell m_Owner;
 
-			public InternalTarget( ToqueDaResistenciaSpell owner ) : base( 1, false, TargetFlags.Beneficial ) {
+			public InternalTarget( ProtecaoVenenoSpell owner ) : base( 1, false, TargetFlags.Beneficial ) {
 				m_Owner = owner;
 			}
 
@@ -129,7 +123,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 				alvo = m;
                 this.resistencias = resistencias;
 				
-				bf = new BuffInfo( BuffIcon.Bless, 1075843, new TextDefinition("Toque da Resistência"));
+				bf = new BuffInfo( BuffIcon.Bless, 1075843, new TextDefinition("Proteção Veneno"));
 				BuffInfo.AddBuff( m,  bf);
 			}
 
