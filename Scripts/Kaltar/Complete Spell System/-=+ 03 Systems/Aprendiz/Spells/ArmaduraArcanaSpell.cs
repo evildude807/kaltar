@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Server.Targeting;
 using Server.Network;
 using Server.Spells;
@@ -19,7 +20,10 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 		public override double RequiredSkill{ get{ return 20.0; } }
 		public override double CastDelay{ get{ return 5.0; } }
 		public override int RequiredMana   { get{ return 20; } }
-		
+
+        //armazena todos os jogadores sobre o efeito da magia
+        private static Dictionary<Mobile, Mobile> contemMagia = new Dictionary<Mobile, Mobile>();
+
 		public ArmaduraArcanaSpell( Mobile caster, Item scroll ) : base( caster, scroll, m_Info ) {
 		}
 		
@@ -27,11 +31,18 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
 
             if (CheckSequence())
             {
+
+                if (contemMagia.ContainsKey(Caster))
+                {
+                    Caster.SendLocalizedMessage(1005559); // This spell is already in effect.
+                    return;
+                }
+
                 Caster.PlaySound(0x1E9);
                 Caster.FixedParticles(0x375A, 9, 20, 5016, EffectLayer.Waist);
 
                 //valor da proteção
-                int protecao = (int) (Caster.Skills[CastSkill].Value / 5.0) + Utility.Random(2);
+                int protecao = (int) (Caster.Skills[DamageSkill].Value / 5.0) + Utility.Random(2);
 
                 ResistanceMod[] resistencias = new ResistanceMod[5];
 
@@ -40,12 +51,15 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
                 resistencias[2] = new ResistanceMod(ResistanceType.Cold, protecao);
                 resistencias[3] = new ResistanceMod(ResistanceType.Energy, protecao);
                 resistencias[4] = new ResistanceMod(ResistanceType.Poison, protecao);
-
+                
                 Caster.AddResistanceMod(resistencias[0]);
                 Caster.AddResistanceMod(resistencias[1]);
                 Caster.AddResistanceMod(resistencias[2]);
                 Caster.AddResistanceMod(resistencias[3]);
                 Caster.AddResistanceMod(resistencias[4]);
+
+                //marca que ele contem a magia
+                contemMagia.Add(Caster, Caster);
 
                 string args = String.Format("{0}", protecao);
 
@@ -87,6 +101,11 @@ namespace Server.ACC.CSS.Systems.Aprendiz {
                 caster.RemoveResistanceMod(resistencias[4]);
 
                 BuffInfo.RemoveBuff(caster, armaduraArcana);
+
+                //remove da lista
+                contemMagia.Remove(caster);
+
+                caster.SendMessage("O efeito da magia Armadura Arcana acabou.");
             }
         }
 	}

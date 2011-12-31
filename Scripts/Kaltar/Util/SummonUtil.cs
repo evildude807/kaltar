@@ -86,5 +86,58 @@ namespace Kaltar.Util {
 
             return false;
         }
+
+        /**
+         * Ateia fogo no alvo
+         */ 
+        public void atearFogo(Mobile alvo, TimeSpan duracao)
+        {
+            DateTime final = DateTime.Now + duracao;
+            AtearFogoTimer t = new AtearFogoTimer(alvo, final);
+            t.Start();
+        }
+        
+
+        /**
+         * Controla o fogo ateado. 
+         */
+        private class AtearFogoTimer : Timer {
+
+            private Mobile alvo;
+            private DateTime final;
+
+            private DateTime efeitoSonoro;
+
+            public AtearFogoTimer(Mobile alvo, DateTime final) : base(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1))
+            {
+                this.Priority = TimerPriority.OneSecond;
+                this.alvo = alvo;
+                this.final = final;
+                this.efeitoSonoro = DateTime.Now + TimeSpan.FromSeconds(4);
+                
+                //efeito de som inicial
+                alvo.PlaySound(0x1DD);
+            }
+
+            protected override void OnTick()
+            {
+                if (DateTime.Now > final)
+                {
+                    Stop();
+                }
+                else
+                {
+                    int damage = Utility.RandomMinMax(1, 2);
+                    AOS.Damage(alvo, damage, 0, 100, 0, 0, 0);
+
+                    //efeito
+                    alvo.FixedEffect(0x19AB, 5, 40);
+                    if (DateTime.Now > efeitoSonoro)
+                    {
+                        alvo.PlaySound(0x1DD);
+                    }
+                }
+            }
+        }
     }
 }

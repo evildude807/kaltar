@@ -6,7 +6,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 {
 	public class SeminaristaSpellbook : CSpellbook
 	{
-		public override School School{ get{ return School.Seminarista; } }
+		public override School School{ get{ return School.Espiritualista; } }
 
 		[Constructable]
 		public SeminaristaSpellbook() : this( (ulong)0, CSSettings.FullSpellbooks ){
@@ -19,7 +19,7 @@ namespace Server.ACC.CSS.Systems.Cleric
 		[Constructable]
 		public SeminaristaSpellbook( ulong content, bool full ) : base( content, 0xEFA, full ){
 			Hue = 0x1F0;
-			Name = "Livro de Magia Seminarista";
+			Name = "Livro de magia Espiritualista";
 		}
 
 		public override void OnDoubleClick( Mobile from )
