@@ -2,24 +2,24 @@ using System;
 using Server.Items;
 using Server.Spells;
 
-namespace Server.ACC.CSS.Systems.Aprendiz
+namespace Server.ACC.CSS.Systems.Natureza
 {
-	public class AprendizSpellbook : CSpellbook
+	public class NaturezaSpellbook : CSpellbook
 	{
-		public override School School{ get{ return School.Feiticaria; } }
+		public override School School{ get{ return School.Natureza; } }
 
 		[Constructable]
-		public AprendizSpellbook() : this( (ulong)0, CSSettings.FullSpellbooks ){
+		public NaturezaSpellbook() : this( (ulong)0, CSSettings.FullSpellbooks ){
 		}
 
 		[Constructable]
-		public AprendizSpellbook( bool full ) : this( (ulong)0, full ){
+		public NaturezaSpellbook( bool full ) : this( (ulong)0, full ){
 		}
 
 		[Constructable]
-		public AprendizSpellbook( ulong content, bool full ) : base( content, 0xEFA, full ){
-			Hue = 0x0;
-			Name = "Livro de magia Feitiçaria";
+		public NaturezaSpellbook( ulong content, bool full ) : base( content, 0xEFA, full ){
+			Hue = 0x1F0;
+			Name = "Livro de magia da Natureza";
 		}
 
 		public override void OnDoubleClick( Mobile from )
@@ -35,11 +35,11 @@ namespace Server.ACC.CSS.Systems.Aprendiz
 				}
 			}
 
-			from.CloseGump( typeof( AprendizSpellbookGump ) );
-			from.SendGump( new AprendizSpellbookGump( this ) );
+			from.CloseGump( typeof( NaturezaSpellbookGump ) );
+			from.SendGump( new NaturezaSpellbookGump( this ) );
 		}
 
-		public AprendizSpellbook( Serial serial ) : base( serial ){
+		public NaturezaSpellbook( Serial serial ) : base( serial ){
 		}
 
 		public override void Serialize( GenericWriter writer ){

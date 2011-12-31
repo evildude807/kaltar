@@ -55,6 +55,32 @@ namespace Kaltar.Util
 
             return bonus;
         }
-		
+
+        /**
+         * Realiza o teste se o alvo conseguiu resistir ao tipo de ataque. 
+         * O teste é baseado na resistencia menos a dificultade.
+         * A dificuldade deve ser um valor entre 0 a 100. Que será como %.
+         * 
+         * Ex.: (Resistencia - dificuldade) %
+         */ 
+        public bool resistiu(Mobile alvo, int dificultade, ResistanceType tipo)
+        {
+            bool resistiu = false;
+
+            int valorResistencia = alvo.GetResistance(tipo);
+            valorResistencia -= dificultade;
+
+            //ajusta para ter mínimo de 5% e máximo de 95%
+            valorResistencia = valorResistencia < 5 ? 5 : valorResistencia;
+            valorResistencia = valorResistencia > 100 ? 95 : valorResistencia;
+            valorResistencia /= 100;
+
+            if (valorResistencia > Utility.RandomDouble())
+            {
+                resistiu = true;
+            }
+
+            return resistiu;
+        }
 	}
 }
